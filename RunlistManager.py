@@ -2,7 +2,7 @@
 
 from RRService import RRService
 import json
-import sys
+import time
 from threading import Thread, Lock
 
 class RunlistManager(Thread):
@@ -16,23 +16,21 @@ class RunlistManager(Thread):
 
     # TODO - use Lock to acquire and release the runlist dictionary object since there are two threads that may modify it 1. Update after new runs from the RRApi 2. Update after run has been processed
 
-    runlist = {} #runlist is dictionary with runs, and their corresponding status. the status is
-    RRConnector = RRService()
-    readyToUse = False
-
     def __init__(self, runlist=None):
         '''
         :param runlist: run list is file with json description of runs analyzed.
         :return: none
         '''
         super(RunlistManager, self).__init__()
+        self.runlist = {}
+        self.rr_connector = None
         self.toProcessQueue = None
         self.processedRunsQueue = None
-        runlistLoaded = False
-        if runlist is not None:
-            self.loadRunlistFile(runlist)
-            runlistLoaded = True
-        print runlist, ' is loaded ?: ', runlistLoaded
+        self.reportQueue = None
+        self.processed_runs_thread = Thread(target=self.handleProcessedRuns)
+        self.check_run_registry = Thread(target=self.checkRRforNewRuns)
+        self.stop_event = None
+        self.loadRunlistFile(runlist)
 
     def __del__(self):
         #do some shit
@@ -56,7 +54,7 @@ class RunlistManager(Thread):
         :return: success on change
         '''
         success = False
-        if run in self.runlist:
+        if run in self.runlist.keys():
             self.runlist[run][key] = value
             success = True
         return success
@@ -133,11 +131,58 @@ class RunlistManager(Thread):
 
     def putRunsOnProcessQueue(self, runlist = None):
         try:
-            for k in runlist.keys():
-                self.toProcessQueue.put({k:runlist[k]})
+            r_list = self.getListOfRunsToProcess()
+            for k in r_list.keys():
+                self.toProcessQueue.put({k:r_list[k]})
         except Exception as e:
             print e.message
 
+    def handleProcessedRuns(self):
+        while True:
+            run = self.processedRunsQueue.get()
+            # check status and update the run
+            rnum = None
+            for r in run.keys():
+                rnum = r
+            run_details = run[rnum].get()
+            print 'Run ', rnum, ' in results'
+            print run_details.keys()
+            run_results = run_details['results']
+            run_warnings = run_details['warnings']
+            run_logs = run_details['logs']
+            #print run_results
+            # check the status
+            for k in run_results:
+                if run_results[k][0] == 'Failed':
+                    self.reportQueue.put({rnum:{"warnings":run_warnings, "logs":run_logs}})
+                    break
+
+
+            self.processedRunsQueue.task_done()
+
+            if self.stop_event.is_set() and self.processedRunsQueue.empty():
+                # do some finishing stuff
+                print 'Processed runs handled'
+                break
+
+    def checkRRforNewRuns(self):
+        while True:
+            # get the last run number from the new runs
+            # if new runs arrived,
+            time.sleep(5)
+
+            print 'RR checked'
+
+            if self.stop_event.is_set() and self.processedRunsQueue.empty():
+                print 'RR exits'
+                break
+
+
+    def run(self):
+        self.check_run_registry.start()
+        self.processed_runs_thread.start()
+        self.check_run_registry.join()
+        self.processed_runs_thread.join()
 
     #def getSortedListOfRuns(self):
 

@@ -1,47 +1,47 @@
 # main function
 
 from CommandClasses import *
-from Chain import Chain
-from Event import SimpleEvent
 from RunlistManager import RunlistManager
 from RunProcessManager import RunProcessPool, processSingleRunChain
-from RequirementsManager import SSHTunnelDescriptor, ProcessDescriptor, EnvHandler
-from ReportService import ReportHandler, LogHandler, MailService
+from RequirementsManager import EnvHandler
+from ReportService import ReportHandler
 import multiprocessing as mp
 import Queue
-import time
-
 
 if __name__ == "__main__":
 
-    os.environ['LD_LIBRARY_PATH'] = '/home/rodozov/Programs/ROOT/INSTALL/lib/root'  # important
+    os.environ['LD_LIBRARY_PATH'] = '/home/rodozov/Programs/ROOT/INSTALL/lib/root'  # the only hardcoded variable remaining, probably. let's change it in the next commit
     runsToProcessQueue = Queue.Queue()
     processedRunsQueue = Queue.Queue()
     reportsQueue = Queue.Queue()
     stop = mp.Event()
 
-    sequence_handler = CommandSequenceHandler('resources/SequenceDictionaries.json', 'resources/options_object.txt')
+    sequence_handler = CommandSequenceHandler('resources/SequenceDictionaries.json', 'resources/options_object.txt') # single object, used by the Run process manager so that it's not created for each run chain
+
     rlistMngr = RunlistManager('resources/runlist.json')
-    rlistMngr.toProcessQueue = runsToProcessQueue
     rpMngr = RunProcessPool(runsToProcessQueue, processedRunsQueue, sequence_handler, {'result_folder':'results/'})
+    environ_handler = EnvHandler('resources/ListOfTunnels.json', 'resources/process.json', 'resources/variables.json')
+    reportsMngr = ReportHandler(reportsQueue, 'resources/mail_settings.json')
+
+    rlistMngr.toProcessQueue = runsToProcessQueue
+    rlistMngr.processedRunsQueue = processedRunsQueue
+    rlistMngr.reportQueue = reportsQueue
     rpMngr.runChainProcessFunction = processSingleRunChain
     rpMngr.stop_process_event = stop
-    #environ_handler = EnvHandler('resources/ListOfTunnels.json', 'resources/process.json', 'resources/variables.json')
-    reportsMngr = ReportHandler(reportsQueue, 'resources/mail_settings.json')
     reportsMngr.stop_signal = stop
-    # enough setup, run some :)
+    rlistMngr.stop_event = stop
+    rlistMngr.putRunsOnProcessQueue()
 
-    arun = rlistMngr.runlist['220796']
-    print arun
-    arun = {'220796':arun}
-    runsToProcessQueue.put(arun)
-    reportsQueue.put('This is crap :D ')
-    stop.set()
+    # enough setup, run the managers
 
     Sonic = reportsMngr
     ForestGump = rpMngr
+    SpeedyGonzales = rlistMngr
 
-    # lol
+    # lol, run the runners
 
-    Sonic.runSonicRun()
     ForestGump.runForestRun()
+    SpeedyGonzales.start()
+    ForestGump.stop_process_event.set()
+    Sonic.runSonicRun()
+

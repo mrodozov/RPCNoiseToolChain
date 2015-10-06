@@ -28,7 +28,6 @@ class RunProcessPool(Thread):
         self.runsProcessThread = Thread
         self.runChainProcessFunction = None
 
-
     def processRuns(self, functoapply):
 
         while True:
@@ -42,18 +41,12 @@ class RunProcessPool(Thread):
             sequence = self.sequence_handler.getSequenceForName(run_status)
             runChainArgs = {'rundetails':run, 'commands':sequence, 'result_folder': results_folder}
             result = self.pool.apply_async(functoapply, (runChainArgs, ))
-            r = result.get()
-            for rec in r['results']:
-                if r['results'][rec][0] == 'Failed':
-                    print rec
-                    print r['warnings'][rec]
-                    print r['logs'][rec]
 
-            #format result, put it in the result queue. or just put it on the result queue as it is with its runnum
-
+            self.processed_runs_q.put({k:result})
 
             self.toprocess.task_done() # remove the run from the toprocess queue
-            if self.stop_process_event.is_set():
+
+            if self.stop_process_event.is_set() and self.toprocess.empty():
                 self.pool.close()
                 self.pool.join()
                 print 'Exiting run proccess mngr'

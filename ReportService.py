@@ -3,10 +3,8 @@ __author__ = 'rodozov'
 import smtplib
 import email
 from threading import Thread
-#import sys
-#import getopt
-
 from email.mime.text import MIMEText
+import time
 
 class ReportHandler(Thread):
     
@@ -31,14 +29,13 @@ class ReportHandler(Thread):
             print 'Bla from report mngr run method'
             msg = self.message_queue.get()
             self.processMessages(msg)
-
+            # have to put some delay it's not receiving tasks in the queue fast enough (for the test, not in general)
+            time.sleep(5)
             self.message_queue.task_done()
-            if self.stop_signal.is_set():
+            if self.stop_signal.is_set() and self.message_queue.empty():
                 #do some finishing shits
                 print 'Finishing report mngr'
                 break
-
-
 
     def runSonicRun(self):
         # for the lolz !

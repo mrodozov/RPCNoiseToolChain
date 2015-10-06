@@ -1,6 +1,9 @@
 __author__ = 'rodozov'
 
-import os,subprocess,os.path,json
+import os
+import subprocess
+import os.path
+import json
 
 class SSHTunnelDescriptor:
     def __init__(self,tName=None,options=None,localHost=None,localPort=None,remoteHost=None,remotePort=None,debug=False):
@@ -32,13 +35,6 @@ class ProcessDescriptor: #TODO - SSHTUnnelDescriptor could inherit from process,
 
 class EnvHandler:
 
-    listOfTunnels = []
-    listOfProcesses = []
-    listOfEnvVars = []
-    debug = False
-
-    #TODO - make the external classes internal
-
     #http://stackoverflow.com/questions/3764291/checking-network-connection
     #http://stackoverflow.com/questions/4689984/implementing-a-callback-in-python-passing-a-callable-reference-to-the-current
 
@@ -46,16 +42,17 @@ class EnvHandler:
         if self.debug:
             print 'dunno , print ?'
 
-    def __init__(self,fileWithTunnels,fileWithProcesses,fileWithEnvVars,debug=False):
+    def __init__(self, fileWithTunnels=None, fileWithProcesses=None, fileWithEnvVars=None, debug=False):
         self.listOfTunnels = []
         self.listOfProcesses = []
         self.listOfEnvVars = []
         self.debug = debug
         self.initConfigs(fileWithTunnels)
-        self.checkListOfTunnels()
         self.initProcesses(fileWithProcesses)
-        self.checkListOfProcesses()
-        self.initEnvVars(fileWithEnvVars)
+
+        #self.checkListOfTunnels()
+        #self.checkListOfProcesses()
+        #self.initEnvVars(fileWithEnvVars)
 
 
         if self.debug:
