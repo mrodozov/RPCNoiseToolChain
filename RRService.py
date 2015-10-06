@@ -2,7 +2,8 @@
 Its a class to connect CERN runregistry api
 '''
 
-from rrapi import RRApi, RRApiError
+from thirdPartyAPI.rrapi import RRApi, RRApiError
+
 
 class RRService:
 
@@ -31,7 +32,7 @@ class RRService:
 
         return runInfo
 
-    def getRunRangeForInspectedRuns(self,LSFraction):
+    def getRunRangeForInspectedRuns(self, LSFraction):
         #TODO - impement this using the old python scripts, to get lumi section fraction
         runlist = []
         return runlist

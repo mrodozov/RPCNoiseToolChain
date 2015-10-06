@@ -1,6 +1,6 @@
  Separate responsibilities between different classes (objects) like :
   
-- Basic requirements manager 
+- Basic requirements manager (RequrementsManager)
   takes care of initial system requirements as setting env vars 
   and checking tunnels 
   
@@ -10,7 +10,7 @@
   Also it may take care of new data availability, to subscribe to the runregistry
   and wait for events such as new available runs. 
   
-- Execution manager 
+- Execution manager (RunProcessManager)
   Takes care of producing analysis. Executes C++, Python, ROOT macroses
   Each execution is independent from the rest on idea, but instead they have 
   requirements to be executed, for example if a given file taken as input by given
@@ -19,16 +19,17 @@
   cores. Should also collect logs for errors etc.
   -- Write python class with methods to cary specific jobs, prepare HTML for example, or reformat something
      The execution manager would use objects
-  
-- An output manager 
+
+
+- An output manager (done in Chain and CommandClasses)
   this should take care of all of the outputs, validation, DB upload, data formats.
   Every secondary product, like preformatting existing output is done here, instead
-  by the executable or scripts as before. 
-  Another thing would be methods that provides backward compatibility with the old 
+  by the executable or scripts as before.
+  Another thing would be methods that provides backward compatibility with the old
   formats, or to produce the old format from the new one if any format got changed,
   without keeping the old output. Collect logs for errors and completion
   
-- Report manager
+- Report manager (ReportService)
   Takes care of collecting error or success outputs, update the logs and send email
   notifications. Maybe method to create short reports from the log files
 

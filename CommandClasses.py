@@ -11,10 +11,11 @@ import time
 import re
 import json
 import paramiko
-from DBService import DBService
-from RPCMap import RPCMap
+
+from thirdPartyAPI.RPCMap import RPCMap
 from Event import SimpleEvent
 from Chain import Chain
+
 
 # TODO - See if there is need to format HTML for any reason,
 # TODO - Wrap the processTask with exception, to continue after the execution even if command crashes. for example db upload crash should not prevent creating files and moving them on another location

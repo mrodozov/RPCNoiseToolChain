@@ -2,13 +2,11 @@ __author__ = 'rodozov'
 
 from CommandClasses import *
 from Chain import Chain
-from RPCMap import RPCMap
 from Event import SimpleEvent
 from RunlistManager import RunlistManager
 import multiprocessing as mp
 import Queue
 import time
-import json
 from threading import Thread
 
 '''
@@ -28,7 +26,7 @@ class RunProcessPool(Thread):
         self.sequence_handler = sequence_handler_object
         self.stop_process_event = None
         self.runsProcessThread = Thread
-        self.loopTime = None
+        self.runChainProcessFunction = None
 
 
     def processRuns(self, functoapply):
@@ -53,37 +51,26 @@ class RunProcessPool(Thread):
 
             #format result, put it in the result queue. or just put it on the result queue as it is with its runnum
 
+
             self.toprocess.task_done() # remove the run from the toprocess queue
             if self.stop_process_event.is_set():
                 self.pool.close()
                 self.pool.join()
+                print 'Exiting run proccess mngr'
                 break
 
-
-    def loopUntilSignalIsSentOrTimeElapsed(self, seconds=10, signal=None):
-        secs = 0
-        secs = seconds
-        while True:
-            print 'Stop after: ', secs
-            secs = secs - 1
-            time.sleep(1)
-            if secs == 0:
-                signal.set()
-                print 'Breaking on time elapsed !'
-                break
-            if signal.is_set():
-                print 'Breaking on signal to stop !'
-                break
+    def formatRunResult(self, rnum, result_output):
+        # TODO - check the format and decide what to put if the format is wrong (and find why)
+        result = {}
+        result[rnum] = result_output
+        return
 
     def run(self):
-
-        self.loopUntilSignalIsSentOrTimeElapsed(self.loopTime, self.stop_process_event)
+        self.processRuns(self.runChainProcessFunction)
 
 
     def runForestRun(self):
-        '''
-        For the lolz ! :)
-        '''
+        ''' For the lolz ! :) '''
         self.start()
 
 
@@ -116,7 +103,7 @@ if __name__ == "__main__":
     runsToProcessQueue = Queue.Queue()
     processedRunsQueue = Queue.Queue()
     sequence_handler = CommandSequenceHandler('resources/SequenceDictionaries.json', 'resources/options_object.txt')
-    rpmngr = RunProcessPool(runsToProcessQueue,processedRunsQueue,sequence_handler,{'result_folder':'results/'})
+    rpmngr = RunProcessPool(runsToProcessQueue, processedRunsQueue, sequence_handler, {'result_folder':'results/'})
 
     rlistMngr = RunlistManager('resources/runlist.json')
     rlistMngr.toProcessQueue = runsToProcessQueue
@@ -128,75 +115,6 @@ if __name__ == "__main__":
     runsToProcessQueue.put({'220796':arun})
     rpmngr.processRuns(processSingleRunChain)
 
-    '''
-    rpmngrFirst = RunProcessPool()
-    rpmngrSecond = RunProcessPool()
-    stop_event = mp.Event()
-    rpmngrFirst.loopTime = 10
-    rpmngrFirst.stop_process_event = stop_event
-    rpmngrSecond.loopTime = 5
-    rpmngrSecond.stop_process_event = stop_event
-    rpmngrFirst.runForestRun()
-    rpmngrSecond.runForestRun()
-
-    print 'run after start of both'
-
-    rpmngrFirst.join()
-    rpmngrSecond.join()
-    '''
-
-
-'''
-
-import multiprocessing
-import time
-
-def releaseTheCracken(e, delay):
-    i = delay
-    while True:
-        print 'Waiting for: ', i
-        time.sleep(1)
-        i = i - 1
-        if i == 0:
-            e.set()
-            break
-
-def wait_for_event(e):
-    """Wait for the event to be set before doing anything"""
-    print 'wait_for_event: starting'
-    e.wait()
-    print 'wait_for_event: e.is_set()->', e.is_set()
-
-def wait_for_event_timeout(e, t):
-    """Wait t seconds and then timeout"""
-    print 'wait_for_event_timeout: starting'
-    e.wait(t)
-    print 'wait_for_event_timeout: e.is_set()->', e.is_set()
-
-
-if __name__ == '__main__':
-    e = multiprocessing.Event()
-    w1 = threading.Thread(name='block',
-                                 target=wait_for_event,
-                                 args=(e,))
-    w1.start()
-
-    w2 = threading.Thread(name='non-block',
-                                 target=wait_for_event_timeout,
-                                 args=(e, 2))
-    w2.start()
-
-    w3 = threading.Thread(name='cracken',
-                                 target=releaseTheCracken,
-                                 args=(e,10))
-
-
-    print 'main: waiting before calling Event.set()'
-    time.sleep(3)
-    #w3.start()
-    print 'main: event is set'
-
-'''
 
 
 

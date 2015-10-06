@@ -1,10 +1,8 @@
-from ConStrParser import extract
-
 #added by mrodozov@cern.ch for possible use
 
-import re, json ,smtplib,email,sys,getopt
-from rrapi import RRApi, RRApiError
-import subprocess
+import sys
+
+from thirdPartyAPI.rrapi import RRApi
 
 URL = "http://localhost:22223/runregistry/"
 

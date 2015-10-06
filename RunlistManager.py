@@ -1,9 +1,11 @@
 #runlist ideas - single file, JSON, keeps track
 
 from RRService import RRService
-import json, simplejson, sys
+import json
+import sys
+from threading import Thread, Lock
 
-class RunlistManager:
+class RunlistManager(Thread):
 
     '''
     run list manager manages
@@ -12,15 +14,18 @@ class RunlistManager:
     3. changes
     '''
 
+    # TODO - use Lock to acquire and release the runlist dictionary object since there are two threads that may modify it 1. Update after new runs from the RRApi 2. Update after run has been processed
+
     runlist = {} #runlist is dictionary with runs, and their corresponding status. the status is
     RRConnector = RRService()
     readyToUse = False
 
-    def __init__(self,runlist=None):
+    def __init__(self, runlist=None):
         '''
         :param runlist: run list is file with json description of runs analyzed.
         :return: none
         '''
+        super(RunlistManager, self).__init__()
         self.toProcessQueue = None
         self.processedRunsQueue = None
         runlistLoaded = False
@@ -128,8 +133,8 @@ class RunlistManager:
 
     def putRunsOnProcessQueue(self, runlist = None):
         try:
-            for r in runlist:
-                self.toProcessQueue.put(r)
+            for k in runlist.keys():
+                self.toProcessQueue.put({k:runlist[k]})
         except Exception as e:
             print e.message
 

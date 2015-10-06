@@ -4,8 +4,8 @@ from ConStrParser import extract
 
 #added by mrodozov@cern.ch for possible use 
 
-import re, json ,smtplib,email,sys,getopt
-from rrapi import RRApi, RRApiError
+import smtplib,email
+from thirdPartyAPI.rrapi import RRApi
 
 URL = "http://localhost:22223/runregistry/"
 notificationEmails = 'ListOfEmailsNT.txt'
@@ -330,7 +330,7 @@ def summary(runOK,runNot,runErr,runInit):
 #############################
 ########## M A I N ##########
 #############################
-import sys,os,string,subprocess
+import sys,os, subprocess
 sys.path.append("/nfshome0/mmaggi/PYTHON")
 try:
   import xmlrpclib
