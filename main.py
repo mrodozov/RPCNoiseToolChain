@@ -8,6 +8,7 @@ from ReportService import ReportHandler
 import multiprocessing as mp
 import Queue
 
+
 if __name__ == "__main__":
 
     os.environ['LD_LIBRARY_PATH'] = '/home/rodozov/Programs/ROOT/INSTALL/lib/root'  # the only hardcoded variable remaining, probably. let's change it in the next commit
@@ -38,10 +39,10 @@ if __name__ == "__main__":
     ForestGump = rpMngr
     SpeedyGonzales = rlistMngr
 
-    # lol, run the runners
+    # lol, run the runners, should run foreVA
 
+    stop.set()
     ForestGump.runForestRun()
     SpeedyGonzales.start()
-    ForestGump.stop_process_event.set()
     Sonic.runSonicRun()
 

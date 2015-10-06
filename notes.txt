@@ -33,3 +33,25 @@
   Takes care of collecting error or success outputs, update the logs and send email
   notifications. Maybe method to create short reports from the log files
 
+- Get the runregistry API to work from outside CERN
+
+  1. Modify the RRApi class like this:
+  1.1 import socks (pip install PySocks if the module not available)
+  1.2 Change urllib -> urllib2 in rrapi.py (everywhere, uses with the import)
+  1.3 Add third argument for RRApi class constructor and another member variable:
+      def __init__(self, url, debug = False, use_proxy = False)
+          self.use_proxy = use_proxy
+        ....
+  1.4 Add this:
+      if self.use_proxy: socks.wrapmodule(urllib2)
+      right before this:
+      resp = urllib2.urlopen(callurl, sdata)
+      in the get() method of RRApi class
+  2. Setup socks proxy to lxplus like this:
+      ssh -f -D 1080 -N lxplus.cern.ch -l yourusername
+  3. Setup the default proxy settings in the python program
+      socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 1080)
+    and when creating new RRApi object, just set the third argument in the constructor to 'True'
+      rr_api = RRApi(URL, debug = True, use_proxy = True)
+  ---------------------
+  Enjoy your RR queries

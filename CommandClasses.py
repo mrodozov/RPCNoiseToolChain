@@ -222,7 +222,7 @@ class NoiseToolMainExe(Command):
                 print e.message
         executable = self.args[0]
         arguments = self.args[1] + ' ' + self.args[2] + ' ' + res_folder
-        '''
+
         for f in filesToProcess:
             # print executable, f, arguments
             childp = subprocess.Popen(executable + ' ' + f + ' ' + arguments, shell=True, stdout=subprocess.PIPE,
@@ -237,7 +237,7 @@ class NoiseToolMainExe(Command):
                 complete = True
             self.log[f] = {'complete': complete,'err': current_stderr,'out':current_stdout,'exitcode':current_excode}
                 # so far, and thanks for all the fish
-        '''
+
         complete = True
         if not complete:
             results = 'Failed'

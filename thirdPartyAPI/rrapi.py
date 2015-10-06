@@ -1,5 +1,5 @@
 #import urllib, re, simplejson as json, socket
-import urllib, re, json, socket
+import urllib2, re, json, socks
 """
 Python object that enables connection to RR v3 API.
 Errors (not bugs!) and more welcome fixes/suggestions please 
@@ -48,16 +48,18 @@ class RRApi:
     RR API object
     """
 
-    def __init__(self, url, debug = False):
+    def __init__(self, url, debug = False, use_proxy = False):
         """
         Construct API object.
         url: URL to RRv3 API, i.e. http://localhost:8080/rr_user
         debug: should debug messages be printed out? Verbose!
         """
+        self.use_proxy = use_proxy
         self.debug = debug
         self.url = re.sub("/*$", "/api/", url)
         self.app = self.get(["app"])
         self.dprint("app = ", self.app)
+
 
     def dprint(self, *args):
         """
@@ -78,7 +80,7 @@ class RRApi:
         # Constructing request path
         #
 
-        callurl = self.url + "/".join(urllib.quote(p) for p in parts)
+        callurl = self.url + "/".join(urllib2.quote(p) for p in parts)
 
         #
         # Constructing data payload
@@ -94,7 +96,9 @@ class RRApi:
 
         self.dprint(callurl, "with payload", sdata)
 
-        resp = urllib.urlopen(callurl, sdata)
+        # maybe change it here
+        if self.use_proxy: socks.wrapmodule(urllib2)
+        resp = urllib2.urlopen(callurl, sdata)
 
         has_getcode = "getcode" in dir(resp)
         if self.debug: 
@@ -241,3 +245,4 @@ class RRApi:
 if __name__ == '__main__':
 
     print "RR API library."
+

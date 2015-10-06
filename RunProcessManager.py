@@ -43,7 +43,6 @@ class RunProcessPool(Thread):
             result = self.pool.apply_async(functoapply, (runChainArgs, ))
 
             self.processed_runs_q.put({k:result})
-
             self.toprocess.task_done() # remove the run from the toprocess queue
 
             if self.stop_process_event.is_set() and self.toprocess.empty():
