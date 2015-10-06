@@ -1,0 +1,42 @@
+{
+ "190001": {
+  "Type": "Cosmics15", 
+  "duration": "200", 
+  "status": "toresubmit"
+ }, 
+ "190002": {
+  "Type": "Commissioning15", 
+  "duration": "200", 
+  "status": "finished"
+ }, 
+ "190003": {
+  "Type": "Collisions15", 
+  "duration": "200", 
+  "status": "finished"
+ }, 
+ "201000": {
+  "Type": "Collisions15", 
+  "duration": "150", 
+  "status": "new"
+ }, 
+ "201005": {
+  "Type": "Collisions15", 
+  "duration": "160", 
+  "status": "new"
+ }, 
+ "201010": {
+  "Type": "Collisions15", 
+  "duration": "170", 
+  "status": "new"
+ }, 
+ "220796": {
+  "Type": "Collisions15", 
+  "duration": "118", 
+  "status": "new"
+ }, 
+ "250001": {
+  "Type": "Collisions15", 
+  "duration": "118", 
+  "status": "new"
+ }
+}

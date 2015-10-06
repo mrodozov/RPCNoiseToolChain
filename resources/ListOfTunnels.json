@@ -1,0 +1,3 @@
+{"name":"lxplus","options":"-l -N -L","lhost":"cmsusr","lport":"20222","rhost":"lxplus.cern.ch","rport":"22"}
+{"name":"RRtunnel","options":"-l -N -L","lhost":"cmsusr","lport":"20223","rhost":"runregistry.web.cern.ch","rport":"80"}
+{"name":"SMTPtunnel","options":"-l -N -L","lhost":"cmsusr","lport":"20224","rhost":"cernmx.cern.ch","rport":"25"}

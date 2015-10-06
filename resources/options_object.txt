@@ -1,0 +1,128 @@
+{
+ "dbfilescontent": {
+  "source": "dbinput", 
+  "args": ""
+ }, 
+ "outputformat": [
+   "resources/rpcMap", 
+   "resources/RawIDs.txt",
+   "output_rolls.json", 
+   "output_strips.json", 
+   "AllToUnmask.txt", 
+   "AllToMask.txt"
+  ]
+ ,
+ "dbinput":
+   [
+   "executables/DBInputs.lnxapp", 
+   "resources/",
+   "Masked", 
+   "Dead", 
+   "ToUnmask", 
+   "ToMask", 
+   "area_noise_cmssw_withRE4", 
+   "RawIDs.txt", 
+   "InputRollList.txt"
+  ]
+ ,
+ "dbdataupload": {
+   "username": "", 
+   "password": "", 
+   "dbType": "",
+   "hostname": "",
+   "port": "",
+   "dbName": "",
+   "schema": "",
+   "connectionDetails": [
+    {
+     "schm": [
+      "run_number", 
+      "raw_id", 
+      "channel_number", 
+      "strip_number", 
+      "is_dead", 
+      "is_masked", 
+      "rate_hz_cm2"
+     ], 
+     "argsList": [
+      0, 
+      1, 
+      2, 
+      3, 
+      4, 
+      5, 
+      6
+     ], 
+     "name": "RPC_NOISE_STRIPS", 
+     "file": "database_full.txt"
+    }, 
+    {
+     "schm": [
+      "run_number", 
+      "raw_id", 
+      "rollName", 
+      "dead_strips", 
+      "masked_strips", 
+      "strips_to_unmask", 
+      "strips_to_mask", 
+      "noiseRate", 
+      "rate_hz_cm2"
+     ], 
+     "argsList": [
+      0, 
+      1, 
+      3, 
+      4, 
+      5, 
+      6, 
+      8
+     ], 
+     "name": "RPC_NOISE_ROLLS", 
+     "file": "database_new.txt"
+    }
+   ]
+ }, 
+ "noiseexe": [
+   "executables/LBNoise", 
+   "resources/lb-chamber-withRE4.txt", 
+   "resources/area_noise_withRE4.txt"
+  ],
+ "filelister": {
+   "filesfolder" :
+   "inputfiles/",
+   "towers_list":
+   [
+    "RB+2_far", 
+    "RB+2_near", 
+    "RB+1_near", 
+    "RB+1_far", 
+    "RB-1_far", 
+    "RB-1_near", 
+    "RB-2_far", 
+    "RB-2_near", 
+    "RB0_far", 
+    "RB0_near", 
+    "YEN1_far", 
+    "YEN1_near", 
+    "YEN3_far", 
+    "YEN3_near", 
+    "YEP1_far", 
+    "YEP1_near", 
+    "YEP3_far", 
+    "YEP3_near"
+   ]
+  },
+ "check":  "executables/CheckCorruptedFile.lnxapp"
+ ,
+ "dbfilecontent" :{"None":"None"
+ },
+ "webserver_remote":{
+ "ssh_credentials":{"username":"mrodozov","password":"","port":"22","rhost":"lxplus.cern.ch"},
+ "destination_root":"/afs/cern.ch/user/m/mrodozov/www/Plots/GR2014/"
+ },
+ "lxplus_archive_remote":{
+ "ssh_credentials":{"username":"mrodozov","password":"","port":"22","rhost":"lxplus.cern.ch"},
+ "destination_root":"/afs/cern.ch/work/m/mrodozov/noiseBackUp/"
+ }
+}
+

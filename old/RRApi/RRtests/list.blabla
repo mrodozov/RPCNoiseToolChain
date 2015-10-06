@@ -1,0 +1,19 @@
+RRAPI: http://localhost:22223/runregistry/api/app with payload None
+RRAPI: Response 200 Date: Wed, 24 Oct 2012 16:10:22 GMT Server: Apache Content-Length: 4 Connection: close Content-Type: text/plain 
+RRAPI: app =  user
+RRAPI: http://localhost:22223/runregistry/api/GLOBAL/runsummary/json/number/none/data with payload {"filter": {"duration": "> 1200", "runClassName": "Collisions12", "rpcPresent": "true", "datasetExists": "= true", "number": ">= 205303 AND <= 205666"}}
+RRAPI: Response 200 Date: Wed, 24 Oct 2012 16:10:22 GMT Server: Apache Content-Length: 591 Connection: close Content-Type: application/json 
+205303
+205310
+205311
+205339
+205344
+205515
+205519
+205526
+205600
+205605
+205617
+205620
+205627
+205666

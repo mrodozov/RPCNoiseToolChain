@@ -1,0 +1,18 @@
+{
+  "new":
+    [
+        {"type":"filelist","name":"filelist","optionskey":"filelister","starton":"init"},
+        {"type":"noiseexe","name":"noiseexe","optionskey":"noiseexe","starton":"check"},
+        {"type":"filecheck","name":"check","optionskey":"check","starton":"filelist"},
+        {"type":"dbinput","name":"dbinput","optionskey":"dbinput","starton":"noiseexe"},
+        {"type":"dbfilecheck","name":"dbfilecheck","optionskey":"dbfilecontent","starton":"dbinput"},
+        {"type":"dbdataupload","name":"dbdataupload","optionskey":"dbdataupload","starton":"dbfilecheck"},
+        {"type":"outputfilesprep","name":"outputprep","optionskey":"outputformat","starton":"dbfilecheck"},
+        {"type":"remotecopy","name":"webserver","optionskey":"webserver_remote","starton":"outputprep"},
+        {"type":"remotecopy","name":"lxplus","optionskey":"lxplus_archive_remote","starton":"outputprep"}
+    ],
+  "resubmit":{},
+  "db_retry":{},
+  "backup_retry":{},
+  "convertto":{}
+}
