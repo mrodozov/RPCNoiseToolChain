@@ -54,6 +54,11 @@ class RunProcessPool(Thread):
             #format result, put it in the result queue. or just put it on the result queue as it is with its runnum
 
             self.toprocess.task_done() # remove the run from the toprocess queue
+            if self.stop_process_event.is_set():
+                self.pool.close()
+                self.pool.join()
+                break
+
 
     def loopUntilSignalIsSentOrTimeElapsed(self, seconds=10, signal=None):
         secs = 0
@@ -117,9 +122,13 @@ if __name__ == "__main__":
     rlistMngr.toProcessQueue = runsToProcessQueue
     arun = rlistMngr.runlist['220796']
     print arun
+    stop = mp.Event()
+    stop.set()
+    rpmngr.stop_process_event = stop
     runsToProcessQueue.put({'220796':arun})
-    #rpmngr.processRuns(processSingleRunChain)
+    rpmngr.processRuns(processSingleRunChain)
 
+    '''
     rpmngrFirst = RunProcessPool()
     rpmngrSecond = RunProcessPool()
     stop_event = mp.Event()
@@ -134,7 +143,7 @@ if __name__ == "__main__":
 
     rpmngrFirst.join()
     rpmngrSecond.join()
-
+    '''
 
 
 '''
