@@ -3,7 +3,9 @@
 from RRService import RRService
 import json
 import time
+import socks
 from threading import Thread, Lock
+from Queue import Queue
 
 class RunlistManager(Thread):
 
@@ -87,35 +89,13 @@ class RunlistManager(Thread):
         retval = False
         #TODO - implement protection, like copying the file opened with another name and then writing. UPDATE - implement archive, not protection
 
-        try:
-            with open(runlistFile,"w") as runFile:
-                runFile.write(json.dumps(self.runlist, indent=1, sort_keys=True))
-                runFile.close()
-                retval = True
-        except Exception, e:
-            print e.message
+
+        with open(runlistFile,"w") as runFile:
+            runFile.write(json.dumps(self.runlist, indent=1, sort_keys=True))
+            runFile.close()
+            retval = True
+
         return retval
-
-    def getFullRunlist(self,runTypesFilter,RRURL):
-
-        '''
-        :return: merged runlist, from file AND run registry.
-        '''
-        latestRun =  self.runlist.keys()
-        latestRun.sort()
-        latestRun = latestRun[-1]
-
-        '''
-        try:
-            listofRuns = self.RRConnector.getRunRange(runTypesFilter,latestRun,1,RRURL)
-            if listofRuns is not  None:
-                 for run in listofRuns:
-                     self.runlist[str(run['duration'])] = {'Type': run['runClassName'], 'status': 'new', 'duration': str(run['duration'])}
-        except Exception, e:
-            print e.message
-        '''
-
-        return self.runlist
 
     def getListOfRunsToProcess(self):
 
@@ -188,49 +168,26 @@ class RunlistManager(Thread):
 
 
 if __name__ == "__main__":
-    RR_URL = "runregistry.web.cern.ch/runregistry/"
-    runlist = 'resources/runlist.json'
 
-    runManager = RunlistManager(runlist)
-    jsonlist = runManager.runlist
+    runsToProcessQueue = Queue.Queue()
+    processedRunsQueue = Queue.Queue()
+    reportsQueue = Queue.Queue()
 
-    for k in jsonlist:
-        print jsonlist.get(k)
-
-    updated = runManager.updateRun("190002", "status", "finished")
-
-    print updated
-
-    for k in jsonlist:
-        print jsonlist.get(k)
-
-    updated = runManager.updateRun("190300","status","finished")
-
-    print updated
-
-    listofkeys = runManager.runlist.keys()
-
-    for k in listofkeys:
-        print k
-
-    shortlist = runManager.getListOfRunsToProcess()
-    print shortlist
-
-    longlist = runManager.getFullRunlist('Collissions15 OR Cosmics15 OR Commissioning15', 'somehttp')
-    runManager.runlist['250001'] = {"status": "new",   "duration": "118", "Type": "Collisions15"}
-
-    print "\n", "\n"
-    longlist = runManager.getFullRunlist('Collissions15 OR Cosmics15 OR Commissioning15','somehttp')
-    print json.dumps(longlist, indent=1, sort_keys=True)
-
-    runManager.updateRunlistFile('resources/runlist.json')
-
-    listfl = runManager.getFirstLastRuns()
-
-    print listfl
+    socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 1080)
+    rr_obj = RRService(use_proxy=True)
+    rlistMngr = RunlistManager()
+    rlistMngr = RunlistManager('resources/runlist.json')
+    rlistMngr.toProcessQueue = runsToProcessQueue
+    rlistMngr.processedRunsQueue = processedRunsQueue
+    rlistMngr.reportQueue = reportsQueue
 
 
-    #runManager.getFullRunlist()
-
-    #k , update is working
+    #rlist = rr_obj.getRunRange('Collisions15', '257000', '600')
+    #print rlist
+    #rlist = rr_obj.getRunlistForLongRuns(258000)
+    #print rlist
+    #lumis = rr_obj.getRunsLumiSectionsInfo(lastRun=257000)
+    #print lumis
+    #res = rr_obj.getRunRangeWithLumiInfo('Collisions15', '257000', '600')
+    #print res
 
