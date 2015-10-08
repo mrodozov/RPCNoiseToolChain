@@ -97,6 +97,7 @@ class RunlistManager(Thread):
 
         return retval
 
+
     def getListOfRunsToProcess(self):
 
         '''
