@@ -23,22 +23,23 @@ class RRService:
         :return: list of runs
         '''
         runlist = {}
+        an_array = []
 
         try:
             #print "Accessing run registry.......\n"
             an_array = self.rr_obj.data('GLOBAL', 'runsummary', 'json', ['number', 'duration', 'runClassName'],
                                         {'datasetExists': '= true', 'number': '> '+ str(lastRun), 'duration': '> '+str(runDuration),
                                          'rpcPresent' : 'true', 'runClassName': runType}, order=['number asc'])
-            if an_array:
-                for description in an_array:
-                    rundescription = {}
-                    rundescription['Type'] = str(description['runClassName'])
-                    rundescription['duration'] = str(description['duration'])
-                    rundescription['status'] = 'new'
-                    runlist[str(description['number'])] = rundescription
-
         except RRApiError, e:
             print e.message
+
+        if an_array:
+            for description in an_array:
+                rundescription = {}
+                rundescription['Type'] = str(description['runClassName'])
+                rundescription['duration'] = str(description['duration'])
+                rundescription['status'] = 'new'
+                runlist[str(description['number'])] = rundescription
 
         return runlist
 
@@ -83,5 +84,7 @@ if __name__ == "__main__":
     #print rlist
     #lumis = rr_obj.getRunsLumiSectionsInfo(lastRun=257000)
     #print lumis
-    res = rr_obj.getRunRangeWithLumiInfo('Collisions15', '257000', '600')
+    res = rr_obj.getRunRangeWithLumiInfo('Collisions15', '258500', '600')
     print res
+    res.keys().sort()
+    if res.keys(): print res.keys()[0]

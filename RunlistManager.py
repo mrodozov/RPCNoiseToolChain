@@ -5,7 +5,7 @@ import json
 import time
 import socks
 from threading import Thread, Lock
-from Queue import Queue
+import Queue
 
 class RunlistManager(Thread):
 
@@ -68,15 +68,15 @@ class RunlistManager(Thread):
         '''
         retval = False
         if runlist is not None:
-            try:
-                with open(runlist) as data_file:
+            with open(runlist) as data_file:
+                try:
                     data = json.load(data_file)
-                    for k, v in data.items():
-                        self.runlist[k] = v
-                    retval = True
-                    data_file.close()
-            except Exception, e:
-                print e.message
+                except Exception, e:
+                    print e.message
+                for k, v in data.items():
+                    self.runlist[k] = v
+                retval = True
+                data_file.close()
         return retval
 
     def updateRunlistFile(self,runlistFile,oldFile=None):
@@ -117,6 +117,11 @@ class RunlistManager(Thread):
         except Exception as e:
             print e.message
 
+    def sortRunlist(self, runlist = None):
+        runlist = []
+        # change execution order
+        return runlist
+
     def handleProcessedRuns(self):
         while True:
             run = self.processedRunsQueue.get()
@@ -149,6 +154,12 @@ class RunlistManager(Thread):
         while True:
             # get the last run number from the new runs
             # if new runs arrived,
+            last_run = None
+            self.runlist.keys().sort()
+            if self.runlist.keys(): last_run = last[0]
+            new_runs = self.rr_connector.getRunRangeWithLumiInfo()
+            # mark as submitted and when uploading runlist don't get those not finished
+
             time.sleep(5)
 
             print 'RR checked'
@@ -175,11 +186,11 @@ if __name__ == "__main__":
 
     socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 1080)
     rr_obj = RRService(use_proxy=True)
-    rlistMngr = RunlistManager()
     rlistMngr = RunlistManager('resources/runlist.json')
     rlistMngr.toProcessQueue = runsToProcessQueue
     rlistMngr.processedRunsQueue = processedRunsQueue
     rlistMngr.reportQueue = reportsQueue
+    rlistMngr.rr_connector = rr_obj
 
 
     #rlist = rr_obj.getRunRange('Collisions15', '257000', '600')
@@ -188,6 +199,8 @@ if __name__ == "__main__":
     #print rlist
     #lumis = rr_obj.getRunsLumiSectionsInfo(lastRun=257000)
     #print lumis
-    #res = rr_obj.getRunRangeWithLumiInfo('Collisions15', '257000', '600')
-    #print res
-
+    res = rr_obj.getRunRangeWithLumiInfo('Collisions15', '257000', '600')
+    print res
+    last = res.keys()
+    res.keys().sort()
+    print last[-1:]
