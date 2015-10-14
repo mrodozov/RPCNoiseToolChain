@@ -15,7 +15,7 @@ import paramiko
 from thirdPartyAPI.RPCMap import RPCMap
 from Event import SimpleEvent
 from Chain import Chain
-
+import DBService
 
 # TODO - See if there is need to format HTML for any reason,
 # TODO - Wrap the processTask with exception, to continue after the execution even if command crashes. for example db upload crash should not prevent creating files and moving them on another location
@@ -434,14 +434,14 @@ class DBDataUpload(Command):
     def processTask(self):
         complete = False
         # files from results, table names and schemas from options
-        #dbService = DBService(dbType=self.args['dbType'], host=self.args['hostname'], port=self.args['port'],
-        #                      user=self.args['username'], password=self.args['password'], schema=self.args['schema'],
-        #                      dbName=self.args['dbName'])
+        dbService = DBService(dbType=self.args['dbType'], host=self.args['hostname'], port=self.args['port'],
+                              user=self.args['username'], password=self.args['password'], schema=self.args['schema'],
+                              dbName=self.args['dbName'])
         for rec in self.args['connectionDetails']:
             dataFile = ''.join([f for f in self.options['filescheck'] if f.find(rec['file']) is not -1])
             print dataFile
-            #data = self.getDBDataFromFile(dataFile)
-            #completed = dbService.insertToDB(data, rec['name'], rec['schm'], rec['argsList'])
+            data = self.getDBDataFromFile(dataFile)
+            completed = dbService.insertToDB(data, rec['name'], rec['schm'], rec['argsList'])
             #catch the error, push it to the log
             completed = True # TODO - to remove
             self.results[dataFile] = completed

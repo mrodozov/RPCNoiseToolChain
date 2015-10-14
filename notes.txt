@@ -33,6 +33,8 @@
   Takes care of collecting error or success outputs, update the logs and send email
   notifications. Maybe method to create short reports from the log files
 
+-
+
 - Get the runregistry API to work from outside CERN
 
   1. Modify the RRApi class like this:

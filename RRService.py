@@ -47,12 +47,12 @@ class RRService:
 
         result = {}
         #year = time.strftime("%y")
-        array = self.rr_obj.data( 'GLOBAL', 'runlumis', 'json', ['runNumber','sectionFrom','sectionTo', goodLSconditions],{'runNumber': '> '+str(lastRun) } )
+        array = self.rr_obj.data( 'GLOBAL', 'runlumis', 'json', ['runNumber','sectionFrom','sectionTo', goodLSconditions],{'runNumber': '> '+str(lastRun)})
         for r in array:
             rnum = r['runNumber']
-            if not str(rnum) in result: result[str(rnum)] = {'good':0, 'all':0}
-            result[str(rnum)]['all'] = r['sectionTo']
-            if r['rpcReady'] == True: result[str(rnum)]['good'] += r['sectionTo'] - r['sectionFrom'] + 1
+            if not str(rnum) in result: result[str(rnum)] = {'lumisections': {'good':0, 'all': 0}}
+            result[str(rnum)]['lumisections']['all'] = r['sectionTo']
+            if r['rpcReady'] == True: result[str(rnum)]['lumisections']['good'] += r['sectionTo'] - r['sectionFrom'] + 1
 
         return result
 
@@ -61,8 +61,8 @@ class RRService:
         result = self.getRunRange(runType, lr, runDuration)
         lInfo = self.getRunsLumiSectionsInfo(lastRun=lr)
         for run in result.keys():
-            result[run]['good'] = lInfo[run]['good']
-            result[run]['all'] = lInfo[run]['all']
+            result[run]['lumisections'] = lInfo[run]['lumisections']
+        #    #result[run]['lumisections']['all'] = lInfo[run]['lumisections']['all']
         return result
 
     '''
@@ -86,5 +86,5 @@ if __name__ == "__main__":
     #print lumis
     res = rr_obj.getRunRangeWithLumiInfo('Collisions15', '258500', '600')
     print res
-    res.keys().sort()
-    if res.keys(): print res.keys()[0]
+    #res.keys().sort()
+    #if res.keys(): print res.keys()[0]

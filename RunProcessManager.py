@@ -52,7 +52,6 @@ class RunProcessPool(Thread):
                 break
 
     def formatRunResult(self, rnum, result_output):
-        # TODO - check the format and decide what to put if the format is wrong (and find why)
         result = {}
         result[rnum] = result_output
         return

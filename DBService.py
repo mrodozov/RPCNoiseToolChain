@@ -20,7 +20,12 @@ try:
 except Exception, e:
     is_sqlalchemy = False
 
+from Singleton import Singleton
+
 class DBService(object):
+
+    __metaclass__ = Singleton
+
     def __init__(self, dbType='sqlite:///', host=None, port=None, user='', password='', schema='', dbName='runData.db'):
         self.__dbType = dbType
         self.__schema = schema

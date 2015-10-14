@@ -11,7 +11,7 @@ from EventsHandler import EventsHandler
 
 import time
 
-# TODO - failed execution of thread hangs the main thread, try to fix this and test it
+# TODO - failed execution of thread hangs the main thread, try to fix this and test it. Exception catch could be used to wrap fails
 
 class CommandThread(threading.Thread):
     def __init__(self, queue, event_handler):

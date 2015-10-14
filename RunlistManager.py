@@ -1,11 +1,14 @@
 #runlist ideas - single file, JSON, keeps track
 
-from RRService import RRService
+from RRService import RRService , RRApiError
 import json
 import time
 import socks
-from threading import Thread, Lock
+from threading import Thread, Lock, Event
 import Queue
+from DBService import DBService
+
+# TODO - Figure it how to synch changes from the remote runlist. Another thread in runlist is required to 1. Keep time of last modification on the remote rl, and verify it. if changed, get, remote rl file
 
 class RunlistManager(Thread):
 
@@ -16,52 +19,51 @@ class RunlistManager(Thread):
     3. changes
     '''
 
-    # TODO - use Lock to acquire and release the runlist dictionary object since there are two threads that may modify it 1. Update after new runs from the RRApi 2. Update after run has been processed
-
     def __init__(self, runlist=None):
+
         '''
         :param runlist: run list is file with json description of runs analyzed.
         :return: none
         '''
         super(RunlistManager, self).__init__()
-        self.runlist = {}
+        self.runlist = {} #lock when modify the list
         self.rr_connector = None
         self.toProcessQueue = None
         self.processedRunsQueue = None
         self.reportQueue = None
-        self.processed_runs_thread = Thread(target=self.handleProcessedRuns)
+        self.check_completed_runs = Thread(target=self.handleProcessedRuns)
         self.check_run_registry = Thread(target=self.checkRRforNewRuns)
         self.stop_event = None
+        self.suspendRRcheck = Event()
+        self.suspendProcessedRunsHandler = Event()
         self.loadRunlistFile(runlist)
+        self.runlistLock = Lock()
+
+
 
     def __del__(self):
         #do some shit
         return None
 
     def getFirstLastRuns(self):
-        listOfFirstAndLast = []
-
         if self.runlist is not None:
             runnums = self.runlist.keys()
             runnums.sort()
-            listOfFirstAndLast.append(runnums[0])
-            listOfFirstAndLast.append(runnums[-1])
-        return listOfFirstAndLast
+        return [runnums[0], runnums[-1]]
 
     def updateRun(self,run,key,value):
-        '''
-        :param run: run number
-        :param key: key in run object
-        :param value: new value
-        :return: success on change
-        '''
-        success = False
         if run in self.runlist.keys():
-            self.runlist[run][key] = value
-            success = True
-        return success
+            with self.runlistLock:
+                self.runlist[run][key] = value
 
-    def loadRunlistFile(self,runlist=None):
+    def addruns(self, runs):
+        with self.runlistLock:
+            self.runlist.update(runs)
+
+    def updateRunlist(self):
+        pass
+
+    def loadRunlistFile(self, runlist=None):
         '''
         :param runlist: run list is file with json description of runs analyzed.
         :return: success of loading
@@ -97,7 +99,6 @@ class RunlistManager(Thread):
 
         return retval
 
-
     def getListOfRunsToProcess(self):
 
         '''
@@ -105,9 +106,13 @@ class RunlistManager(Thread):
         :return: return only runs to be processed from all, as dictionary of run{}
         '''
         shortlist = {}
+        self.runlistLock.acquire()
         for run in self.runlist:
-            if self.runlist[run]['status'] != 'finished':
+            stat = self.runlist[run]['status']
+            if stat != 'finished' and stat != 'submitted':
                 shortlist[run] = self.runlist[run]
+        self.runlistLock.release()
+
         return shortlist
 
     def putRunsOnProcessQueue(self, runlist = None):
@@ -119,32 +124,47 @@ class RunlistManager(Thread):
             print e.message
 
     def sortRunlist(self, runlist = None):
-        runlist = []
+        sorted_runlist = {}
         # change execution order
-        return runlist
+        sorted_runlist = runlist # implement new first (Coll, Cosm, Comm), failed second (Coll, Cosm, Comm), and toresubmit last
+        return sorted_runlist
 
     def handleProcessedRuns(self):
         while True:
             run = self.processedRunsQueue.get()
             # check status and update the run
             rnum = None
+            run_details = {}
+            run_results = None
+            run_warnings = None
+            run_logs = None
             for r in run.keys():
                 rnum = r
-            run_details = run[rnum].get()
+            run_details = run[rnum]
             print 'Run ', rnum, ' in results'
-            print run_details.keys()
-            run_results = run_details['results']
-            run_warnings = run_details['warnings']
-            run_logs = run_details['logs']
+            try:
+                print run_details.keys()
+                run_results = run_details['results']
+                run_warnings = run_details['warnings']
+                run_logs = run_details['logs']
+            except KeyError, e:
+                e.message
+
             #print run_results
             # check the status
-            for k in run_results:
-                if run_results[k][0] == 'Failed':
-                    self.reportQueue.put({rnum:{"warnings":run_warnings, "logs":run_logs}})
-                    break
-
-
-            self.processedRunsQueue.task_done()
+            run_status = 'finished'
+            try:
+                for k in run_results:
+                    run_status = 'finished'
+                    if run_results[k][0] == 'Failed':
+                        run_status = 'Failed'
+                        self.reportQueue.put({rnum:{"warnings":run_warnings, "logs":run_logs}})
+                        break
+            except Exception, e:
+                e.message
+            #update runlist
+            self.updateRun(rnum,'status',run_status)
+            self.processedRunsQueue.task_done() #
 
             if self.stop_event.is_set() and self.processedRunsQueue.empty():
                 # do some finishing stuff
@@ -152,18 +172,47 @@ class RunlistManager(Thread):
                 break
 
     def checkRRforNewRuns(self):
+        init_sleep_time = 10
+        current_sleep_time = 0
         while True:
-            # get the last run number from the new runs
-            # if new runs arrived,
-            last_run = None
-            self.runlist.keys().sort()
-            if self.runlist.keys(): last_run = last[0]
-            new_runs = self.rr_connector.getRunRangeWithLumiInfo()
+            print 'before wait'
+            self.suspendRRcheck.wait()
+            print 'after wait'
+            # get the last run number from runlist, first lock it with Lock
+            self.runlistLock.acquire()
+            runlist_runs = self.runlist.keys()
+            self.runlistLock.release()
+            runlist_runs.sort()
+            last_run = runlist_runs[-1]
+            print 'last run is: ', last_run
+            year = time.strftime('%y')
+            new_runs = {}
+            try:
+                new_runs = self.rr_connector.getRunRangeWithLumiInfo('Collisions'+year+' OR Cosmics'+year+' OR Commissioning'+year, last_run, 300)
+            except RRApiError, e:
+                print e.message, e.code#
+            if new_runs : current_sleep_time = init_sleep_time # reset when new runs arrived
+            current_sleep_time += init_sleep_time # increments every time with one minute if RR does not return new runs
+            # if new runs are available, put them on the runlist
+            #if not 'new' or 'submitted' in self.runlist.keys(): continue
+
+            self.addruns(new_runs)
+
+            # get runs to process
+            list_to_process = self.getListOfRunsToProcess()
+            # order them and put on queue
+            ordered_list_to_process = self.sortRunlist(list_to_process)
             # mark as submitted and when uploading runlist don't get those not finished
 
-            time.sleep(5)
+            for r in ordered_list_to_process.keys():
 
-            print 'RR checked'
+                self.updateRun(r,'status','submitted')
+                print self.runlist
+
+            print 'go to sleep for', current_sleep_time , 'seconds'
+            time.sleep(current_sleep_time) # increase this and
+
+            print 'RR checked last run ', last_run
 
             if self.stop_event.is_set() and self.processedRunsQueue.empty():
                 print 'RR exits'
@@ -172,11 +221,18 @@ class RunlistManager(Thread):
 
     def run(self):
         self.check_run_registry.start()
-        self.processed_runs_thread.start()
+        self.check_completed_runs.start()
         self.check_run_registry.join()
-        self.processed_runs_thread.join()
+        self.check_completed_runs.join()
 
     #def getSortedListOfRuns(self):
+
+def moveQueueEntries(inputQueue = None, outputQueue = None):
+    while True:
+        input = inputQueue.get()
+        #input['results'] =
+        outputQueue.put(input)
+        inputQueue.task_done()
 
 
 if __name__ == "__main__":
@@ -184,14 +240,38 @@ if __name__ == "__main__":
     runsToProcessQueue = Queue.Queue()
     processedRunsQueue = Queue.Queue()
     reportsQueue = Queue.Queue()
+    stop_rlistmngr = Event()  # set this to kill the loop and exit
+    mq = Thread(target=moveQueueEntries, args=(runsToProcessQueue, processedRunsQueue))
+
 
     socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 1080)
     rr_obj = RRService(use_proxy=True)
-    rlistMngr = RunlistManager('resources/runlist.json')
+    rlistFile = 'resources/runlist.json'
+    rlistMngr = RunlistManager(rlistFile)
     rlistMngr.toProcessQueue = runsToProcessQueue
     rlistMngr.processedRunsQueue = processedRunsQueue
     rlistMngr.reportQueue = reportsQueue
     rlistMngr.rr_connector = rr_obj
+    rlistMngr.stop_event = stop_rlistmngr
+
+    rlistMngr.check_run_registry.start()
+    delay = 10
+    while delay != 0:
+        time.sleep(1)
+        print 'Start in: ', delay
+        delay = delay - 1
+    rlistMngr.suspendRRcheck.set()
+    mq.start()
+
+    # postpone processed queue
+    delay = 10
+    while delay != 0:
+        time.sleep(1)
+        print 'wait for  in: ',delay
+        delay = delay - 1
+
+    rlistMngr.check_completed_runs.start()
+
 
 
     #rlist = rr_obj.getRunRange('Collisions15', '257000', '600')
@@ -200,8 +280,14 @@ if __name__ == "__main__":
     #print rlist
     #lumis = rr_obj.getRunsLumiSectionsInfo(lastRun=257000)
     #print lumis
-    res = rr_obj.getRunRangeWithLumiInfo('Collisions15', '257000', '600')
-    print res
-    last = res.keys()
-    res.keys().sort()
-    print last[-1:]
+    #print rlistMngr.runlist.keys()
+    #res = rlistMngr.rr_connector.getRunRangeWithLumiInfo('Collisions15 OR Cosmics15 ', '258712', '600')
+
+    #print res
+    #res_sorted = res.keys()
+    #res_sorted.sort()
+    #print res_sorted
+    #rlistMngr.runlist['258713'] = res['258713']
+    #rlistMngr.updateRunlistFile(rlistFile)
+
+
