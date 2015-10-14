@@ -34,6 +34,7 @@ class DBService(object):
         self.__password = password
         self.__dbName = dbName
         self.__supportedDBs = {'sqlite': ['sqlite://', 'sqlite:///'], 'oracle': ['oracle://']}
+        self.member_field = None
 
         if (dbType in self.__supportedDBs['sqlite']):
             self.__alchemyDBString = dbType + dbName

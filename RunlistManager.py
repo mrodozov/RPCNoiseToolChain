@@ -6,6 +6,8 @@ import time
 import socks
 from threading import Thread, Lock, Event
 import Queue
+import copy
+from DBService import DBService
 
 # TODO - Figure it how to synch changes from the remote runlist. Another thread in runlist is required to 1. Keep time of last modification on the remote rl, and verify it. if changed, get, remote rl file
 
@@ -19,7 +21,6 @@ class RunlistManager(Thread):
     '''
 
     def __init__(self, runlist=None):
-
 
         super(RunlistManager, self).__init__()
         self.runlist = {} #lock when modify the list
@@ -58,10 +59,7 @@ class RunlistManager(Thread):
         pass
 
     def loadRunlistFile(self, runlist=None):
-        '''
-        :param runlist: run list is file with json description of runs analyzed.
-        :return: success of loading
-        '''
+
         retval = False
         if runlist is not None:
             with open(runlist) as data_file:
@@ -96,14 +94,6 @@ class RunlistManager(Thread):
                     shortlist[run] = self.runlist[run]
         return shortlist
 
-    def putRunsOnProcessQueue(self, runlist = None):
-        try:
-            r_list = self.getListOfRunsToProcess()
-            for k in r_list.keys():
-                self.toProcessQueue.put({k:r_list[k]})
-        except Exception as e:
-            print e.message
-
     def sortRunlist(self, runlist = None):
         sorted_runlist = {}
         # change execution order
@@ -120,12 +110,11 @@ class RunlistManager(Thread):
             for r in run.keys():
                 rnum = r
             run_details = run[rnum]
-            print 'Run ', rnum, ' in results'
-            run_status = 'finished'
+            #print 'Run ', rnum, ' in results'
+            run_status = 'Failed'
             try:
-                print run_details.keys()
+                #print run_details.keys()
                 run_results = run_details['results']
-
                 for k in run_results:
                     run_status = 'finished'
                     if run_results[k][0] == 'Failed':
@@ -199,23 +188,44 @@ class RunlistManager(Thread):
     #def getSortedListOfRuns(self):
 
 def moveQueueEntries(inputQueue = None, outputQueue = None):
+    even = True
+    counter = 1
     while True:
+        counter += 1
         input = inputQueue.get()
-        sumdict = input.copy()
-        rnum = [r for r in input.keys()][0]
-        sumdict[rnum]['results'] = {'test':['finished'], 'sectest': ['Failed']}
-        sumdict[rnum]['warnings'] = {'test':['finished'], 'sectest': ['Failed']}
-        sumdict[rnum]['logs'] = {'test':['finished'], 'sectest': ['Failed']}
+        rnum = None
+        for k in input.keys():
+            rnum = k
+        sumdict = {}
+        sumdict[rnum]= copy.deepcopy(input[rnum])
+        result = ['finished']
+        if counter % 2 == 0: result = ['Failed']
+        sumdict[rnum]['results'] = {'test':['finished'], 'sectest': result}
+        sumdict[rnum]['warnings'] = {'test':['finished'], 'sectest': result}
+        sumdict[rnum]['logs'] = {'test':['finished'], 'sectest': result}
         outputQueue.put(sumdict)
         inputQueue.task_done()
 
+def getReportQueueEntries(reportQueue = None):
+    while True:
+        record = reportQueue.get()
+        print 'from report thread: ', record.keys()
+        print 'post a report: '
+        for k in record.keys():
+            print k, record[k]
+        reportQueue.task_done()
+
 if __name__ == "__main__":
+
+
+    '''
 
     runsToProcessQueue = Queue.Queue()
     processedRunsQueue = Queue.Queue()
     reportsQueue = Queue.Queue()
     stop_rlistmngr = Event()  # set this to kill the loop and exit
     mq = Thread(target=moveQueueEntries, args=(runsToProcessQueue, processedRunsQueue))
+    rq = Thread(target=getReportQueueEntries, args=(reportsQueue,))
 
     socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 1080)
     rr_obj = RRService(use_proxy=True)
@@ -244,6 +254,10 @@ if __name__ == "__main__":
         delay = delay - 1
 
     rlistMngr.check_completed_runs.start()
+    rq.start()
+
+    '''
+
 
 
 

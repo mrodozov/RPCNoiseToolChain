@@ -434,9 +434,7 @@ class DBDataUpload(Command):
     def processTask(self):
         complete = False
         # files from results, table names and schemas from options
-        dbService = DBService(dbType=self.args['dbType'], host=self.args['hostname'], port=self.args['port'],
-                              user=self.args['username'], password=self.args['password'], schema=self.args['schema'],
-                              dbName=self.args['dbName'])
+        dbService = DBService() # this object is singleton, it's setup is expected to be laready finished (in the main)
         for rec in self.args['connectionDetails']:
             dataFile = ''.join([f for f in self.options['filescheck'] if f.find(rec['file']) is not -1])
             print dataFile

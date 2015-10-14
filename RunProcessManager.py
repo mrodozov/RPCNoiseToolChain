@@ -8,6 +8,7 @@ import multiprocessing as mp
 import Queue
 import time
 from threading import Thread
+import copy
 
 '''
 
@@ -33,13 +34,14 @@ class RunProcessPool(Thread):
         while True:
 
             run = self.toprocess.get()
+            r_copy = copy.deepcopy(run)
             results_folder = self.options['result_folder']
             run_status = None
-            for k in run:
-                run_status = run[k]['status']
+            for k in r_copy:
+                run_status = r_copy[k]['status']
             print run_status
             sequence = self.sequence_handler.getSequenceForName(run_status)
-            runChainArgs = {'rundetails':run, 'commands':sequence, 'result_folder': results_folder}
+            runChainArgs = {'rundetails':r_copy, 'commands':sequence, 'result_folder': results_folder}
             result = self.pool.apply_async(functoapply, (runChainArgs, ))
 
             self.processed_runs_q.put({k:result})
@@ -59,11 +61,9 @@ class RunProcessPool(Thread):
     def run(self):
         self.processRuns(self.runChainProcessFunction)
 
-
     def runForestRun(self):
         ''' For the lolz ! :) '''
         self.start()
-
 
 def processSingleRunChain(args=None):
 
