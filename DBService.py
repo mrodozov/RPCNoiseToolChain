@@ -25,6 +25,7 @@ from Singleton import Singleton
 class DBService(object):
 
     __metaclass__ = Singleton
+    # TODO - 1. try what happens if multiple connections are used when insertToDB is called multiple times
 
     def __init__(self, dbType='sqlite:///', host=None, port=None, user='', password='', schema='', dbName='runData.db'):
         self.__dbType = dbType
@@ -34,7 +35,6 @@ class DBService(object):
         self.__password = password
         self.__dbName = dbName
         self.__supportedDBs = {'sqlite': ['sqlite://', 'sqlite:///'], 'oracle': ['oracle://']}
-        self.member_field = None
 
         if (dbType in self.__supportedDBs['sqlite']):
             self.__alchemyDBString = dbType + dbName
@@ -46,7 +46,6 @@ class DBService(object):
             else:
                 self.__alchemyDBString = dbType + user + ':' + password + '@' + dbName
         self.__engine = sqlalchemy.create_engine(self.__alchemyDBString)
-
 
     def insertToDB(self, data, tableName, orderedColumnNames, argsList):
         retval = False

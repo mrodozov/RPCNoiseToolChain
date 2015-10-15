@@ -10,12 +10,12 @@ import os
 import time
 import re
 import json
-import paramiko
-
+from threading import Lock
 from thirdPartyAPI.RPCMap import RPCMap
 from Event import SimpleEvent
 from Chain import Chain
-import DBService
+from DBService import DBService
+from SSHTransportService import SSHTransportService
 
 # TODO - See if there is need to format HTML for any reason,
 # TODO - Wrap the processTask with exception, to continue after the execution even if command crashes. for example db upload crash should not prevent creating files and moving them on another location
@@ -431,10 +431,12 @@ class DBFilesContentCheck(Command):
 
 class DBDataUpload(Command):
 
+    # TODO - check multiple connections with sqlite
+
     def processTask(self):
         complete = False
         # files from results, table names and schemas from options
-        dbService = DBService() # this object is singleton, it's setup is expected to be laready finished (in the main)
+        dbService = DBService() # this object is singleton, it's setup is expected to be already done (in the main)
         for rec in self.args['connectionDetails']:
             dataFile = ''.join([f for f in self.options['filescheck'] if f.find(rec['file']) is not -1])
             print dataFile
@@ -667,52 +669,15 @@ class CopyFilesOnRemoteLocation(Command):
 
     def __init__(self, name=None, args=None):
         Command.__init__(self, name, args)
-        self.ssh_client = None
-        self.sftp_client = None
-        self.sftp = None
-        self.connection_established = False
-        self.open_connection()
-
-    def __del__(self):
-        self.close_connection()
-
-    def open_connection(self):
-        rval = False
-        args_check = None
-        if self.args and self.args['ssh_credentials']:
-            for a in self.args['ssh_credentials'].keys():
-                if not self.args['ssh_credentials'][a]:
-                    print 'not ok, ', a
-                    self.warnings.append('value for ' + a + ' is ' + self.args['ssh_credentials'][a])
-                    self.results = 'Failed'
-                    args_check = False
-                    break
-                else:
-                    args_check = True
-            if args_check:
-                transfer_username = self.args['ssh_credentials']['username']
-                transfer_password = self.args['ssh_credentials']['password']
-                transfer_port = int(self.args['ssh_credentials']['port'])
-                remote_host = self.args['ssh_credentials']['rhost']
-                self.ssh_client = paramiko.SSHClient()
-                self.ssh_client.load_host_keys(os.path.expanduser(os.path.join("~", ".ssh", "known_hosts")))
-                try:
-                    self.ssh_client.connect(remote_host, transfer_port, username=transfer_username, password=transfer_password)
-                    self.sftp_client = self.ssh_client.open_sftp()
-                    self.sftp = paramiko.SFTPClient.from_transport(self.ssh_client.get_transport())
-                    rval = True
-                    self.connection_established = True
-                except Exception as exc:
-                    print exc.message
-
-        return rval
-
-    def close_connection(self):
-        if self.connection_established:
-            self.ssh_client.close()
-            self.sftp_client.close()
-            self.sftp.close()
-            self.connection_established = False
+        self.transport_service = SSHTransportService() # singleton to serve the connections
+        self.transport_service = self.transport_service.connections_dict[name] # only the name
+        self.lockThread = Lock()
+        try:
+            self.ssh_client = self.transport_service['ssh_client']
+            self.sftp_client = self.transport_service['sftp_client']
+            self.sftp = self.transport_service['sftp']
+        except KeyError, k:
+            print k.message
 
     def processTask(self):
         rval = False
@@ -722,19 +687,8 @@ class CopyFilesOnRemoteLocation(Command):
         runfolder = 'run'+rnum
         destination = self.args['destination_root'] + runfolder
         print destination
-        if not self.connection_established:
-
-            try:
-                self.open_connection()
-            except Exception as exc:
-                print exc.message
-        #self.create_dir_on_remotehost(destination)
         self.results = {}
         self.results['files'] = {}
-        if not self.connection_established:
-            'Connection failed, stop'
-            self.results = 'Failed'
-            return False
         for f in list_of_files:
             sent = False
             try:
@@ -762,7 +716,6 @@ class CopyFilesOnRemoteLocation(Command):
                 self.sftp.chdir(dirname)
             except IOError as e:
                 print e.message
-
 
 class OldToNewDataConverter(Command):
     '''
@@ -855,24 +808,22 @@ if __name__ == "__main__":
     with open('resources/options_object.txt', 'r') as optobj:
         optionsObject = json.loads(optobj.read())
 
-    optionsObject['run'] = '220796'
-    rnum = '220796'
+    connections_dict = {}
+    connections_dict.update({'webserver_remote':optionsObject['webserver_remote']})
+    connections_dict.update({'lxplus_archive_remote':optionsObject['lxplus_archive_remote']})
+    connections_dict['webserver_remote']['ssh_credentials']['password'] = p
+    connections_dict['lxplus_archive_remote']['ssh_credentials']['password'] = p
 
-    listFiles = GetListOfFiles(name='filelister', args=optionsObject['filelister'])
-    fileIsCorrupted = CheckIfFilesAreCorrupted(name='check', args=optionsObject['check'])
-    noiseExe = NoiseToolMainExe(name='noiseexe',args=optionsObject['noiseexe'])
+    print connections_dict
 
-    start_command_on_event_dict = {'initEvent' : [listFiles], listFiles.name: [fileIsCorrupted], fileIsCorrupted.name: [noiseExe]}
+    sshTransport = SSHTransportService(connections_dict)
+    sshTtwo = SSHTransportService()
+    sshTthree = SSHTransportService()
+    sshTfour = SSHTransportService()
 
-    runchain = Chain()
-    dyn_opts = {'run':rnum, 'result_folder':'results/'}
+    print sshTransport
+    print sshTtwo
+    print sshTthree
+    print sshTfour
 
-    runchain.commands = start_command_on_event_dict
-    initialEvent = SimpleEvent('initEvent', True, dyn_opts)
-    runchain.startChainWithEvent(initialEvent)
-
-
-    print noiseExe.args
-    print noiseExe.args[2]
-    #print noiseExe.options
-    print noiseExe.results
+    # k it's working

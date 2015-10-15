@@ -8,6 +8,7 @@ from ReportService import ReportHandler
 import multiprocessing as mp
 import Queue
 
+# TODO - finish DBservice and ssh transport singletons. Check DBService with sqlite locally
 
 if __name__ == "__main__":
 

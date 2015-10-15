@@ -4,6 +4,7 @@ import os
 import subprocess
 import os.path
 import json
+#import psu
 
 class SSHTunnelDescriptor:
     def __init__(self,tName=None,options=None,localHost=None,localPort=None,remoteHost=None,remotePort=None,debug=False):

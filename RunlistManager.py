@@ -10,6 +10,7 @@ import copy
 from DBService import DBService
 
 # TODO - Figure it how to synch changes from the remote runlist. Another thread in runlist is required to 1. Keep time of last modification on the remote rl, and verify it. if changed, get, remote rl file
+# TODO - Synch the remote runlist only if toProcess and processed queues are empty ?
 
 class RunlistManager(Thread):
 
@@ -30,6 +31,7 @@ class RunlistManager(Thread):
         self.reportQueue = None
         self.check_completed_runs = Thread(target=self.handleProcessedRuns)
         self.check_run_registry = Thread(target=self.checkRRforNewRuns)
+        self.check_remote_runlist = Thread(target=self.synchronizeRemoteRunlistFile)
         self.stop_event = None
         self.suspendRRcheck = Event()
         self.suspendProcessedRunsHandler = Event()
@@ -102,6 +104,7 @@ class RunlistManager(Thread):
 
     def handleProcessedRuns(self):
         while True:
+            #self.suspendProcessedRunsHandler.wait() # block in case it needs to wait until network srvc is restarted
             run = self.processedRunsQueue.get()
             # check status and update the run
             rnum = None
@@ -119,6 +122,8 @@ class RunlistManager(Thread):
                     run_status = 'finished'
                     if run_results[k][0] == 'Failed':
                         run_status = 'Failed'
+                        #self.updateRun(rnum, 'status', run_status)
+                        run[rnum]['status'] = run_status
                         self.reportQueue.put(run)
                         break
             except KeyError, e:
@@ -136,16 +141,16 @@ class RunlistManager(Thread):
         init_sleep_time = 10
         current_sleep_time = 0
         while True:
-            print 'before wait'
+            #print 'before wait'
             self.suspendRRcheck.wait()
-            print 'after wait'
+            #print 'after wait'
             # get the last run number from runlist, first lock it with Lock
             self.runlistLock.acquire()
             runlist_runs = self.runlist.keys()
             self.runlistLock.release()
             runlist_runs.sort()
             last_run = runlist_runs[-1]
-            print 'last run is: ', last_run
+            #print 'last run is: ', last_run
             year = time.strftime('%y')
             new_runs = {}
             try:
@@ -168,7 +173,7 @@ class RunlistManager(Thread):
                 self.toProcessQueue.put({r: self.runlist[r]})
 
             #if new_runs : print ordered_list_to_process.keys()
-            print self.runlist
+            #print self.runlist
 
             print 'go to sleep for', current_sleep_time , 'seconds'
             print 'RR checked last run ', last_run
@@ -178,12 +183,25 @@ class RunlistManager(Thread):
                 print 'RR exits'
                 break
 
+    def synchronizeRemoteRunlistFile(self):
+
+        while True:
+            #get the remote file
+            #check for resubmition status keys in the remote
+            #put runs for resub on to process queue
+            #copy the local on the remote
+            time.sleep(60)
+            if self.stop_event.is_set():
+                break
+
 
     def run(self):
         self.check_run_registry.start()
         self.check_completed_runs.start()
+        self.check_remote_runlist.start()
         self.check_run_registry.join()
         self.check_completed_runs.join()
+        self.check_remote_runlist.join()
 
     #def getSortedListOfRuns(self):
 
@@ -218,8 +236,6 @@ def getReportQueueEntries(reportQueue = None):
 if __name__ == "__main__":
 
 
-    '''
-
     runsToProcessQueue = Queue.Queue()
     processedRunsQueue = Queue.Queue()
     reportsQueue = Queue.Queue()
@@ -228,6 +244,7 @@ if __name__ == "__main__":
     rq = Thread(target=getReportQueueEntries, args=(reportsQueue,))
 
     socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 1080)
+
     rr_obj = RRService(use_proxy=True)
     rlistFile = 'resources/runlist.json'
     rlistMngr = RunlistManager(rlistFile)
@@ -236,6 +253,7 @@ if __name__ == "__main__":
     rlistMngr.reportQueue = reportsQueue
     rlistMngr.rr_connector = rr_obj
     rlistMngr.stop_event = stop_rlistmngr
+    rlistMngr.suspendRRcheck.set()
     rlistMngr.check_run_registry.start()
 
     delay = 10
@@ -243,7 +261,6 @@ if __name__ == "__main__":
         time.sleep(1)
         print 'Start in: ', delay
         delay = delay - 1
-    rlistMngr.suspendRRcheck.set()
     mq.start()
 
     # postpone processed queue
@@ -256,7 +273,7 @@ if __name__ == "__main__":
     rlistMngr.check_completed_runs.start()
     rq.start()
 
-    '''
+
 
 
 
