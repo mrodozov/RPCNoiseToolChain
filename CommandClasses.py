@@ -460,7 +460,7 @@ class DBDataUpload(Command):
         with open(fileName, 'r') as data_file:
             fileContent = data_file.readlines()
             runID = fileContent[0].split()[0]
-            for line in fileContent[1:5]:
+            for line in fileContent[1:]: # fileContent[1:50] TODO - remove this, it gives only the first N lines
                 listToIns = line.split()
                 listToIns.insert(0, runID)
                 dataList.append(listToIns)
@@ -669,7 +669,7 @@ class CopyFilesOnRemoteLocation(Command):
 
     def __init__(self, name=None, args=None):
         Command.__init__(self, name, args)
-        self.transport_service = SSHTransportService() # singleton to serve the connections
+        self.transport_service = SSHTransportService() # singleton to serve the connections, setup in main
         self.transport_service = self.transport_service.connections_dict[name] # only the name
         self.lockThread = Lock()
         try:
@@ -807,6 +807,8 @@ if __name__ == "__main__":
     optionsObject = None
     with open('resources/options_object.txt', 'r') as optobj:
         optionsObject = json.loads(optobj.read())
+
+    p = ''
 
     connections_dict = {}
     connections_dict.update({'webserver_remote':optionsObject['webserver_remote']})

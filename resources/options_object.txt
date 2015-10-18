@@ -38,28 +38,6 @@
      "schm": [
       "run_number", 
       "raw_id", 
-      "channel_number", 
-      "strip_number", 
-      "is_dead", 
-      "is_masked", 
-      "rate_hz_cm2"
-     ], 
-     "argsList": [
-      0, 
-      1, 
-      2, 
-      3, 
-      4, 
-      5, 
-      6
-     ], 
-     "name": "RPC_NOISE_STRIPS", 
-     "file": "database_full.txt"
-    }, 
-    {
-     "schm": [
-      "run_number", 
-      "raw_id", 
       "rollName", 
       "dead_strips", 
       "masked_strips", 
@@ -79,6 +57,28 @@
      ], 
      "name": "RPC_NOISE_ROLLS", 
      "file": "database_new.txt"
+    },
+    {
+     "schm": [
+      "run_number",
+      "raw_id",
+      "channel_number",
+      "strip_number",
+      "is_dead",
+      "is_masked",
+      "rate_hz_cm2"
+     ],
+     "argsList": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ],
+     "name": "RPC_NOISE_STRIPS",
+     "file": "database_full.txt"
     }
    ]
  }, 
