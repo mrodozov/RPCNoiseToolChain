@@ -437,7 +437,7 @@ class DBDataUpload(Command):
         complete = False
         # files from results, table names and schemas from options
         dbService = DBService() # this object is singleton, it's setup is expected to be already done (in the main)
-        #print dbService
+        print dbService
         for rec in self.args['connectionDetails']:
             dataFile = ''.join([f for f in self.options['filescheck'] if f.find(rec['file']) is not -1])
             print dataFile
@@ -461,7 +461,7 @@ class DBDataUpload(Command):
         with open(fileName, 'r') as data_file:
             fileContent = data_file.readlines()
             runID = fileContent[0].split()[0]
-            for line in fileContent[1:]: # fileContent[1:50] TODO - remove this, it gives only the first N lines
+            for line in fileContent[1:]: # fileContent[1:50]
                 listToIns = line.split()
                 listToIns.insert(0, runID)
                 dataList.append(listToIns)

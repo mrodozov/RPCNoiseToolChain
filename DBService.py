@@ -81,6 +81,7 @@ class DBService(object):
 
         insertionList = []
         #print tableName
+        print connection
         start_time = datetime.datetime.now().replace(microsecond=0)
 
         for line in data:

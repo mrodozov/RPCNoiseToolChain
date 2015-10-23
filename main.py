@@ -7,8 +7,12 @@ from RequirementsManager import EnvHandler
 from ReportService import ReportHandler
 import multiprocessing as mp
 import Queue
+from threading import Thread
 
 # TODO - finish DBservice and ssh transport singletons. Check DBService with sqlite locally
+
+def startCommand(cmmnd):
+    cmmnd.processTask()
 
 if __name__ == "__main__":
     '''
@@ -54,33 +58,55 @@ if __name__ == "__main__":
         optionsObject = json.loads(optobj.read())
 
     db_obj = DBService('oracle://','localhost','1521','rodozov','tralala','','RPC')
+
     #db_obj = DBService()
     #print db_obj
-
     #db_obj.createDBRolls()
     #db_obj.createDBStrips()
-
-    connone = db_obj.getConnection()
-    conntwo = db_obj.getConnection()
-
-    print connone
-    print conntwo
+    #connone = db_obj.getConnection()
+    #conntwo = db_obj.getConnection()
+    #print connone
+    #print conntwo
 
     dbup = DBDataUpload(args=optionsObject['dbdataupload'])
     dbup.options['filescheck'] = ['results/run220796/database_new.txt', 'results/run220796/database_full.txt']
-    #dbuptwo = DBDataUpload(args=optionsObject['dbdataupload'])
-    #dbuptwo.options['filescheck'] = ['results/run220796/database_new.txt', 'results/run220796/database_full.txt']
-    #dbuptwo.options['run'] = '220796'
+    dbuptwo = DBDataUpload(args=optionsObject['dbdataupload'])
+    dbuptwo.options['filescheck'] = ['results/run251638/database_new.txt', 'results/run251638/database_full.txt']
+    dbuptr = DBDataUpload(args=optionsObject['dbdataupload'])
+    dbuptr.options['filescheck'] = ['results/run251643/database_new.txt', 'results/run251643/database_full.txt']
+    dbupf = DBDataUpload(args=optionsObject['dbdataupload'])
+    dbupf.options['filescheck'] = ['results/run251718/database_new.txt', 'results/run251718/database_full.txt']
+
     dbup.options['run'] = '220796'
-    #print dbup.args
-    #print dbup.options
-    dbup.processTask()
+    dbuptwo.options['run'] = '251638'
+    dbuptr.options['run'] = '251643'
+    dbupf.options['run'] = '251718'
+
+    t_one = Thread(target=startCommand, args=(dbup,))
+    t_two = Thread(target=startCommand, args=(dbuptwo,))
+    t_three = Thread(target=startCommand, args=(dbuptr,))
+    t_four = Thread(target=startCommand, args=(dbupf,))
+
+    t_one.start()
+    t_two.start()
+    t_three.start()
+    t_four.start()
+
+    print 'lol'
+
+    t_one.join()
+    t_two.join()
+    t_three.join()
+    t_four.join()
+
+
+    #dbup.processTask()
     #dbuptwo.processTask()
 
     #result = connone.execute("select * from testme")
     #for row in result:
     #    print row
-    
+
     #selection = db_obj.selectFromDB(220796, 'RPC_NOISE_ROLLS')
 
     #for row in selection:
@@ -90,4 +116,11 @@ if __name__ == "__main__":
 
     #for row in selection:
     #    print row
+
+
+    '''
+    optionsObject = None
+    with open('resources/options_object.txt', 'r') as optobj:
+        optionsObject = json.loads(optobj.read())
+    '''
 
