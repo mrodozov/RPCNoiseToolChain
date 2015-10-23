@@ -35,8 +35,9 @@ class DBService(object):
                 self.__alchemyDBString = dbType + user + ':' + password + '@' + host + ':' + port + '/' + dbName
             else:
                 self.__alchemyDBString = dbType + dbName
-        self.__alchemyDBString = 'mysql+mysqldb://rodozov:BAKsh0321__@localhost/RPC?charset=utf8'
-        self.__engine = sqlalchemy.create_engine(self.__alchemyDBString,  pool_recycle=3600)
+        #self.__alchemyDBString = 'mysql+mysqldb://rodozov:BAKsh0321__@localhost/RPC?charset=utf8'
+        #rodozov/tralala@localhost.localdomain:1521/rpc.localdomain
+        self.__engine = sqlalchemy.create_engine(self.__alchemyDBString)
 
         print self.__alchemyDBString
 
@@ -49,7 +50,8 @@ class DBService(object):
         sqlalchemy.Column('strip_number', sqlalchemy.Integer),
         sqlalchemy.Column('is_dead', sqlalchemy.Integer),
         sqlalchemy.Column('is_masked', sqlalchemy.Integer),
-        sqlalchemy.Column('rate_hz_cm2', sqlalchemy.Float(precision=10)))
+        sqlalchemy.Column('rate_hz_cm2', sqlalchemy.Numeric(13,7)),
+                                schema=self.__schema)
         #sqlalchemy.Column('rate_hz_cm2', sqlalchemy.Numeric(13,7)))
         metadata.create_all(self.__engine)
 
@@ -62,37 +64,45 @@ class DBService(object):
         sqlalchemy.Column('masked_strips', sqlalchemy.Integer),
         sqlalchemy.Column('strips_to_unmask', sqlalchemy.Integer),
         sqlalchemy.Column('strips_to_mask', sqlalchemy.Integer),
-        sqlalchemy.Column('rate_hz_cm2', sqlalchemy.Float(precision=10)))
+        sqlalchemy.Column('rate_hz_cm2', sqlalchemy.Numeric(13,7)),
+                                schema=self.__schema)
         #sqlalchemy.Column('rate_hz_cm2', sqlalchemy.Numeric(13,7)))
         metadata.create_all(self.__engine)
 
     def insertToDB(self, data, tableName, orderedColumnNames, argsList):
         retval = False
-
+        #print self.__alchemyDBString
         metadata = sqlalchemy.MetaData()
-
-        table = sqlalchemy.Table(tableName, metadata, schema='RPC', autoload=True,autoload_with=self.__engine)
-
+        table = sqlalchemy.Table(tableName, metadata, schema=self.__schema, autoload=True, autoload_with=self.__engine)
         connection = self.__engine.connect()
-        insp = reflection.Inspector.from_engine(self.__engine)
-
+        #insp = reflection.Inspector.from_engine(self.__engine)
         #print insp.get_schema_names()
-        print insp.get_table_names()
+        #print insp.get_table_names()
 
         insertionList = []
         #print tableName
         start_time = datetime.datetime.now().replace(microsecond=0)
+
         for line in data:
             insertion = {}
             argnum = 0
             for columnName in orderedColumnNames:
                 if argnum in argsList:
-                    insertion[columnName] = line[argnum]
+                    value = None
+                    if columnName == 'rate_hz_cm2': value = float(line[argnum]) # oracle complain about the non numberic type
+                    else: value = int(line[argnum])
+                    insertion[columnName] = value
                 argnum += 1
             insertionList.append(insertion)
 
-        #queryResult = ResultProxy
-        queryResult = connection.execute(table.insert(), insertionList) # TODO - handle this execution more transparent
+        transaction = connection.begin()
+        try:
+            queryResult = connection.execute(table.insert(), insertionList)
+            transaction.commit()
+        except:
+            transaction.rollback()
+            raise
+
         connection.close()
         endtime = datetime.datetime.now().replace(microsecond=0)
         print 'time it took: ', endtime-start_time
@@ -108,19 +118,44 @@ class DBService(object):
         connection.execute(delete)
         connection.close()
 
+    def selectFromDB(self, runNumber=None, tableName=None):
+        metadata = sqlalchemy.MetaData()
+        table = sqlalchemy.Table(tableName, metadata, schema=self.__schema, autoload=True, autoload_with=self.__engine)
+        connection = self.__engine.connect()
+
+        select = table.select()
+        result = connection.execute(select)
+        return result
+
+    def getConnection(self):
+        return self.__engine.connect()
+
 if __name__ == "__main__":
 
     optionsObject = None
     with open('resources/options_object.txt', 'r') as optobj:
         optionsObject = json.loads(optobj.read())
 
+
+    DBService('oracle://','localhost','1521','rodozov','tralala','','RPC')
     db_obj = DBService()
-    db_obj.createDBRolls()
-    db_obj.createDBStrips()
+
+    print db_obj
+    db_obj2 = DBService()
+    print db_obj2
+
+    #db_obj.createDBRolls()
+    #db_obj.createDBStrips()
 
     dbup = DBDataUpload(args=optionsObject['dbdataupload'])
     dbup.options['filescheck'] = ['results/run220796/database_new.txt', 'results/run220796/database_full.txt']
+    dbuptwo = DBDataUpload(args=optionsObject['dbdataupload'])
+    dbuptwo.options['filescheck'] = ['results/run220796/database_new.txt', 'results/run220796/database_full.txt']
+    dbuptwo.options['run'] = '220796'
     dbup.options['run'] = '220796'
     print dbup.args
     print dbup.options
     dbup.processTask()
+    dbuptwo.processTask()
+
+

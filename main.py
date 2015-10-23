@@ -11,7 +11,7 @@ import Queue
 # TODO - finish DBservice and ssh transport singletons. Check DBService with sqlite locally
 
 if __name__ == "__main__":
-
+    '''
     os.environ['LD_LIBRARY_PATH'] = '/home/rodozov/Programs/ROOT/INSTALL/lib/root'  # the only hardcoded variable remaining, probably. let's change it in the next commit
     runsToProcessQueue = Queue.Queue()
     processedRunsQueue = Queue.Queue()
@@ -46,4 +46,48 @@ if __name__ == "__main__":
     ForestGump.runForestRun()
     SpeedyGonzales.start()
     Sonic.runSonicRun()
+    '''
+
+
+    optionsObject = None
+    with open('resources/options_object.txt', 'r') as optobj:
+        optionsObject = json.loads(optobj.read())
+
+    db_obj = DBService('oracle://','localhost','1521','rodozov','tralala','','RPC')
+    #db_obj = DBService()
+    #print db_obj
+
+    #db_obj.createDBRolls()
+    #db_obj.createDBStrips()
+
+    connone = db_obj.getConnection()
+    conntwo = db_obj.getConnection()
+
+    print connone
+    print conntwo
+
+    dbup = DBDataUpload(args=optionsObject['dbdataupload'])
+    dbup.options['filescheck'] = ['results/run220796/database_new.txt', 'results/run220796/database_full.txt']
+    #dbuptwo = DBDataUpload(args=optionsObject['dbdataupload'])
+    #dbuptwo.options['filescheck'] = ['results/run220796/database_new.txt', 'results/run220796/database_full.txt']
+    #dbuptwo.options['run'] = '220796'
+    dbup.options['run'] = '220796'
+    #print dbup.args
+    #print dbup.options
+    dbup.processTask()
+    #dbuptwo.processTask()
+
+    #result = connone.execute("select * from testme")
+    #for row in result:
+    #    print row
+    
+    #selection = db_obj.selectFromDB(220796, 'RPC_NOISE_ROLLS')
+
+    #for row in selection:
+    #    print row
+
+    #selection = db_obj.selectFromDB(220796, 'RPC_NOISE_STRIPS')
+
+    #for row in selection:
+    #    print row
 
