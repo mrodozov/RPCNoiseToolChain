@@ -8,6 +8,8 @@ from ReportService import ReportHandler
 import multiprocessing as mp
 import Queue
 from threading import Thread
+import datetime
+import paramiko
 
 # TODO - finish DBservice and ssh transport singletons. Check DBService with sqlite locally
 
@@ -52,6 +54,7 @@ if __name__ == "__main__":
     Sonic.runSonicRun()
     '''
 
+    '''
 
     optionsObject = None
     with open('resources/options_object.txt', 'r') as optobj:
@@ -116,11 +119,96 @@ if __name__ == "__main__":
 
     #for row in selection:
     #    print row
-
-
     '''
+
     optionsObject = None
     with open('resources/options_object.txt', 'r') as optobj:
         optionsObject = json.loads(optobj.read())
+
+    passwd = 'BAKsho__4321'
+    optionsObject['webserver_remote']['ssh_credentials']['password']= passwd
+    optionsObject['lxplus_archive_remote']['ssh_credentials']['password']= passwd
+
+    remote_destinations = {'webserver_remote': optionsObject['webserver_remote'], 'lxplus_archive_remote': optionsObject['lxplus_archive_remote']}
+    remote_lxplus_backup = optionsObject['lxplus_archive_remote']['destination_root']
+    remote_webserver = optionsObject['webserver_remote']['destination_root']
+
+    ssh_t_s = SSHTransportService(remote_destinations)
+
+    ssh_cl_one, sftp_cl_one = ssh_t_s.get_clients_for_connection('webserver_remote')
+    ssh_cl_two, sftp_cl_two = ssh_t_s.get_clients_for_connection('lxplus_archive_remote')
+
+    #print sftp_cl_one.listdir(remote_webserver)
     '''
+    print sftp_cl_one.listdir(remote_lxplus_backup+'run220796')
+
+    try:
+        if 'run220796' in sftp_cl_one.listdir(remote_lxplus_backup):
+            print ' there'
+            filename = 'output_rolls.json'
+            #sftp_cl_one.remove(remote_lxplus_backup+'run220796/'+filename)
+            sftp_cl_one.put('results/run220796/'+filename,remote_lxplus_backup+'run220796/'+filename)
+    except IOError, ex:
+        print ex.message
+
+    print sftp_cl_one.listdir(remote_lxplus_backup)
+    # transport persistent so far, working
+
+    '''
+
+    copylxone = CopyFilesOnRemoteLocation(name='lxplus_archive_remote',args= optionsObject['lxplus_archive_remote'])
+    copylxtwo = CopyFilesOnRemoteLocation(name='lxplus_archive_remote' , args=optionsObject['lxplus_archive_remote'])
+    copywebone = CopyFilesOnRemoteLocation(name='webserver_remote',args= optionsObject['webserver_remote'])
+    copyewebtwo = CopyFilesOnRemoteLocation(name='webserver_remote',args= optionsObject['webserver_remote'])
+    runone = '220796'
+    runtwo = '251638'
+    jproducts = ['output_rolls.json','output_strips.json']
+    resultfolder = 'results/'
+
+    #transport_lock = Lock()
+
+    #copylxone.lockThread = transport_lock
+    copylxone.options['run'] = runone
+    copylxone.options['json_products'] = jproducts
+    copylxone.options['result_folder'] = resultfolder
+    #copylxtwo.lockThread = transport_lock
+    copylxtwo.options['run'] = runtwo
+    copylxtwo.options['json_products'] = jproducts
+    copylxtwo.options['result_folder'] = resultfolder
+    #copywebone.lockThread = transport_lock
+    copywebone.options['run'] = runone
+    copywebone.options['json_products'] = jproducts
+    copywebone.options['result_folder'] = resultfolder
+    #copyewebtwo.lockThread = transport_lock
+    copyewebtwo.options['run'] = runtwo
+    copyewebtwo.options['json_products'] = jproducts
+    copyewebtwo.options['result_folder'] = resultfolder
+
+    print copylxone.ssh_client
+    print copylxtwo.ssh_client
+    print copywebone.ssh_client
+    print copyewebtwo.ssh_client
+
+    # transport persistent so far, working
+
+    t_one = Thread(target=startCommand, args=(copylxone,))
+    t_two = Thread(target=startCommand, args=(copylxtwo,))
+    t_three = Thread(target=startCommand, args=(copywebone,))
+    t_four = Thread(target=startCommand, args=(copyewebtwo,))
+
+
+
+    t_one.start()
+    t_two.start()
+    t_three.start()
+    t_four.start()
+
+    print 'lol'
+
+    t_one.join()
+    t_two.join()
+    t_three.join()
+    t_four.join()
+
+
 

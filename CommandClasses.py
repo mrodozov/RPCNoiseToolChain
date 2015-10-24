@@ -10,7 +10,7 @@ import os
 import time
 import re
 import json
-from threading import Lock
+from threading import Lock, RLock
 from thirdPartyAPI.RPCMap import RPCMap
 from Event import SimpleEvent
 from Chain import Chain
@@ -431,7 +431,6 @@ class DBFilesContentCheck(Command):
 
 class DBDataUpload(Command):
 
-    # TODO - check multiple connections with sqlite
 
     def processTask(self):
         complete = False
@@ -671,13 +670,11 @@ class CopyFilesOnRemoteLocation(Command):
     def __init__(self, name=None, args=None):
         Command.__init__(self, name, args)
         self.transport_service = SSHTransportService() # singleton to serve the connections, setup in main
-        self.transport_service = self.transport_service.connections_dict[name] # only the name
-        self.lockThread = Lock()
+        self.lockThread = self.transport_service.lock
         try:
-            self.ssh_client = self.transport_service['ssh_client']
-            self.sftp_client = self.transport_service['sftp_client']
-            self.sftp = self.transport_service['sftp']
-        except KeyError, k:
+            self.ssh_client, self.sftp_client = self.transport_service.get_clients_for_connection(name)
+
+        except Exception, k:
             print k.message
 
     def processTask(self):
@@ -686,37 +683,37 @@ class CopyFilesOnRemoteLocation(Command):
         list_of_files = self.options['json_products']
         results_folder = self.options['result_folder'] + 'run' + rnum + '/'
         runfolder = 'run'+rnum
-        destination = self.args['destination_root'] + runfolder
-        print destination
-        self.results = {}
-        self.results['files'] = {}
+        remote_root = self.args['destination_root']
+        destination = remote_root + runfolder
+        #print destination
+        self.results = {'files':{}}
+        #self.results['files'] = {}
+
         for f in list_of_files:
-            sent = False
+
             try:
-                self.sftp_client.put(results_folder + f, destination + '/' + f)
-                sent = True
-                rval = True # at least one file made it
+                with self.lockThread:
+                    print 'from thread ', remote_root, rnum, f
+                    self.create_dir_on_remotehost(remote_root, runfolder)
+                    self.sftp_client.put(results_folder + f, destination + '/' + f)
+                rval = True
             except IOError as exc:
                 errout = "I/O error({0}): {1}".format(exc.errno, exc.strerror)
                 self.warnings.append('file transfer failed for ' + f + 'with ' + errout)
-                sent = False
-                print errout
-            self.results['files'][f] = sent
+                rval = False
+                #print errout
+            self.results['files'][f] = rval
         if not rval:
             self.results='Failed'
 
-        #self.results['result_folder'] = self.options['result_folder']
         return rval
 
-    def create_dir_on_remotehost(self, dirname):
+    def create_dir_on_remotehost(self, base_dir, dirname):
         try:
-            self.sftp.chdir(dirname)
-        except IOError:
-            try:
-                self.sftp.mkdir(dirname)
-                self.sftp.chdir(dirname)
-            except IOError as e:
-                print e.message
+            if not dirname in self.sftp_client.listdir(base_dir):
+                self.sftp_client.mkdir(base_dir+dirname)
+        except IOError, err:
+            print err.message
 
 class OldToNewDataConverter(Command):
     '''

@@ -15,7 +15,6 @@ import datetime
 class DBService(object):
 
     __metaclass__ = Singleton
-    # TODO - 1. try what happens if multiple connections are used when insertToDB is called multiple times
 
     def __init__(self, dbType='sqlite:///', host=None, port=None, user='', password='', schema='', dbName='dbfiles/runData.db'):
         self.__dbType = dbType
