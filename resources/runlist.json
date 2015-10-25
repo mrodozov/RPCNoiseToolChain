@@ -32,7 +32,7 @@
  "220796": {
   "Type": "Collisions15", 
   "duration": "118", 
-  "status": "new"
+  "status": "submitted"
  }, 
  "250001": {
   "Type": "Collisions15", 
@@ -42,17 +42,17 @@
  "251638": {
   "Type": "Collisions15", 
   "duration": "130", 
-  "status": "new"
+  "status": "finished"
  }, 
  "251643": {
   "Type": "Collisions15", 
   "duration": "50", 
-  "status": "new"
+  "status": "submitted"
  }, 
  "251718": {
   "Type": "Collisions15", 
   "duration": "511", 
-  "status": "new"
+  "status": "submitted"
  }, 
  "258713": {
   "Type": "Collisions15", 
@@ -61,6 +61,6 @@
    "all": 163, 
    "good": 163
   }, 
-  "status": "new"
+  "status": "submitted"
  }
 }

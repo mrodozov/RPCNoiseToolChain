@@ -4,11 +4,13 @@ from RRService import RRService , RRApiError
 import json
 import time
 import socks
-from threading import Thread, Lock, Event
+from threading import Thread, Lock, Event, RLock
 import Queue
 import copy
 from DBService import DBService
-
+import datetime
+import os.path
+import shutil
 # TODO - Figure it how to synch changes from the remote runlist. Another thread in runlist is required to 1. Keep time of last modification on the remote rl, and verify it. if changed, get, remote rl file
 # TODO - Synch the remote runlist only if toProcess and processed queues are empty ?
 
@@ -21,10 +23,10 @@ class RunlistManager(Thread):
     3. changes in the remote location runlist (resubmit queries)
     '''
 
-    def __init__(self, runlist=None):
+    def __init__(self, runlist_file=None):
 
         super(RunlistManager, self).__init__()
-        self.runlist = {} #lock when modify the list
+        self.runlist = {} #lock when modifying the list
         self.rr_connector = None
         self.toProcessQueue = None
         self.processedRunsQueue = None
@@ -35,12 +37,17 @@ class RunlistManager(Thread):
         self.stop_event = None
         self.suspendRRcheck = Event()
         self.suspendProcessedRunsHandler = Event()
-        self.loadRunlistFile(runlist)
-        self.runlistLock = Lock()
+        self.runlist_file = runlist_file
+        self.loadRunlistFile(runlist_file)
+        self.runlistLock = RLock()
+        self.runlist_sftp_client = None
 
     def __del__(self):
         # make sure clear all the queues, stop threads and delete them
         return None
+
+    def set_current_runlist_file(self, current_runlist_file=None):
+        self.runlist_file = current_runlist_file
 
     def getFirstLastRuns(self):
         if self.runlist is not None:
@@ -75,14 +82,26 @@ class RunlistManager(Thread):
                 data_file.close()
         return retval
 
-    def updateRunlistFile(self,runlistFile,oldFile=None):
-
-        #TODO - implement protection, like copying the file opened with another name and then writing. UPDATE - implement archive, not protection
-
-        with open(runlistFile,"w") as runFile:
-            runFile.write(json.dumps(self.runlist, indent=1, sort_keys=True))
-            runFile.close()
-            retval = True
+    def updateRunlistFile(self, runlistFile=None):
+        if not runlistFile: runlistFile = self.runlist_file
+        ts = str(datetime.datetime.now().replace(microsecond=0))
+        timest = str.split(ts)[0].replace('-','_')+'_'+str.split(ts)[1].replace(':','_')
+        filename = os.path.splitext(runlistFile)[0]
+        extension = os.path.splitext(runlistFile)[1]
+        backup = filename+'_'+timest+extension
+        fileonly = str(runlistFile).rsplit('/',1)[-1]
+        folder = str(runlistFile).replace(fileonly,'')
+        for f in os.listdir( folder ) :
+            if f.endswith(extension) and f.find(fileonly.replace(extension,'')) is not -1 and f != fileonly:
+                #print folder+f
+                os.remove(folder+f)
+        retval = False
+        with self.runlistLock:
+            shutil.copyfile(runlistFile, backup)
+            with open(runlistFile, "w") as runFile:
+                runFile.write(json.dumps(self.runlist, indent=1, sort_keys=True))
+                runFile.close()
+                retval = True
 
         return retval
 
@@ -132,6 +151,10 @@ class RunlistManager(Thread):
             self.updateRun(rnum, 'status', run_status)
             self.processedRunsQueue.task_done()
 
+            #update runlist when the processed queue is empty -
+            if self.processedRunsQueue.empty() and self.toProcessQueue.empty():
+                self.synchronizeRemoteRunlistFile()
+
             if self.stop_event.is_set() and self.processedRunsQueue.empty():
                 # do some finishing stuff
                 print 'Processed runs handled'
@@ -145,10 +168,10 @@ class RunlistManager(Thread):
             self.suspendRRcheck.wait()
             #print 'after wait'
             # get the last run number from runlist, first lock it with Lock
-            self.runlistLock.acquire()
-            runlist_runs = self.runlist.keys()
-            self.runlistLock.release()
-            runlist_runs.sort()
+            runlist_runs = None
+            with self.runlistLock:
+                runlist_runs = self.runlist.keys()
+                runlist_runs.sort()
             last_run = runlist_runs[-1]
             #print 'last run is: ', last_run
             year = time.strftime('%y')
@@ -185,14 +208,24 @@ class RunlistManager(Thread):
 
     def synchronizeRemoteRunlistFile(self):
 
-        while True:
-            #get the remote file
-            #check for resubmition status keys in the remote
-            #put runs for resub on to process queue
-            #copy the local on the remote
-            time.sleep(60)
-            if self.stop_event.is_set():
-                break
+        with self.runlistLock:
+            try:
+                remote_dir = self.runlist_sftp_client.getcwd()
+                remote_runlist = json.loads(self.runlist_sftp_client.file(remote_dir+'/runlist.json').read())
+                list_to_resub = [r for r in remote_runlist.keys() if remote_runlist[r]['status'] == 'toresub']
+                for r in list_to_resub:
+                    self.updateRun(r, 'status', 'submitted')
+                self.updateRunlistFile()
+                #upload the local on remote like this now
+                self.runlist_sftp_client.put(self.runlist_file, remote_dir+'/runlist.json')
+                #now change the local run keys to 'toresub'. this way runs goes to be processed
+                for r in list_to_resub:
+                    self.updateRun(r, 'status', 'toresub')
+                #self.updateRunlistFile()
+                # test this
+
+            except Exception, e:
+                print e.message
 
 
     def run(self):
@@ -200,8 +233,6 @@ class RunlistManager(Thread):
         self.check_completed_runs.start()
         self.check_remote_runlist.start()
         self.check_run_registry.join()
-        self.check_completed_runs.join()
-        self.check_remote_runlist.join()
 
     #def getSortedListOfRuns(self):
 
