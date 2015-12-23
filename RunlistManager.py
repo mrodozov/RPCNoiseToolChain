@@ -1,18 +1,15 @@
 #runlist ideas - single file, JSON, keeps track
 
-from RRService import RRService , RRApiError
+from RRService import RRService
 import json
 import time
 import socks
-from threading import Thread, Lock, Event, RLock
+from threading import Thread, Event, RLock
 import Queue
 import copy
-from DBService import DBService
 import datetime
 import os.path
 import shutil
-# TODO - Figure it how to synch changes from the remote runlist. Another thread in runlist is required to 1. Keep time of last modification on the remote rl, and verify it. if changed, get, remote rl file
-# TODO - Synch the remote runlist only if toProcess and processed queues are empty ?
 
 class RunlistManager(Thread):
 
@@ -33,14 +30,15 @@ class RunlistManager(Thread):
         self.reportQueue = None
         self.check_completed_runs = Thread(target=self.handleProcessedRuns)
         self.check_run_registry = Thread(target=self.checkRRforNewRuns)
-        self.check_remote_runlist = Thread(target=self.synchronizeRemoteRunlistFile)
         self.stop_event = None
-        self.suspendRRcheck = Event()
-        self.suspendProcessedRunsHandler = Event()
+        self.suspendRRcheck = None
+        self.suspendProcessedRunsHandler = None
         self.runlist_file = runlist_file
         self.loadRunlistFile(runlist_file)
         self.runlistLock = RLock()
-        self.runlist_sftp_client = None
+        self.ssh_service = None
+        self.ssh_connection_name = None
+        self.runlist_remote_dir = None
 
     def __del__(self):
         # make sure clear all the queues, stop threads and delete them
@@ -127,23 +125,24 @@ class RunlistManager(Thread):
             run = self.processedRunsQueue.get()
             # check status and update the run
             rnum = None
-            run_details = {}
+
             run_results = None
             for r in run.keys():
                 rnum = r
-            run_details = run[rnum]
+            run_details = run[rnum].get()
             #print 'Run ', rnum, ' in results'
             run_status = 'Failed'
             try:
                 #print run_details.keys()
+
                 run_results = run_details['results']
                 for k in run_results:
                     run_status = 'finished'
                     if run_results[k][0] == 'Failed':
                         run_status = 'Failed'
                         #self.updateRun(rnum, 'status', run_status)
-                        run[rnum]['status'] = run_status
-                        self.reportQueue.put(run)
+                        run_details['status'] = run_status
+                        self.reportQueue.put({rnum:run_details})
                         break
             except KeyError, e:
                 e.message
@@ -164,22 +163,22 @@ class RunlistManager(Thread):
         init_sleep_time = 10
         current_sleep_time = 0
         while True:
-            #print 'before wait'
             self.suspendRRcheck.wait()
-            #print 'after wait'
+
             # get the last run number from runlist, first lock it with Lock
             runlist_runs = None
             with self.runlistLock:
                 runlist_runs = self.runlist.keys()
                 runlist_runs.sort()
             last_run = runlist_runs[-1]
-            #print 'last run is: ', last_run
+            print 'last run is: ', last_run
             year = time.strftime('%y')
             new_runs = {}
             try:
                 new_runs = self.rr_connector.getRunRangeWithLumiInfo('Collisions'+year+' OR Cosmics'+year+' OR Commissioning'+year, last_run, 300)
-            except RRApiError, e:
-                print e.message, e.code#
+            except Exception, e:
+                print e.message, ' RR check failed at ', datetime.datetime.now().replace(microsecond=0)
+                # try to set semaphore that calls the env handler to reestablish the channel to RR
             if new_runs : current_sleep_time = init_sleep_time # reset when new runs arrived
             current_sleep_time += init_sleep_time # increments every time with one minute if RR does not return new runs
             # if new runs are available, put them on the runlist
@@ -192,8 +191,12 @@ class RunlistManager(Thread):
 
             for r in ordered_list_to_process.keys():
 
+                print 'before status change run', r, ordered_list_to_process[r]
+                rn_copy = copy.deepcopy(r)
+                rd_copy = copy.deepcopy(self.runlist[r])
+                self.toProcessQueue.put({rn_copy: rd_copy})
+
                 self.updateRun(r, 'status', 'submitted')
-                self.toProcessQueue.put({r: self.runlist[r]})
 
             #if new_runs : print ordered_list_to_process.keys()
             #print self.runlist
@@ -210,14 +213,21 @@ class RunlistManager(Thread):
 
         with self.runlistLock:
             try:
-                remote_dir = self.runlist_sftp_client.getcwd()
-                remote_runlist = json.loads(self.runlist_sftp_client.file(remote_dir+'/runlist.json').read())
+
+                # if the connection to transport has been closed, there is no way to be reestablished
+                # (aaaand - should be)
+                # so its better the rlist mngr keeps a reference to the service itself
+                # (some service, any service that is already established for the manager)
+
+                runlist_sftp_client = self.ssh_service.open_sftp()
+                remote_runlist = json.loads(runlist_sftp_client.file(self.runlist_remote_dir+'/runlist.json').read())
                 list_to_resub = [r for r in remote_runlist.keys() if remote_runlist[r]['status'] == 'toresub']
                 for r in list_to_resub:
                     self.updateRun(r, 'status', 'submitted')
                 self.updateRunlistFile()
                 #upload the local on remote like this now
-                self.runlist_sftp_client.put(self.runlist_file, remote_dir+'/runlist.json')
+                runlist_sftp_client.put(self.runlist_file, self.runlist_remote_dir+'/runlist.json')
+                runlist_sftp_client.close()
                 #now change the local run keys to 'toresub'. this way runs goes to be processed
                 for r in list_to_resub:
                     self.updateRun(r, 'status', 'toresub')
@@ -225,14 +235,13 @@ class RunlistManager(Thread):
                 # test this
 
             except Exception, e:
-                print e.message
-
+                print e.message # this exception is not printed
 
     def run(self):
         self.check_run_registry.start()
         self.check_completed_runs.start()
-        self.check_remote_runlist.start()
         self.check_run_registry.join()
+        self.check_completed_runs.join()
 
     #def getSortedListOfRuns(self):
 

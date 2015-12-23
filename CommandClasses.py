@@ -16,10 +16,12 @@ from Event import SimpleEvent
 from Chain import Chain
 from DBService import DBService
 from SSHTransportService import SSHTransportService
+import paramiko
 
 # TODO - See if there is need to format HTML for any reason,
-# TODO - Wrap the processTask with exception, to continue after the execution even if command crashes. for example db upload crash should not prevent creating files and moving them on another location
-#
+
+''' TODO - Wrap the processTask with exception, to continue after the execution even if command crashes.
+for example db upload crash should not prevent creating files and moving them on another location '''
 
 class Command(object):
 
@@ -669,15 +671,17 @@ class CopyFilesOnRemoteLocation(Command):
 
     def __init__(self, name=None, args=None):
         Command.__init__(self, name, args)
-        self.transport_service = SSHTransportService() # singleton to serve the connections, setup in main
-        self.lockThread = self.transport_service.lock
-        try:
-            self.ssh_client, self.sftp_client = self.transport_service.get_clients_for_connection(name)
-
-        except Exception, k:
-            print k.message
+        #self.transport_service = SSHTransportService() # singleton to serve the connections, setup in main
+        self.sftp_client = None
 
     def processTask(self):
+        transportService = SSHTransportService()
+
+        print self.name, self.options
+
+        #self.sftp_client = paramiko.SFTPClient.from_transport(transportService.connections_dict[self.name]['ssh_client'].get_transport())
+        #print self.sftp_client
+
         rval = False
         rnum = self.options['run']
         list_of_files = self.options['json_products']
@@ -687,17 +691,24 @@ class CopyFilesOnRemoteLocation(Command):
         destination = remote_root + runfolder
         #print destination
         self.results = {'files':{}}
-        #self.results['files'] = {}
+
+        creds = transportService.connections_dict[self.name]
+        #print creds
+        ssh_cli = paramiko.SSHClient()
+        ssh_cli.load_host_keys(os.path.expanduser(os.path.join("~", ".ssh", "known_hosts")))
+        ssh_cli.connect(creds['rhost'],creds['port'],username=creds['user'],password=creds['pass'])
+
+        self.sftp_client = ssh_cli.open_sftp()
+        self.create_dir_on_remotehost(remote_root, runfolder)
 
         for f in list_of_files:
-
             try:
-                with self.lockThread:
-                    print 'from thread ', remote_root, rnum, f
-                    self.create_dir_on_remotehost(remote_root, runfolder)
-                    self.sftp_client.put(results_folder + f, destination + '/' + f)
+                #print 'from thread ', remote_root,'rfoldr', runfolder, results_folder , f
+                #print results_folder + f
+                self.sftp_client.chdir(destination)
+                self.sftp_client.put(results_folder + f, destination + '/' + f)
                 rval = True
-            except IOError as exc:
+            except Exception as exc:
                 errout = "I/O error({0}): {1}".format(exc.errno, exc.strerror)
                 self.warnings.append('file transfer failed for ' + f + 'with ' + errout)
                 rval = False
@@ -705,13 +716,17 @@ class CopyFilesOnRemoteLocation(Command):
             self.results['files'][f] = rval
         if not rval:
             self.results='Failed'
+        self.sftp_client.close()
+        ssh_cli.close()
 
         return rval
 
+
     def create_dir_on_remotehost(self, base_dir, dirname):
         try:
-            if not dirname in self.sftp_client.listdir(base_dir):
-                self.sftp_client.mkdir(base_dir+dirname)
+            self.sftp_client.chdir(base_dir)
+            if not dirname in self.sftp_client.listdir():
+                self.sftp_client.mkdir(dirname)
         except IOError, err:
             print err.message
 
@@ -759,6 +774,7 @@ class CommandSequenceHandler(object):
         self.sequence_maps = None
         self.statoptsfile = stat_opts_file
         self.statoptsmap = None
+        self.lock = Lock
         if self.sequence_file:
             try:
                 self.setupMaps()
@@ -772,12 +788,15 @@ class CommandSequenceHandler(object):
             self.statoptsmap = json.load(statopfile)
 
     def getSequenceForName(self, name=None):
+        #with self.lock:
         command_sequence ={}
 
         try:
             for c in self.sequence_maps[name]:
                 msg = c['starton']
-                if not msg in command_sequence.keys(): command_sequence[msg] = []
+                #print c['type'], c['name'], self.statoptsmap[c['optionskey']]
+                #print msg
+                if not msg in command_sequence: command_sequence[msg] = []
                 cmnd = self.getCommandObjectForKey(c['type'])
                 cmnd.name = c['name']
                 cmnd.args = self.statoptsmap[c['optionskey']]
@@ -806,7 +825,7 @@ if __name__ == "__main__":
     with open('resources/options_object.txt', 'r') as optobj:
         optionsObject = json.loads(optobj.read())
 
-    p = ''
+    p = 'BAKsho__4321'
 
     connections_dict = {}
     connections_dict.update({'webserver_remote':optionsObject['webserver_remote']})
@@ -825,5 +844,13 @@ if __name__ == "__main__":
     print sshTtwo
     print sshTthree
     print sshTfour
+
+
+    cseq = CommandSequenceHandler('resources/SequenceDictionaries.json', 'resources/options_object.txt')
+    cmmnd = cseq.getCommandObjectForKey('remotecopy')
+    print cmmnd
+    seq = cseq.getSequenceForName('new')
+    print seq
+    print cseq
 
     # k it's working

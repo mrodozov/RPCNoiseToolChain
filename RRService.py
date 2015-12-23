@@ -2,15 +2,16 @@
 Its a class to connect CERN runregistry api
 '''
 
-from thirdPartyAPI.rrapi import RRApi, RRApiError
+from thirdPartyAPI.rrapi import RRApi
 import socks
 import time
+import datetime
 
 class RRService:
 
-    def __init__(self, RRURL = 'http://runregistry.web.cern.ch/runregistry', use_proxy = False):
+    def __init__(self, RRURL = 'http://runregistry.web.cern.ch/runregistry/', debug = False, use_proxy = False):
         self.use_proxy = use_proxy
-        self.rr_obj = RRApi(RRURL, debug = False, use_proxy=self.use_proxy)
+        self.rr_obj = RRApi(RRURL, debug = debug , use_proxy=self.use_proxy)
 
     def __del__(self):
         pass
@@ -30,16 +31,16 @@ class RRService:
             an_array = self.rr_obj.data('GLOBAL', 'runsummary', 'json', ['number', 'duration', 'runClassName'],
                                         {'datasetExists': '= true', 'number': '> '+ str(lastRun), 'duration': '> '+str(runDuration),
                                          'rpcPresent' : 'true', 'runClassName': runType}, order=['number asc'])
-        except RRApiError, e:
-            print e.message
+        except Exception, e:
+            print e.message, ' from getRunRange at ', datetime.datetime.now().replace(microsecond=0)
+            raise
 
-        if an_array:
-            for description in an_array:
-                rundescription = {}
-                rundescription['Type'] = str(description['runClassName'])
-                rundescription['duration'] = str(description['duration'])
-                rundescription['status'] = 'new'
-                runlist[str(description['number'])] = rundescription
+        for description in an_array:
+            rundescription = {}
+            rundescription['Type'] = str(description['runClassName'])
+            rundescription['duration'] = str(description['duration'])
+            rundescription['status'] = 'new'
+            runlist[str(description['number'])] = rundescription
 
         return runlist
 
@@ -47,7 +48,12 @@ class RRService:
 
         result = {}
         #year = time.strftime("%y")
-        array = self.rr_obj.data( 'GLOBAL', 'runlumis', 'json', ['runNumber','sectionFrom','sectionTo', goodLSconditions],{'runNumber': '> '+str(lastRun)})
+        try:
+            array = self.rr_obj.data( 'GLOBAL', 'runlumis', 'json', ['runNumber','sectionFrom','sectionTo', goodLSconditions],{'runNumber': '> '+str(lastRun)})
+        except Exception, e:
+            print e.message, ' from getRunsLumiSectionsInfo at ', datetime.datetime.now().replace(microsecond=0)
+            raise
+
         for r in array:
             rnum = r['runNumber']
             if not str(rnum) in result: result[str(rnum)] = {'lumisections': {'good':0, 'all': 0}}
@@ -58,11 +64,16 @@ class RRService:
 
     def getRunRangeWithLumiInfo(self, runType=None, lastRun=None, runDuration=None):
         lr = lastRun
-        result = self.getRunRange(runType, lr, runDuration)
-        lInfo = self.getRunsLumiSectionsInfo(lastRun=lr)
-        for run in result.keys():
-            result[run]['lumisections'] = lInfo[run]['lumisections']
-        #    #result[run]['lumisections']['all'] = lInfo[run]['lumisections']['all']
+        result = {}
+        try:
+            result = self.getRunRange(runType, lr, runDuration)
+            lInfo = self.getRunsLumiSectionsInfo(lastRun=lr)
+            for run in result.keys():
+                result[run]['lumisections'] = lInfo[run]['lumisections']
+                result[run]['lumisections']['all'] = lInfo[run]['lumisections']['all']
+        except Exception, e:
+            print e.message, ' from getRunRangeWithLumiInfo '
+            raise
         return result
 
     '''
@@ -84,7 +95,9 @@ if __name__ == "__main__":
     #print rlist
     #lumis = rr_obj.getRunsLumiSectionsInfo(lastRun=257000)
     #print lumis
-    res = rr_obj.getRunRangeWithLumiInfo('Collisions15', '258500', '600')
+    res = rr_obj.getRunRangeWithLumiInfo('Commissioning15 OR Cosmics15 OR Collisions15', '260796', '1')
     print res
+    #for k in res.keys():
+    #    print k
     #res.keys().sort()
     #if res.keys(): print res.keys()[0]

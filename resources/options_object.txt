@@ -123,6 +123,14 @@
  "lxplus_archive_remote":{
  "ssh_credentials":{"username":"mrodozov","password":"","port":"22","rhost":"lxplus.cern.ch"},
  "destination_root":"/afs/cern.ch/work/m/mrodozov/noiseBackUp/"
+ },
+ "paths":{
+    "rodozov_local":{
+        "root_path":"/home/rodozov/Programs/ROOT/INSTALL/lib/root"
+    },
+    "cms_online_nt_machine":{
+        "root_path":""
+    }
  }
 }
 

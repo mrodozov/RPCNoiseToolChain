@@ -33,17 +33,22 @@ class RunProcessPool(Thread):
 
         while True:
 
-            run = self.toprocess.get()
-            r_copy = copy.deepcopy(run)
+            r_copy = self.toprocess.get()
+            #r_copy = copy.deepcopy(run)
             results_folder = self.options['result_folder']
             run_status = None
             for k in r_copy:
                 run_status = r_copy[k]['status']
-            print run_status
+            print k, run_status
+            #print 'r copy', r_copy
             sequence = self.sequence_handler.getSequenceForName(run_status)
-            runChainArgs = {'rundetails':r_copy, 'commands':sequence, 'result_folder': results_folder}
-            result = self.pool.apply_async(functoapply, (runChainArgs, ))
-
+            print 'sequence ', sequence
+            runChainArgs = {'rundetails':r_copy, 'commands': sequence, 'result_folder': results_folder}
+            result = self.pool.apply_async(self.runChainProcessFunction, (runChainArgs, ))
+            #r = result.get()
+            #r_copy['results'] = {'overall':['result1,result2']}
+            #r_copy[k]['status'] = 'finished'
+            #result = r_copy
             self.processed_runs_q.put({k:result})
             self.toprocess.task_done() # remove the run from the toprocess queue
 
@@ -80,6 +85,7 @@ def processSingleRunChain(args=None):
     print 'process is ', mp.current_process().name , ' for run ', run_num
 
     runchain.commands = args['commands']
+    print 'commands', runchain.commands
     rfolder = args['result_folder']
 
     initialEvent = SimpleEvent('init', True, {'run':run_num, 'result_folder':rfolder})
@@ -91,6 +97,29 @@ def processSingleRunChain(args=None):
 if __name__ == "__main__":
 
     os.environ['LD_LIBRARY_PATH'] = '/home/rodozov/Programs/ROOT/INSTALL/lib/root'  # important
+    optionsObject = None
+    with open('resources/options_object.txt', 'r') as optobj:
+        optionsObject = json.loads(optobj.read())
+
+    p = 'BAKsho__4321'
+
+    connections_dict = {}
+    connections_dict.update({'webserver':optionsObject['webserver_remote']})
+    connections_dict.update({'lxplus':optionsObject['lxplus_archive_remote']})
+    connections_dict['webserver']['ssh_credentials']['password'] = p
+    connections_dict['lxplus']['ssh_credentials']['password'] = p
+
+    print connections_dict
+
+    sshTransport = SSHTransportService(connections_dict)
+    db_obj = DBService('oracle://','localhost','1521','rodozov','tralala','','RPC')
+
+    #print alist
+    ssh_one = sshTransport.connections_dict['webserver']
+    ssh_two = sshTransport.connections_dict['lxplus']
+    print ssh_one
+    print ssh_two
+
     runsToProcessQueue = Queue.Queue()
     processedRunsQueue = Queue.Queue()
     sequence_handler = CommandSequenceHandler('resources/SequenceDictionaries.json', 'resources/options_object.txt')
@@ -98,15 +127,19 @@ if __name__ == "__main__":
 
     rlistMngr = RunlistManager('resources/runlist.json')
     rlistMngr.toProcessQueue = runsToProcessQueue
-    arun = rlistMngr.runlist['220796']
-    print arun
+
     stop = mp.Event()
     stop.set()
     rpmngr.stop_process_event = stop
-    runsToProcessQueue.put({'220796':arun})
-    rpmngr.processRuns(processSingleRunChain)
+    rpmngr.runChainProcessFunction = processSingleRunChain
 
+    runsToProcessQueue.put({'263743':rlistMngr.runlist['263743']})
+    runsToProcessQueue.put({'263744':rlistMngr.runlist['263744']})
+    runsToProcessQueue.put({'263745':rlistMngr.runlist['263745']})
+    runsToProcessQueue.put({'263752':rlistMngr.runlist['263752']})
+    runsToProcessQueue.put({'263757':rlistMngr.runlist['263757']})
 
+    rpmngr.start()
 
 
 

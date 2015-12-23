@@ -3,8 +3,8 @@ __author__ = 'rodozov'
 from Singleton import Singleton
 import paramiko
 import os
+from threading import RLock
 import json
-from threading import  Lock
 
 class SSHTransportService(object):
 
@@ -13,7 +13,8 @@ class SSHTransportService(object):
     def __init__(self, connections_description = None):
         self.connections_dict = {}
         self.open_connections(connections_description)
-        self.lock = Lock()
+        #paramiko.util.log_to_file("filename.log")
+        #paramiko.common.logging.basicConfig(level=paramiko.common.DEBUG)
 
     def open_connection(self, name, description):
         ssh_client = paramiko.SSHClient()
@@ -27,42 +28,46 @@ class SSHTransportService(object):
             destination = description['destination_root']
             ssh_client.connect(remote_host, transfer_port, username=transfer_username, password=transfer_password)
             sftp_client = ssh_client.open_sftp()
-            ssh_client.get_transport().set_keepalive(60) # keep it alive
-            #sftp = paramiko.SFTPClient.from_transport(ssh_client.get_transport())
+            #ssh_client.get_transport().set_keepalive(60) # keep it alive
 
-            self.connections_dict[name] = {'ssh_client': ssh_client, 'sftp_client': sftp_client,
+            self.connections_dict[name] = {'ssh_client': ssh_client,'sftp_client': sftp_client,
                                            'destination_root': destination, 'user': transfer_username,
                                            'pass': transfer_password, 'port': transfer_port, 'rhost': remote_host}
 
         except Exception, exc:
             print exc.message
-
-    def close_connection(self, name):
-        if name in self.connections_dict:
-            for k in self.connections_dict[name].keys():
-                if k == 'ssh_client' or k == 'sftp_client' or k == 'sftp':
-                    self.connections_dict[name][k].close()
-
     def open_connections(self, connections_desc):
-        for c in connections_desc.keys():
+        for c in connections_desc:
             self.open_connection(c, connections_desc[c])
 
-    def get_clients_for_connection(self, name):
-        if name in self.connections_dict:
-            conn_params = self.connections_dict[name]
-            ssh_client = conn_params['ssh_client']
-            sftp_client = conn_params['sftp_client']
-            if not ssh_client.get_transport().is_active():
-                try:
-                    #ssh_client.get_transport.get_channel
-                    ssh_client.connect(conn_params['rhost'], conn_params['port'], conn_params['user'], conn_params['pass'])
-                    sftp_client = ssh_client.open_sftp()
-                except Exception, e:
-                    print e.message
+    def close_connection(self, name):
+        if name in self.connections_dict: self.connections_dict[name]['ssh_client'].close()
 
-            return ssh_client, sftp_client
+    def close_connections(self):
+        for conn in self.connections_dict.keys():
+            self.connections_dict[conn]['ssh_client'].close()
 
 if __name__ == "__main__":
 
-    print 'boza'
+    with open('resources/options_object.txt', 'r') as optobj:
+        optionsObject = json.loads(optobj.read())
 
+    p = 'BAKsho__4321'
+
+    connections_dict = {}
+    connections_dict.update({'webserver':optionsObject['webserver_remote']})
+    connections_dict.update({'lxplus':optionsObject['lxplus_archive_remote']})
+    connections_dict['webserver']['ssh_credentials']['password'] = p
+    connections_dict['lxplus']['ssh_credentials']['password'] = p
+
+    ssh_transport = SSHTransportService(connections_dict)
+
+    print ssh_transport.connections_dict['webserver']['ssh_client']
+    print ssh_transport.connections_dict['lxplus']['ssh_client']
+
+    wserver = ssh_transport.connections_dict['webserver']['ssh_client'].open_sftp()
+    #print wserver.listdir(connections_dict['webserver']['destination_root'])
+    if not 'run263757' in wserver.listdir(connections_dict['webserver']['destination_root']):
+        wserver.chdir(connections_dict['webserver']['destination_root'])
+        wserver.listdir()
+        wserver.mkdir('run263757')

@@ -32,7 +32,7 @@
  "220796": {
   "Type": "Collisions15", 
   "duration": "118", 
-  "status": "submitted"
+  "status": "finished"
  }, 
  "250001": {
   "Type": "Collisions15", 
@@ -62,5 +62,5963 @@
    "good": 163
   }, 
   "status": "submitted"
+ }, 
+ "258714": {
+  "Type": "Collisions15", 
+  "duration": "1943", 
+  "lumisections": {
+   "all": 111, 
+   "good": 111
+  }, 
+  "status": "finished"
+ }, 
+ "258716": {
+  "Type": "Cosmics15", 
+  "duration": "2088", 
+  "lumisections": {
+   "all": 113, 
+   "good": 41
+  }, 
+  "status": "finished"
+ }, 
+ "258718": {
+  "Type": "Commissioning15", 
+  "duration": "1514", 
+  "lumisections": {
+   "all": 73, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "258719": {
+  "Type": "Commissioning15", 
+  "duration": "5831", 
+  "lumisections": {
+   "all": 268, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "258721": {
+  "Type": "Cosmics15", 
+  "duration": "6769", 
+  "lumisections": {
+   "all": 311, 
+   "good": 192
+  }, 
+  "status": "finished"
+ }, 
+ "258724": {
+  "Type": "Commissioning15", 
+  "duration": "3355", 
+  "lumisections": {
+   "all": 164, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "258726": {
+  "Type": "Commissioning15", 
+  "duration": "4616", 
+  "lumisections": {
+   "all": 245, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "258731": {
+  "Type": "Commissioning15", 
+  "duration": "12740", 
+  "lumisections": {
+   "all": 567, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "258734": {
+  "Type": "Commissioning15", 
+  "duration": "1250", 
+  "lumisections": {
+   "all": 71, 
+   "good": 5
+  }, 
+  "status": "finished"
+ }, 
+ "258736": {
+  "Type": "Cosmics15", 
+  "duration": "3458", 
+  "lumisections": {
+   "all": 175, 
+   "good": 99
+  }, 
+  "status": "finished"
+ }, 
+ "258738": {
+  "Type": "Commissioning15", 
+  "duration": "7298", 
+  "lumisections": {
+   "all": 353, 
+   "good": 33
+  }, 
+  "status": "finished"
+ }, 
+ "258741": {
+  "Type": "Collisions15", 
+  "duration": "1867", 
+  "lumisections": {
+   "all": 84, 
+   "good": 84
+  }, 
+  "status": "finished"
+ }, 
+ "258742": {
+  "Type": "Collisions15", 
+  "duration": "16165", 
+  "lumisections": {
+   "all": 709, 
+   "good": 709
+  }, 
+  "status": "finished"
+ }, 
+ "258745": {
+  "Type": "Collisions15", 
+  "duration": "6152", 
+  "lumisections": {
+   "all": 300, 
+   "good": 300
+  }, 
+  "status": "finished"
+ }, 
+ "258749": {
+  "Type": "Collisions15", 
+  "duration": "14309", 
+  "lumisections": {
+   "all": 616, 
+   "good": 616
+  }, 
+  "status": "finished"
+ }, 
+ "258750": {
+  "Type": "Collisions15", 
+  "duration": "5764", 
+  "lumisections": {
+   "all": 274, 
+   "good": 274
+  }, 
+  "status": "finished"
+ }, 
+ "258752": {
+  "Type": "Cosmics15", 
+  "duration": "16887", 
+  "lumisections": {
+   "all": 740, 
+   "good": 740
+  }, 
+  "status": "finished"
+ }, 
+ "258753": {
+  "Type": "Cosmics15", 
+  "duration": "371", 
+  "lumisections": {
+   "all": 21, 
+   "good": 21
+  }, 
+  "status": "finished"
+ }, 
+ "258755": {
+  "Type": "Cosmics15", 
+  "duration": "520", 
+  "lumisections": {
+   "all": 31, 
+   "good": 31
+  }, 
+  "status": "finished"
+ }, 
+ "258756": {
+  "Type": "Cosmics15", 
+  "duration": "1029", 
+  "lumisections": {
+   "all": 143, 
+   "good": 143
+  }, 
+  "status": "finished"
+ }, 
+ "258771": {
+  "Type": "Commissioning15", 
+  "duration": "619", 
+  "lumisections": {
+   "all": 78, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "258780": {
+  "Type": "Commissioning15", 
+  "duration": "5624", 
+  "lumisections": {
+   "all": 244, 
+   "good": 130
+  }, 
+  "status": "finished"
+ }, 
+ "258788": {
+  "Type": "Commissioning15", 
+  "duration": "4028", 
+  "lumisections": {
+   "all": 291, 
+   "good": 291
+  }, 
+  "status": "finished"
+ }, 
+ "258798": {
+  "Type": "Commissioning15", 
+  "duration": "836", 
+  "lumisections": {
+   "all": 97, 
+   "good": 76
+  }, 
+  "status": "finished"
+ }, 
+ "258810": {
+  "Type": "Commissioning15", 
+  "duration": "658", 
+  "lumisections": {
+   "all": 48, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "258815": {
+  "Type": "Commissioning15", 
+  "duration": "476", 
+  "lumisections": {
+   "all": 569, 
+   "good": 46
+  }, 
+  "status": "finished"
+ }, 
+ "258846": {
+  "Type": "Commissioning15", 
+  "duration": "6757", 
+  "lumisections": {
+   "all": 298, 
+   "good": 298
+  }, 
+  "status": "finished"
+ }, 
+ "258847": {
+  "Type": "Commissioning15", 
+  "duration": "1344", 
+  "lumisections": {
+   "all": 77, 
+   "good": 77
+  }, 
+  "status": "finished"
+ }, 
+ "258855": {
+  "Type": "Commissioning15", 
+  "duration": "3199", 
+  "lumisections": {
+   "all": 144, 
+   "good": 144
+  }, 
+  "status": "finished"
+ }, 
+ "258856": {
+  "Type": "Commissioning15", 
+  "duration": "6836", 
+  "lumisections": {
+   "all": 311, 
+   "good": 311
+  }, 
+  "status": "finished"
+ }, 
+ "258858": {
+  "Type": "Commissioning15", 
+  "duration": "2180", 
+  "lumisections": {
+   "all": 113, 
+   "good": 113
+  }, 
+  "status": "finished"
+ }, 
+ "258859": {
+  "Type": "Commissioning15", 
+  "duration": "2831", 
+  "lumisections": {
+   "all": 139, 
+   "good": 139
+  }, 
+  "status": "finished"
+ }, 
+ "258860": {
+  "Type": "Commissioning15", 
+  "duration": "3828", 
+  "lumisections": {
+   "all": 192, 
+   "good": 192
+  }, 
+  "status": "finished"
+ }, 
+ "258863": {
+  "Type": "Cosmics15", 
+  "duration": "1447", 
+  "lumisections": {
+   "all": 410, 
+   "good": 410
+  }, 
+  "status": "finished"
+ }, 
+ "258870": {
+  "Type": "Commissioning15", 
+  "duration": "2266", 
+  "lumisections": {
+   "all": 102, 
+   "good": 102
+  }, 
+  "status": "finished"
+ }, 
+ "258875": {
+  "Type": "Commissioning15", 
+  "duration": "607", 
+  "lumisections": {
+   "all": 33, 
+   "good": 33
+  }, 
+  "status": "finished"
+ }, 
+ "258876": {
+  "Type": "Commissioning15", 
+  "duration": "1487", 
+  "lumisections": {
+   "all": 79, 
+   "good": 79
+  }, 
+  "status": "finished"
+ }, 
+ "258901": {
+  "Type": "Commissioning15", 
+  "duration": "3590", 
+  "lumisections": {
+   "all": 232, 
+   "good": 104
+  }, 
+  "status": "finished"
+ }, 
+ "258922": {
+  "Type": "Commissioning15", 
+  "duration": "1273", 
+  "lumisections": {
+   "all": 78, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "258934": {
+  "Type": "Commissioning15", 
+  "duration": "2486", 
+  "lumisections": {
+   "all": 238, 
+   "good": 75
+  }, 
+  "status": "finished"
+ }, 
+ "258949": {
+  "Type": "Commissioning15", 
+  "duration": "1861", 
+  "lumisections": {
+   "all": 136, 
+   "good": 136
+  }, 
+  "status": "finished"
+ }, 
+ "258957": {
+  "Type": "Commissioning15", 
+  "duration": "602", 
+  "lumisections": {
+   "all": 32, 
+   "good": 32
+  }, 
+  "status": "finished"
+ }, 
+ "258958": {
+  "Type": "Commissioning15", 
+  "duration": "2762", 
+  "lumisections": {
+   "all": 149, 
+   "good": 149
+  }, 
+  "status": "finished"
+ }, 
+ "258959": {
+  "Type": "Commissioning15", 
+  "duration": "726", 
+  "lumisections": {
+   "all": 211, 
+   "good": 211
+  }, 
+  "status": "finished"
+ }, 
+ "258961": {
+  "Type": "Commissioning15", 
+  "duration": "475", 
+  "lumisections": {
+   "all": 32, 
+   "good": 32
+  }, 
+  "status": "finished"
+ }, 
+ "258964": {
+  "Type": "Commissioning15", 
+  "duration": "726", 
+  "lumisections": {
+   "all": 114, 
+   "good": 114
+  }, 
+  "status": "finished"
+ }, 
+ "258967": {
+  "Type": "Commissioning15", 
+  "duration": "15596", 
+  "lumisections": {
+   "all": 800, 
+   "good": 717
+  }, 
+  "status": "finished"
+ }, 
+ "258979": {
+  "Type": "Commissioning15", 
+  "duration": "1132", 
+  "lumisections": {
+   "all": 64, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "258981": {
+  "Type": "Commissioning15", 
+  "duration": "5337", 
+  "lumisections": {
+   "all": 610, 
+   "good": 607
+  }, 
+  "status": "finished"
+ }, 
+ "258988": {
+  "Type": "Commissioning15", 
+  "duration": "363", 
+  "lumisections": {
+   "all": 172, 
+   "good": 172
+  }, 
+  "status": "finished"
+ }, 
+ "258994": {
+  "Type": "Commissioning15", 
+  "duration": "1204", 
+  "lumisections": {
+   "all": 214, 
+   "good": 179
+  }, 
+  "status": "finished"
+ }, 
+ "259000": {
+  "Type": "Commissioning15", 
+  "duration": "326", 
+  "lumisections": {
+   "all": 481, 
+   "good": 358
+  }, 
+  "status": "finished"
+ }, 
+ "259113": {
+  "Type": "Commissioning15", 
+  "duration": "787", 
+  "lumisections": {
+   "all": 42, 
+   "good": 42
+  }, 
+  "status": "finished"
+ }, 
+ "259114": {
+  "Type": "Commissioning15", 
+  "duration": "1392", 
+  "lumisections": {
+   "all": 192, 
+   "good": 168
+  }, 
+  "status": "finished"
+ }, 
+ "259132": {
+  "Type": "Commissioning15", 
+  "duration": "1030", 
+  "lumisections": {
+   "all": 64, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259133": {
+  "Type": "Commissioning15", 
+  "duration": "2208", 
+  "lumisections": {
+   "all": 266, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259145": {
+  "Type": "Commissioning15", 
+  "duration": "2421", 
+  "lumisections": {
+   "all": 121, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259147": {
+  "Type": "Commissioning15", 
+  "duration": "654", 
+  "lumisections": {
+   "all": 36, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259148": {
+  "Type": "Commissioning15", 
+  "duration": "2859", 
+  "lumisections": {
+   "all": 132, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259149": {
+  "Type": "Commissioning15", 
+  "duration": "4719", 
+  "lumisections": {
+   "all": 583, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259150": {
+  "Type": "Commissioning15", 
+  "duration": "3058", 
+  "lumisections": {
+   "all": 148, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259152": {
+  "Type": "Collisions15", 
+  "duration": "3485", 
+  "lumisections": {
+   "all": 157, 
+   "good": 145
+  }, 
+  "status": "finished"
+ }, 
+ "259157": {
+  "Type": "Collisions15", 
+  "duration": "467", 
+  "lumisections": {
+   "all": 29, 
+   "good": 29
+  }, 
+  "status": "finished"
+ }, 
+ "259159": {
+  "Type": "Collisions15", 
+  "duration": "545", 
+  "lumisections": {
+   "all": 36, 
+   "good": 36
+  }, 
+  "status": "finished"
+ }, 
+ "259161": {
+  "Type": "Collisions15", 
+  "duration": "385", 
+  "lumisections": {
+   "all": 23, 
+   "good": 23
+  }, 
+  "status": "finished"
+ }, 
+ "259162": {
+  "Type": "Collisions15", 
+  "duration": "1919", 
+  "lumisections": {
+   "all": 85, 
+   "good": 85
+  }, 
+  "status": "finished"
+ }, 
+ "259163": {
+  "Type": "Collisions15", 
+  "duration": "5368", 
+  "lumisections": {
+   "all": 237, 
+   "good": 237
+  }, 
+  "status": "finished"
+ }, 
+ "259164": {
+  "Type": "Collisions15", 
+  "duration": "2174", 
+  "lumisections": {
+   "all": 95, 
+   "good": 95
+  }, 
+  "status": "finished"
+ }, 
+ "259167": {
+  "Type": "Collisions15", 
+  "duration": "1673", 
+  "lumisections": {
+   "all": 319, 
+   "good": 174
+  }, 
+  "status": "finished"
+ }, 
+ "259180": {
+  "Type": "Commissioning15", 
+  "duration": "821", 
+  "lumisections": {
+   "all": 64, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259190": {
+  "Type": "Commissioning15", 
+  "duration": "588", 
+  "lumisections": {
+   "all": 33, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259198": {
+  "Type": "Commissioning15", 
+  "duration": "1474", 
+  "lumisections": {
+   "all": 70, 
+   "good": 70
+  }, 
+  "status": "finished"
+ }, 
+ "259199": {
+  "Type": "Collisions15", 
+  "duration": "985", 
+  "lumisections": {
+   "all": 45, 
+   "good": 45
+  }, 
+  "status": "finished"
+ }, 
+ "259200": {
+  "Type": "Collisions15", 
+  "duration": "305", 
+  "lumisections": {
+   "all": 14, 
+   "good": 14
+  }, 
+  "status": "finished"
+ }, 
+ "259201": {
+  "Type": "Collisions15", 
+  "duration": "1304", 
+  "lumisections": {
+   "all": 58, 
+   "good": 58
+  }, 
+  "status": "finished"
+ }, 
+ "259202": {
+  "Type": "Collisions15", 
+  "duration": "814", 
+  "lumisections": {
+   "all": 37, 
+   "good": 37
+  }, 
+  "status": "finished"
+ }, 
+ "259207": {
+  "Type": "Collisions15", 
+  "duration": "1467", 
+  "lumisections": {
+   "all": 71, 
+   "good": 71
+  }, 
+  "status": "finished"
+ }, 
+ "259208": {
+  "Type": "Collisions15", 
+  "duration": "3929", 
+  "lumisections": {
+   "all": 302, 
+   "good": 283
+  }, 
+  "status": "finished"
+ }, 
+ "259214": {
+  "Type": "Commissioning15", 
+  "duration": "1772", 
+  "lumisections": {
+   "all": 131, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259226": {
+  "Type": "Commissioning15", 
+  "duration": "3187", 
+  "lumisections": {
+   "all": 149, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259231": {
+  "Type": "Commissioning15", 
+  "duration": "357", 
+  "lumisections": {
+   "all": 80, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259234": {
+  "Type": "Commissioning15", 
+  "duration": "8977", 
+  "lumisections": {
+   "all": 402, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259236": {
+  "Type": "Collisions15", 
+  "duration": "4843", 
+  "lumisections": {
+   "all": 211, 
+   "good": 196
+  }, 
+  "status": "finished"
+ }, 
+ "259237": {
+  "Type": "Collisions15", 
+  "duration": "13643", 
+  "lumisections": {
+   "all": 1225, 
+   "good": 1225
+  }, 
+  "status": "finished"
+ }, 
+ "259243": {
+  "Type": "Cosmics15", 
+  "duration": "2931", 
+  "lumisections": {
+   "all": 165, 
+   "good": 165
+  }, 
+  "status": "finished"
+ }, 
+ "259249": {
+  "Type": "Cosmics15", 
+  "duration": "811", 
+  "lumisections": {
+   "all": 39, 
+   "good": 39
+  }, 
+  "status": "finished"
+ }, 
+ "259250": {
+  "Type": "Cosmics15", 
+  "duration": "2844", 
+  "lumisections": {
+   "all": 141, 
+   "good": 141
+  }, 
+  "status": "finished"
+ }, 
+ "259252": {
+  "Type": "Cosmics15", 
+  "duration": "604", 
+  "lumisections": {
+   "all": 35, 
+   "good": 35
+  }, 
+  "status": "finished"
+ }, 
+ "259324": {
+  "Type": "Commissioning15", 
+  "duration": "4135", 
+  "lumisections": {
+   "all": 236, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259341": {
+  "Type": "Commissioning15", 
+  "duration": "4396", 
+  "lumisections": {
+   "all": 220, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259347": {
+  "Type": "Commissioning15", 
+  "duration": "4886", 
+  "lumisections": {
+   "all": 235, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259350": {
+  "Type": "Commissioning15", 
+  "duration": "398", 
+  "lumisections": {
+   "all": 24, 
+   "good": 22
+  }, 
+  "status": "finished"
+ }, 
+ "259351": {
+  "Type": "Collisions15", 
+  "duration": "3236", 
+  "lumisections": {
+   "all": 141, 
+   "good": 141
+  }, 
+  "status": "finished"
+ }, 
+ "259352": {
+  "Type": "Collisions15", 
+  "duration": "7479", 
+  "lumisections": {
+   "all": 332, 
+   "good": 332
+  }, 
+  "status": "finished"
+ }, 
+ "259357": {
+  "Type": "Commissioning15", 
+  "duration": "3168", 
+  "lumisections": {
+   "all": 156, 
+   "good": 110
+  }, 
+  "status": "finished"
+ }, 
+ "259359": {
+  "Type": "Commissioning15", 
+  "duration": "396", 
+  "lumisections": {
+   "all": 161, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259377": {
+  "Type": "Commissioning15", 
+  "duration": "1934", 
+  "lumisections": {
+   "all": 90, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259379": {
+  "Type": "Commissioning15", 
+  "duration": "949", 
+  "lumisections": {
+   "all": 61, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259384": {
+  "Type": "Collisions15", 
+  "duration": "2854", 
+  "lumisections": {
+   "all": 133, 
+   "good": 133
+  }, 
+  "status": "finished"
+ }, 
+ "259385": {
+  "Type": "Collisions15", 
+  "duration": "12713", 
+  "lumisections": {
+   "all": 549, 
+   "good": 549
+  }, 
+  "status": "finished"
+ }, 
+ "259388": {
+  "Type": "Collisions15", 
+  "duration": "17846", 
+  "lumisections": {
+   "all": 939, 
+   "good": 904
+  }, 
+  "status": "finished"
+ }, 
+ "259397": {
+  "Type": "Commissioning15", 
+  "duration": "4227", 
+  "lumisections": {
+   "all": 206, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259399": {
+  "Type": "Collisions15", 
+  "duration": "13645", 
+  "lumisections": {
+   "all": 679, 
+   "good": 672
+  }, 
+  "status": "finished"
+ }, 
+ "259405": {
+  "Type": "Cosmics15", 
+  "duration": "327", 
+  "lumisections": {
+   "all": 34, 
+   "good": 34
+  }, 
+  "status": "finished"
+ }, 
+ "259407": {
+  "Type": "Cosmics15", 
+  "duration": "305", 
+  "lumisections": {
+   "all": 22, 
+   "good": 22
+  }, 
+  "status": "finished"
+ }, 
+ "259408": {
+  "Type": "Cosmics15", 
+  "duration": "318", 
+  "lumisections": {
+   "all": 22, 
+   "good": 22
+  }, 
+  "status": "finished"
+ }, 
+ "259412": {
+  "Type": "Commissioning15", 
+  "duration": "379", 
+  "lumisections": {
+   "all": 728, 
+   "good": 490
+  }, 
+  "status": "finished"
+ }, 
+ "259429": {
+  "Type": "Collisions15", 
+  "duration": "7270", 
+  "lumisections": {
+   "all": 324, 
+   "good": 289
+  }, 
+  "status": "finished"
+ }, 
+ "259431": {
+  "Type": "Collisions15", 
+  "duration": "8527", 
+  "lumisections": {
+   "all": 504, 
+   "good": 504
+  }, 
+  "status": "finished"
+ }, 
+ "259433": {
+  "Type": "Cosmics15", 
+  "duration": "1251", 
+  "lumisections": {
+   "all": 59, 
+   "good": 59
+  }, 
+  "status": "finished"
+ }, 
+ "259436": {
+  "Type": "Cosmics15", 
+  "duration": "903", 
+  "lumisections": {
+   "all": 48, 
+   "good": 48
+  }, 
+  "status": "finished"
+ }, 
+ "259437": {
+  "Type": "Cosmics15", 
+  "duration": "2114", 
+  "lumisections": {
+   "all": 98, 
+   "good": 98
+  }, 
+  "status": "finished"
+ }, 
+ "259438": {
+  "Type": "Cosmics15", 
+  "duration": "759", 
+  "lumisections": {
+   "all": 37, 
+   "good": 35
+  }, 
+  "status": "finished"
+ }, 
+ "259439": {
+  "Type": "Commissioning15", 
+  "duration": "667", 
+  "lumisections": {
+   "all": 52, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259441": {
+  "Type": "Commissioning15", 
+  "duration": "2427", 
+  "lumisections": {
+   "all": 120, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259444": {
+  "Type": "Commissioning15", 
+  "duration": "595", 
+  "lumisections": {
+   "all": 40, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259446": {
+  "Type": "Commissioning15", 
+  "duration": "8641", 
+  "lumisections": {
+   "all": 391, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259448": {
+  "Type": "Commissioning15", 
+  "duration": "757", 
+  "lumisections": {
+   "all": 38, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259449": {
+  "Type": "Commissioning15", 
+  "duration": "3293", 
+  "lumisections": {
+   "all": 203, 
+   "good": 37
+  }, 
+  "status": "finished"
+ }, 
+ "259458": {
+  "Type": "Commissioning15", 
+  "duration": "2458", 
+  "lumisections": {
+   "all": 158, 
+   "good": 158
+  }, 
+  "status": "finished"
+ }, 
+ "259464": {
+  "Type": "Collisions15", 
+  "duration": "9598", 
+  "lumisections": {
+   "all": 442, 
+   "good": 442
+  }, 
+  "status": "finished"
+ }, 
+ "259467": {
+  "Type": "Commissioning15", 
+  "duration": "2938", 
+  "lumisections": {
+   "all": 193, 
+   "good": 45
+  }, 
+  "status": "finished"
+ }, 
+ "259471": {
+  "Type": "Commissioning15", 
+  "duration": "3400", 
+  "lumisections": {
+   "all": 182, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259479": {
+  "Type": "Commissioning15", 
+  "duration": "570", 
+  "lumisections": {
+   "all": 38, 
+   "good": 3
+  }, 
+  "status": "finished"
+ }, 
+ "259481": {
+  "Type": "Cosmics15", 
+  "duration": "26451", 
+  "lumisections": {
+   "all": 1145, 
+   "good": 1145
+  }, 
+  "status": "finished"
+ }, 
+ "259485": {
+  "Type": "Commissioning15", 
+  "duration": "566", 
+  "lumisections": {
+   "all": 31, 
+   "good": 31
+  }, 
+  "status": "finished"
+ }, 
+ "259486": {
+  "Type": "Commissioning15", 
+  "duration": "905", 
+  "lumisections": {
+   "all": 50, 
+   "good": 50
+  }, 
+  "status": "finished"
+ }, 
+ "259487": {
+  "Type": "Commissioning15", 
+  "duration": "1070", 
+  "lumisections": {
+   "all": 54, 
+   "good": 54
+  }, 
+  "status": "finished"
+ }, 
+ "259488": {
+  "Type": "Commissioning15", 
+  "duration": "694", 
+  "lumisections": {
+   "all": 38, 
+   "good": 38
+  }, 
+  "status": "finished"
+ }, 
+ "259490": {
+  "Type": "Commissioning15", 
+  "duration": "2110", 
+  "lumisections": {
+   "all": 95, 
+   "good": 95
+  }, 
+  "status": "finished"
+ }, 
+ "259501": {
+  "Type": "Commissioning15", 
+  "duration": "2248", 
+  "lumisections": {
+   "all": 107, 
+   "good": 107
+  }, 
+  "status": "finished"
+ }, 
+ "259513": {
+  "Type": "Cosmics15", 
+  "duration": "1791", 
+  "lumisections": {
+   "all": 111, 
+   "good": 111
+  }, 
+  "status": "finished"
+ }, 
+ "259526": {
+  "Type": "Cosmics15", 
+  "duration": "572", 
+  "lumisections": {
+   "all": 39, 
+   "good": 39
+  }, 
+  "status": "finished"
+ }, 
+ "259528": {
+  "Type": "Cosmics15", 
+  "duration": "617", 
+  "lumisections": {
+   "all": 34, 
+   "good": 34
+  }, 
+  "status": "finished"
+ }, 
+ "259532": {
+  "Type": "Cosmics15", 
+  "duration": "2547", 
+  "lumisections": {
+   "all": 116, 
+   "good": 116
+  }, 
+  "status": "finished"
+ }, 
+ "259546": {
+  "Type": "Cosmics15", 
+  "duration": "2305", 
+  "lumisections": {
+   "all": 114, 
+   "good": 114
+  }, 
+  "status": "finished"
+ }, 
+ "259555": {
+  "Type": "Cosmics15", 
+  "duration": "1662", 
+  "lumisections": {
+   "all": 80, 
+   "good": 80
+  }, 
+  "status": "finished"
+ }, 
+ "259562": {
+  "Type": "Cosmics15", 
+  "duration": "1300", 
+  "lumisections": {
+   "all": 64, 
+   "good": 64
+  }, 
+  "status": "finished"
+ }, 
+ "259567": {
+  "Type": "Cosmics15", 
+  "duration": "1413", 
+  "lumisections": {
+   "all": 108, 
+   "good": 108
+  }, 
+  "status": "finished"
+ }, 
+ "259577": {
+  "Type": "Commissioning15", 
+  "duration": "1350", 
+  "lumisections": {
+   "all": 74, 
+   "good": 74
+  }, 
+  "status": "finished"
+ }, 
+ "259583": {
+  "Type": "Cosmics15", 
+  "duration": "3849", 
+  "lumisections": {
+   "all": 230, 
+   "good": 230
+  }, 
+  "status": "finished"
+ }, 
+ "259590": {
+  "Type": "Cosmics15", 
+  "duration": "12224", 
+  "lumisections": {
+   "all": 536, 
+   "good": 536
+  }, 
+  "status": "finished"
+ }, 
+ "259614": {
+  "Type": "Cosmics15", 
+  "duration": "521", 
+  "lumisections": {
+   "all": 31, 
+   "good": 31
+  }, 
+  "status": "finished"
+ }, 
+ "259615": {
+  "Type": "Cosmics15", 
+  "duration": "448", 
+  "lumisections": {
+   "all": 28, 
+   "good": 28
+  }, 
+  "status": "finished"
+ }, 
+ "259616": {
+  "Type": "Cosmics15", 
+  "duration": "367", 
+  "lumisections": {
+   "all": 24, 
+   "good": 24
+  }, 
+  "status": "finished"
+ }, 
+ "259617": {
+  "Type": "Cosmics15", 
+  "duration": "2080", 
+  "lumisections": {
+   "all": 150, 
+   "good": 66
+  }, 
+  "status": "finished"
+ }, 
+ "259619": {
+  "Type": "Commissioning15", 
+  "duration": "4682", 
+  "lumisections": {
+   "all": 228, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259623": {
+  "Type": "Commissioning15", 
+  "duration": "14386", 
+  "lumisections": {
+   "all": 647, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259626": {
+  "Type": "Collisions15", 
+  "duration": "14275", 
+  "lumisections": {
+   "all": 630, 
+   "good": 609
+  }, 
+  "status": "finished"
+ }, 
+ "259629": {
+  "Type": "Commissioning15", 
+  "duration": "1492", 
+  "lumisections": {
+   "all": 149, 
+   "good": 60
+  }, 
+  "status": "finished"
+ }, 
+ "259632": {
+  "Type": "Commissioning15", 
+  "duration": "2796", 
+  "lumisections": {
+   "all": 172, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259635": {
+  "Type": "Commissioning15", 
+  "duration": "841", 
+  "lumisections": {
+   "all": 48, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259636": {
+  "Type": "Collisions15", 
+  "duration": "5630", 
+  "lumisections": {
+   "all": 251, 
+   "good": 246
+  }, 
+  "status": "finished"
+ }, 
+ "259637": {
+  "Type": "Collisions15", 
+  "duration": "5377", 
+  "lumisections": {
+   "all": 569, 
+   "good": 569
+  }, 
+  "status": "finished"
+ }, 
+ "259653": {
+  "Type": "Commissioning15", 
+  "duration": "632", 
+  "lumisections": {
+   "all": 29, 
+   "good": 29
+  }, 
+  "status": "finished"
+ }, 
+ "259654": {
+  "Type": "Commissioning15", 
+  "duration": "706", 
+  "lumisections": {
+   "all": 44, 
+   "good": 44
+  }, 
+  "status": "finished"
+ }, 
+ "259657": {
+  "Type": "Cosmics15", 
+  "duration": "833", 
+  "lumisections": {
+   "all": 60, 
+   "good": 60
+  }, 
+  "status": "finished"
+ }, 
+ "259661": {
+  "Type": "Cosmics15", 
+  "duration": "2042", 
+  "lumisections": {
+   "all": 96, 
+   "good": 96
+  }, 
+  "status": "finished"
+ }, 
+ "259666": {
+  "Type": "Cosmics15", 
+  "duration": "557", 
+  "lumisections": {
+   "all": 99, 
+   "good": 99
+  }, 
+  "status": "finished"
+ }, 
+ "259675": {
+  "Type": "Cosmics15", 
+  "duration": "9355", 
+  "lumisections": {
+   "all": 410, 
+   "good": 410
+  }, 
+  "status": "finished"
+ }, 
+ "259677": {
+  "Type": "Cosmics15", 
+  "duration": "5587", 
+  "lumisections": {
+   "all": 293, 
+   "good": 236
+  }, 
+  "status": "finished"
+ }, 
+ "259679": {
+  "Type": "Commissioning15", 
+  "duration": "11335", 
+  "lumisections": {
+   "all": 502, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259681": {
+  "Type": "Collisions15", 
+  "duration": "2276", 
+  "lumisections": {
+   "all": 156, 
+   "good": 154
+  }, 
+  "status": "finished"
+ }, 
+ "259683": {
+  "Type": "Collisions15", 
+  "duration": "2207", 
+  "lumisections": {
+   "all": 106, 
+   "good": 106
+  }, 
+  "status": "finished"
+ }, 
+ "259685": {
+  "Type": "Collisions15", 
+  "duration": "14863", 
+  "lumisections": {
+   "all": 643, 
+   "good": 643
+  }, 
+  "status": "finished"
+ }, 
+ "259686": {
+  "Type": "Collisions15", 
+  "duration": "8174", 
+  "lumisections": {
+   "all": 403, 
+   "good": 403
+  }, 
+  "status": "finished"
+ }, 
+ "259694": {
+  "Type": "Commissioning15", 
+  "duration": "448", 
+  "lumisections": {
+   "all": 34, 
+   "good": 34
+  }, 
+  "status": "finished"
+ }, 
+ "259697": {
+  "Type": "Commissioning15", 
+  "duration": "2500", 
+  "lumisections": {
+   "all": 119, 
+   "good": 119
+  }, 
+  "status": "finished"
+ }, 
+ "259705": {
+  "Type": "Commissioning15", 
+  "duration": "1858", 
+  "lumisections": {
+   "all": 152, 
+   "good": 152
+  }, 
+  "status": "finished"
+ }, 
+ "259707": {
+  "Type": "Commissioning15", 
+  "duration": "3585", 
+  "lumisections": {
+   "all": 176, 
+   "good": 101
+  }, 
+  "status": "finished"
+ }, 
+ "259712": {
+  "Type": "Commissioning15", 
+  "duration": "12034", 
+  "lumisections": {
+   "all": 528, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259713": {
+  "Type": "Commissioning15", 
+  "duration": "4569", 
+  "lumisections": {
+   "all": 211, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259714": {
+  "Type": "Commissioning15", 
+  "duration": "1019", 
+  "lumisections": {
+   "all": 166, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259717": {
+  "Type": "Commissioning15", 
+  "duration": "1687", 
+  "lumisections": {
+   "all": 87, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259719": {
+  "Type": "Commissioning15", 
+  "duration": "4890", 
+  "lumisections": {
+   "all": 231, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259721": {
+  "Type": "Collisions15", 
+  "duration": "9736", 
+  "lumisections": {
+   "all": 452, 
+   "good": 435
+  }, 
+  "status": "finished"
+ }, 
+ "259723": {
+  "Type": "Commissioning15", 
+  "duration": "2912", 
+  "lumisections": {
+   "all": 158, 
+   "good": 74
+  }, 
+  "status": "finished"
+ }, 
+ "259726": {
+  "Type": "Commissioning15", 
+  "duration": "5876", 
+  "lumisections": {
+   "all": 290, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259736": {
+  "Type": "Cosmics15", 
+  "duration": "2129", 
+  "lumisections": {
+   "all": 93, 
+   "good": 93
+  }, 
+  "status": "finished"
+ }, 
+ "259739": {
+  "Type": "Cosmics15", 
+  "duration": "719", 
+  "lumisections": {
+   "all": 49, 
+   "good": 49
+  }, 
+  "status": "finished"
+ }, 
+ "259740": {
+  "Type": "Cosmics15", 
+  "duration": "9601", 
+  "lumisections": {
+   "all": 420, 
+   "good": 420
+  }, 
+  "status": "finished"
+ }, 
+ "259741": {
+  "Type": "Cosmics15", 
+  "duration": "2384", 
+  "lumisections": {
+   "all": 235, 
+   "good": 235
+  }, 
+  "status": "finished"
+ }, 
+ "259746": {
+  "Type": "Commissioning15", 
+  "duration": "385", 
+  "lumisections": {
+   "all": 156, 
+   "good": 156
+  }, 
+  "status": "finished"
+ }, 
+ "259752": {
+  "Type": "Cosmics15", 
+  "duration": "4456", 
+  "lumisections": {
+   "all": 372, 
+   "good": 372
+  }, 
+  "status": "finished"
+ }, 
+ "259788": {
+  "Type": "Cosmics15", 
+  "duration": "728", 
+  "lumisections": {
+   "all": 37, 
+   "good": 37
+  }, 
+  "status": "finished"
+ }, 
+ "259789": {
+  "Type": "Cosmics15", 
+  "duration": "1020", 
+  "lumisections": {
+   "all": 51, 
+   "good": 51
+  }, 
+  "status": "finished"
+ }, 
+ "259794": {
+  "Type": "Cosmics15", 
+  "duration": "351", 
+  "lumisections": {
+   "all": 25, 
+   "good": 25
+  }, 
+  "status": "finished"
+ }, 
+ "259795": {
+  "Type": "Cosmics15", 
+  "duration": "1225", 
+  "lumisections": {
+   "all": 78, 
+   "good": 78
+  }, 
+  "status": "finished"
+ }, 
+ "259801": {
+  "Type": "Cosmics15", 
+  "duration": "1575", 
+  "lumisections": {
+   "all": 74, 
+   "good": 74
+  }, 
+  "status": "finished"
+ }, 
+ "259802": {
+  "Type": "Cosmics15", 
+  "duration": "320", 
+  "lumisections": {
+   "all": 39, 
+   "good": 39
+  }, 
+  "status": "finished"
+ }, 
+ "259804": {
+  "Type": "Cosmics15", 
+  "duration": "997", 
+  "lumisections": {
+   "all": 48, 
+   "good": 48
+  }, 
+  "status": "finished"
+ }, 
+ "259805": {
+  "Type": "Commissioning15", 
+  "duration": "19524", 
+  "lumisections": {
+   "all": 866, 
+   "good": 822
+  }, 
+  "status": "finished"
+ }, 
+ "259807": {
+  "Type": "Commissioning15", 
+  "duration": "6398", 
+  "lumisections": {
+   "all": 294, 
+   "good": 4
+  }, 
+  "status": "finished"
+ }, 
+ "259809": {
+  "Type": "Collisions15", 
+  "duration": "5249", 
+  "lumisections": {
+   "all": 227, 
+   "good": 227
+  }, 
+  "status": "finished"
+ }, 
+ "259810": {
+  "Type": "Collisions15", 
+  "duration": "2748", 
+  "lumisections": {
+   "all": 120, 
+   "good": 120
+  }, 
+  "status": "finished"
+ }, 
+ "259811": {
+  "Type": "Collisions15", 
+  "duration": "2164", 
+  "lumisections": {
+   "all": 95, 
+   "good": 95
+  }, 
+  "status": "finished"
+ }, 
+ "259818": {
+  "Type": "Collisions15", 
+  "duration": "3939", 
+  "lumisections": {
+   "all": 185, 
+   "good": 185
+  }, 
+  "status": "finished"
+ }, 
+ "259820": {
+  "Type": "Collisions15", 
+  "duration": "3890", 
+  "lumisections": {
+   "all": 175, 
+   "good": 175
+  }, 
+  "status": "finished"
+ }, 
+ "259821": {
+  "Type": "Collisions15", 
+  "duration": "5012", 
+  "lumisections": {
+   "all": 233, 
+   "good": 233
+  }, 
+  "status": "finished"
+ }, 
+ "259822": {
+  "Type": "Collisions15", 
+  "duration": "11551", 
+  "lumisections": {
+   "all": 652, 
+   "good": 568
+  }, 
+  "status": "finished"
+ }, 
+ "259834": {
+  "Type": "Commissioning15", 
+  "duration": "585", 
+  "lumisections": {
+   "all": 53, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259836": {
+  "Type": "Commissioning15", 
+  "duration": "1618", 
+  "lumisections": {
+   "all": 86, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259838": {
+  "Type": "Commissioning15", 
+  "duration": "5689", 
+  "lumisections": {
+   "all": 281, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259842": {
+  "Type": "Cosmics15", 
+  "duration": "2355", 
+  "lumisections": {
+   "all": 109, 
+   "good": 109
+  }, 
+  "status": "finished"
+ }, 
+ "259845": {
+  "Type": "Cosmics15", 
+  "duration": "2274", 
+  "lumisections": {
+   "all": 111, 
+   "good": 111
+  }, 
+  "status": "finished"
+ }, 
+ "259850": {
+  "Type": "Cosmics15", 
+  "duration": "851", 
+  "lumisections": {
+   "all": 45, 
+   "good": 45
+  }, 
+  "status": "finished"
+ }, 
+ "259852": {
+  "Type": "Cosmics15", 
+  "duration": "1682", 
+  "lumisections": {
+   "all": 81, 
+   "good": 81
+  }, 
+  "status": "finished"
+ }, 
+ "259853": {
+  "Type": "Commissioning15", 
+  "duration": "9002", 
+  "lumisections": {
+   "all": 418, 
+   "good": 276
+  }, 
+  "status": "finished"
+ }, 
+ "259856": {
+  "Type": "Commissioning15", 
+  "duration": "4535", 
+  "lumisections": {
+   "all": 205, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259857": {
+  "Type": "Commissioning15", 
+  "duration": "381", 
+  "lumisections": {
+   "all": 35, 
+   "good": 31
+  }, 
+  "status": "finished"
+ }, 
+ "259861": {
+  "Type": "Collisions15", 
+  "duration": "3642", 
+  "lumisections": {
+   "all": 161, 
+   "good": 161
+  }, 
+  "status": "finished"
+ }, 
+ "259862": {
+  "Type": "Collisions15", 
+  "duration": "12597", 
+  "lumisections": {
+   "all": 561, 
+   "good": 561
+  }, 
+  "status": "finished"
+ }, 
+ "259864": {
+  "Type": "Cosmics15", 
+  "duration": "20338", 
+  "lumisections": {
+   "all": 927, 
+   "good": 927
+  }, 
+  "status": "finished"
+ }, 
+ "259868": {
+  "Type": "Commissioning15", 
+  "duration": "2452", 
+  "lumisections": {
+   "all": 116, 
+   "good": 116
+  }, 
+  "status": "finished"
+ }, 
+ "259870": {
+  "Type": "Cosmics15", 
+  "duration": "1318", 
+  "lumisections": {
+   "all": 61, 
+   "good": 61
+  }, 
+  "status": "finished"
+ }, 
+ "259871": {
+  "Type": "Cosmics15", 
+  "duration": "7578", 
+  "lumisections": {
+   "all": 375, 
+   "good": 375
+  }, 
+  "status": "finished"
+ }, 
+ "259873": {
+  "Type": "Cosmics15", 
+  "duration": "3541", 
+  "lumisections": {
+   "all": 160, 
+   "good": 160
+  }, 
+  "status": "finished"
+ }, 
+ "259874": {
+  "Type": "Commissioning15", 
+  "duration": "1670", 
+  "lumisections": {
+   "all": 78, 
+   "good": 78
+  }, 
+  "status": "finished"
+ }, 
+ "259876": {
+  "Type": "Commissioning15", 
+  "duration": "1389", 
+  "lumisections": {
+   "all": 88, 
+   "good": 14
+  }, 
+  "status": "finished"
+ }, 
+ "259880": {
+  "Type": "Commissioning15", 
+  "duration": "2547", 
+  "lumisections": {
+   "all": 117, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259882": {
+  "Type": "Commissioning15", 
+  "duration": "2709", 
+  "lumisections": {
+   "all": 132, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259884": {
+  "Type": "Collisions15", 
+  "duration": "3695", 
+  "lumisections": {
+   "all": 196, 
+   "good": 170
+  }, 
+  "status": "finished"
+ }, 
+ "259890": {
+  "Type": "Collisions15", 
+  "duration": "2758", 
+  "lumisections": {
+   "all": 121, 
+   "good": 121
+  }, 
+  "status": "finished"
+ }, 
+ "259891": {
+  "Type": "Collisions15", 
+  "duration": "2830", 
+  "lumisections": {
+   "all": 151, 
+   "good": 151
+  }, 
+  "status": "finished"
+ }, 
+ "259894": {
+  "Type": "Cosmics15", 
+  "duration": "10555", 
+  "lumisections": {
+   "all": 471, 
+   "good": 471
+  }, 
+  "status": "finished"
+ }, 
+ "259896": {
+  "Type": "Cosmics15", 
+  "duration": "18414", 
+  "lumisections": {
+   "all": 2652, 
+   "good": 1139
+  }, 
+  "status": "finished"
+ }, 
+ "259924": {
+  "Type": "Commissioning15", 
+  "duration": "2438", 
+  "lumisections": {
+   "all": 115, 
+   "good": 89
+  }, 
+  "status": "finished"
+ }, 
+ "259930": {
+  "Type": "Cosmics15", 
+  "duration": "1853", 
+  "lumisections": {
+   "all": 100, 
+   "good": 100
+  }, 
+  "status": "finished"
+ }, 
+ "259935": {
+  "Type": "Cosmics15", 
+  "duration": "7113", 
+  "lumisections": {
+   "all": 313, 
+   "good": 313
+  }, 
+  "status": "finished"
+ }, 
+ "259942": {
+  "Type": "Cosmics15", 
+  "duration": "719", 
+  "lumisections": {
+   "all": 88, 
+   "good": 44
+  }, 
+  "status": "finished"
+ }, 
+ "259947": {
+  "Type": "Commissioning15", 
+  "duration": "649", 
+  "lumisections": {
+   "all": 42, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259952": {
+  "Type": "Commissioning15", 
+  "duration": "1929", 
+  "lumisections": {
+   "all": 351, 
+   "good": 70
+  }, 
+  "status": "finished"
+ }, 
+ "259954": {
+  "Type": "Commissioning15", 
+  "duration": "6068", 
+  "lumisections": {
+   "all": 904, 
+   "good": 285
+  }, 
+  "status": "finished"
+ }, 
+ "259957": {
+  "Type": "Commissioning15", 
+  "duration": "6870", 
+  "lumisections": {
+   "all": 357, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259961": {
+  "Type": "Commissioning15", 
+  "duration": "1421", 
+  "lumisections": {
+   "all": 56, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259964": {
+  "Type": "Commissioning15", 
+  "duration": "508", 
+  "lumisections": {
+   "all": 7, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "259968": {
+  "Type": "Collisions15", 
+  "duration": "1403", 
+  "lumisections": {
+   "all": 67, 
+   "good": 67
+  }, 
+  "status": "finished"
+ }, 
+ "259971": {
+  "Type": "Collisions15", 
+  "duration": "1502", 
+  "lumisections": {
+   "all": 63, 
+   "good": 63
+  }, 
+  "status": "finished"
+ }, 
+ "259972": {
+  "Type": "Collisions15", 
+  "duration": "301", 
+  "lumisections": {
+   "all": 24, 
+   "good": 24
+  }, 
+  "status": "finished"
+ }, 
+ "259973": {
+  "Type": "Collisions15", 
+  "duration": "854", 
+  "lumisections": {
+   "all": 31, 
+   "good": 31
+  }, 
+  "status": "finished"
+ }, 
+ "259980": {
+  "Type": "Commissioning15", 
+  "duration": "484", 
+  "lumisections": {
+   "all": 26, 
+   "good": 26
+  }, 
+  "status": "finished"
+ }, 
+ "259986": {
+  "Type": "Cosmics15", 
+  "duration": "2305", 
+  "lumisections": {
+   "all": 87, 
+   "good": 37
+  }, 
+  "status": "finished"
+ }, 
+ "259994": {
+  "Type": "Commissioning15", 
+  "duration": "2153", 
+  "lumisections": {
+   "all": 101, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "260020": {
+  "Type": "Commissioning15", 
+  "duration": "802", 
+  "lumisections": {
+   "all": 36, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "260028": {
+  "Type": "Commissioning15", 
+  "duration": "482", 
+  "lumisections": {
+   "all": 14, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "260032": {
+  "Type": "Commissioning15", 
+  "duration": "1272", 
+  "lumisections": {
+   "all": 59, 
+   "good": 58
+  }, 
+  "status": "finished"
+ }, 
+ "260034": {
+  "Type": "Collisions15", 
+  "duration": "2810", 
+  "lumisections": {
+   "all": 129, 
+   "good": 129
+  }, 
+  "status": "finished"
+ }, 
+ "260035": {
+  "Type": "Collisions15", 
+  "duration": "1471", 
+  "lumisections": {
+   "all": 57, 
+   "good": 57
+  }, 
+  "status": "finished"
+ }, 
+ "260036": {
+  "Type": "Collisions15", 
+  "duration": "5758", 
+  "lumisections": {
+   "all": 252, 
+   "good": 252
+  }, 
+  "status": "finished"
+ }, 
+ "260037": {
+  "Type": "Collisions15", 
+  "duration": "643", 
+  "lumisections": {
+   "all": 34, 
+   "good": 34
+  }, 
+  "status": "finished"
+ }, 
+ "260038": {
+  "Type": "Collisions15", 
+  "duration": "5112", 
+  "lumisections": {
+   "all": 236, 
+   "good": 236
+  }, 
+  "status": "finished"
+ }, 
+ "260039": {
+  "Type": "Collisions15", 
+  "duration": "26600", 
+  "lumisections": {
+   "all": 1161, 
+   "good": 1161
+  }, 
+  "status": "finished"
+ }, 
+ "260041": {
+  "Type": "Collisions15", 
+  "duration": "4198", 
+  "lumisections": {
+   "all": 194, 
+   "good": 194
+  }, 
+  "status": "finished"
+ }, 
+ "260043": {
+  "Type": "Collisions15", 
+  "duration": "24282", 
+  "lumisections": {
+   "all": 1044, 
+   "good": 1044
+  }, 
+  "status": "finished"
+ }, 
+ "260061": {
+  "Type": "Collisions15", 
+  "duration": "848", 
+  "lumisections": {
+   "all": 40, 
+   "good": 40
+  }, 
+  "status": "finished"
+ }, 
+ "260062": {
+  "Type": "Collisions15", 
+  "duration": "1701", 
+  "lumisections": {
+   "all": 80, 
+   "good": 80
+  }, 
+  "status": "finished"
+ }, 
+ "260066": {
+  "Type": "Collisions15", 
+  "duration": "11711", 
+  "lumisections": {
+   "all": 539, 
+   "good": 539
+  }, 
+  "status": "finished"
+ }, 
+ "260068": {
+  "Type": "Cosmics15", 
+  "duration": "2073", 
+  "lumisections": {
+   "all": 131, 
+   "good": 131
+  }, 
+  "status": "finished"
+ }, 
+ "260069": {
+  "Type": "Commissioning15", 
+  "duration": "1038", 
+  "lumisections": {
+   "all": 54, 
+   "good": 54
+  }, 
+  "status": "finished"
+ }, 
+ "260076": {
+  "Type": "Commissioning15", 
+  "duration": "2221", 
+  "lumisections": {
+   "all": 114, 
+   "good": 114
+  }, 
+  "status": "finished"
+ }, 
+ "260083": {
+  "Type": "Commissioning15", 
+  "duration": "976", 
+  "lumisections": {
+   "all": 110, 
+   "good": 110
+  }, 
+  "status": "finished"
+ }, 
+ "260095": {
+  "Type": "Commissioning15", 
+  "duration": "2094", 
+  "lumisections": {
+   "all": 117, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "260097": {
+  "Type": "Commissioning15", 
+  "duration": "8154", 
+  "lumisections": {
+   "all": 364, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "260099": {
+  "Type": "Collisions15", 
+  "duration": "2310", 
+  "lumisections": {
+   "all": 108, 
+   "good": 106
+  }, 
+  "status": "finished"
+ }, 
+ "260100": {
+  "Type": "Collisions15", 
+  "duration": "682", 
+  "lumisections": {
+   "all": 37, 
+   "good": 37
+  }, 
+  "status": "finished"
+ }, 
+ "260101": {
+  "Type": "Collisions15", 
+  "duration": "1167", 
+  "lumisections": {
+   "all": 52, 
+   "good": 52
+  }, 
+  "status": "finished"
+ }, 
+ "260105": {
+  "Type": "Collisions15", 
+  "duration": "15353", 
+  "lumisections": {
+   "all": 665, 
+   "good": 665
+  }, 
+  "status": "finished"
+ }, 
+ "260107": {
+  "Type": "Collisions15", 
+  "duration": "501", 
+  "lumisections": {
+   "all": 30, 
+   "good": 30
+  }, 
+  "status": "finished"
+ }, 
+ "260108": {
+  "Type": "Collisions15", 
+  "duration": "8277", 
+  "lumisections": {
+   "all": 363, 
+   "good": 363
+  }, 
+  "status": "finished"
+ }, 
+ "260114": {
+  "Type": "Collisions15", 
+  "duration": "806", 
+  "lumisections": {
+   "all": 54, 
+   "good": 54
+  }, 
+  "status": "finished"
+ }, 
+ "260119": {
+  "Type": "Collisions15", 
+  "duration": "3732", 
+  "lumisections": {
+   "all": 208, 
+   "good": 208
+  }, 
+  "status": "finished"
+ }, 
+ "260132": {
+  "Type": "Collisions15", 
+  "duration": "7428", 
+  "lumisections": {
+   "all": 372, 
+   "good": 372
+  }, 
+  "status": "finished"
+ }, 
+ "260136": {
+  "Type": "Collisions15", 
+  "duration": "1498", 
+  "lumisections": {
+   "all": 224, 
+   "good": 181
+  }, 
+  "status": "finished"
+ }, 
+ "260212": {
+  "Type": "Commissioning15", 
+  "duration": "1706", 
+  "lumisections": {
+   "all": 76, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "260214": {
+  "Type": "Commissioning15", 
+  "duration": "5661", 
+  "lumisections": {
+   "all": 587, 
+   "good": 238
+  }, 
+  "status": "finished"
+ }, 
+ "260228": {
+  "Type": "Commissioning15", 
+  "duration": "8577", 
+  "lumisections": {
+   "all": 392, 
+   "good": 7
+  }, 
+  "status": "finished"
+ }, 
+ "260230": {
+  "Type": "Collisions15", 
+  "duration": "2982", 
+  "lumisections": {
+   "all": 184, 
+   "good": 184
+  }, 
+  "status": "finished"
+ }, 
+ "260232": {
+  "Type": "Collisions15", 
+  "duration": "2639", 
+  "lumisections": {
+   "all": 119, 
+   "good": 119
+  }, 
+  "status": "finished"
+ }, 
+ "260233": {
+  "Type": "Collisions15", 
+  "duration": "1354", 
+  "lumisections": {
+   "all": 67, 
+   "good": 67
+  }, 
+  "status": "finished"
+ }, 
+ "260234": {
+  "Type": "Collisions15", 
+  "duration": "1975", 
+  "lumisections": {
+   "all": 90, 
+   "good": 90
+  }, 
+  "status": "finished"
+ }, 
+ "260235": {
+  "Type": "Collisions15", 
+  "duration": "1124", 
+  "lumisections": {
+   "all": 138, 
+   "good": 111
+  }, 
+  "status": "finished"
+ }, 
+ "260250": {
+  "Type": "Commissioning15", 
+  "duration": "2689", 
+  "lumisections": {
+   "all": 101, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "260253": {
+  "Type": "Commissioning15", 
+  "duration": "1125", 
+  "lumisections": {
+   "all": 53, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "260254": {
+  "Type": "Commissioning15", 
+  "duration": "2211", 
+  "lumisections": {
+   "all": 102, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "260256": {
+  "Type": "Commissioning15", 
+  "duration": "592", 
+  "lumisections": {
+   "all": 14, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "260271": {
+  "Type": "Commissioning15", 
+  "duration": "3222", 
+  "lumisections": {
+   "all": 127, 
+   "good": 127
+  }, 
+  "status": "finished"
+ }, 
+ "260340": {
+  "Type": "Commissioning15", 
+  "duration": "736", 
+  "lumisections": {
+   "all": 41, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "260344": {
+  "Type": "Commissioning15", 
+  "duration": "650", 
+  "lumisections": {
+   "all": 42, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "260351": {
+  "Type": "Commissioning15", 
+  "duration": "20980", 
+  "lumisections": {
+   "all": 911, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "260360": {
+  "Type": "Commissioning15", 
+  "duration": "6954", 
+  "lumisections": {
+   "all": 313, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "260363": {
+  "Type": "Commissioning15", 
+  "duration": "4497", 
+  "lumisections": {
+   "all": 205, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "260373": {
+  "Type": "Collisions15", 
+  "duration": "9844", 
+  "lumisections": {
+   "all": 465, 
+   "good": 465
+  }, 
+  "status": "finished"
+ }, 
+ "260407": {
+  "Type": "Commissioning15", 
+  "duration": "746", 
+  "lumisections": {
+   "all": 53, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "260412": {
+  "Type": "Commissioning15", 
+  "duration": "800", 
+  "lumisections": {
+   "all": 32, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "260416": {
+  "Type": "Commissioning15", 
+  "duration": "1564", 
+  "lumisections": {
+   "all": 84, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "260419": {
+  "Type": "Commissioning15", 
+  "duration": "4778", 
+  "lumisections": {
+   "all": 221, 
+   "good": 1
+  }, 
+  "status": "finished"
+ }, 
+ "260422": {
+  "Type": "Commissioning15", 
+  "duration": "647", 
+  "lumisections": {
+   "all": 34, 
+   "good": 34
+  }, 
+  "status": "finished"
+ }, 
+ "260423": {
+  "Type": "Collisions15", 
+  "duration": "311", 
+  "lumisections": {
+   "all": 17, 
+   "good": 17
+  }, 
+  "status": "finished"
+ }, 
+ "260424": {
+  "Type": "Collisions15", 
+  "duration": "15710", 
+  "lumisections": {
+   "all": 688, 
+   "good": 688
+  }, 
+  "status": "finished"
+ }, 
+ "260425": {
+  "Type": "Collisions15", 
+  "duration": "6689", 
+  "lumisections": {
+   "all": 298, 
+   "good": 298
+  }, 
+  "status": "finished"
+ }, 
+ "260426": {
+  "Type": "Collisions15", 
+  "duration": "11965", 
+  "lumisections": {
+   "all": 524, 
+   "good": 524
+  }, 
+  "status": "finished"
+ }, 
+ "260427": {
+  "Type": "Collisions15", 
+  "duration": "6639", 
+  "lumisections": {
+   "all": 324, 
+   "good": 324
+  }, 
+  "status": "finished"
+ }, 
+ "260431": {
+  "Type": "Collisions15", 
+  "duration": "10419", 
+  "lumisections": {
+   "all": 490, 
+   "good": 490
+  }, 
+  "status": "finished"
+ }, 
+ "260433": {
+  "Type": "Collisions15", 
+  "duration": "3045", 
+  "lumisections": {
+   "all": 140, 
+   "good": 140
+  }, 
+  "status": "finished"
+ }, 
+ "260439": {
+  "Type": "Collisions15", 
+  "duration": "451", 
+  "lumisections": {
+   "all": 70, 
+   "good": 70
+  }, 
+  "status": "finished"
+ }, 
+ "260446": {
+  "Type": "Commissioning15", 
+  "duration": "383", 
+  "lumisections": {
+   "all": 322, 
+   "good": 296
+  }, 
+  "status": "finished"
+ }, 
+ "260470": {
+  "Type": "Commissioning15", 
+  "duration": "744", 
+  "lumisections": {
+   "all": 39, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "260481": {
+  "Type": "Commissioning15", 
+  "duration": "2379", 
+  "lumisections": {
+   "all": 2, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "260483": {
+  "Type": "Commissioning15", 
+  "duration": "8263", 
+  "lumisections": {
+   "all": 372, 
+   "good": 1
+  }, 
+  "status": "finished"
+ }, 
+ "260490": {
+  "Type": "Collisions15", 
+  "duration": "1514", 
+  "lumisections": {
+   "all": 84, 
+   "good": 84
+  }, 
+  "status": "finished"
+ }, 
+ "260493": {
+  "Type": "Collisions15", 
+  "duration": "1051", 
+  "lumisections": {
+   "all": 76, 
+   "good": 76
+  }, 
+  "status": "finished"
+ }, 
+ "260528": {
+  "Type": "Collisions15", 
+  "duration": "587", 
+  "lumisections": {
+   "all": 40, 
+   "good": 40
+  }, 
+  "status": "finished"
+ }, 
+ "260532": {
+  "Type": "Collisions15", 
+  "duration": "17396", 
+  "lumisections": {
+   "all": 769, 
+   "good": 769
+  }, 
+  "status": "finished"
+ }, 
+ "260533": {
+  "Type": "Collisions15", 
+  "duration": "327", 
+  "lumisections": {
+   "all": 26, 
+   "good": 26
+  }, 
+  "status": "finished"
+ }, 
+ "260534": {
+  "Type": "Collisions15", 
+  "duration": "9141", 
+  "lumisections": {
+   "all": 398, 
+   "good": 398
+  }, 
+  "status": "finished"
+ }, 
+ "260536": {
+  "Type": "Collisions15", 
+  "duration": "4751", 
+  "lumisections": {
+   "all": 209, 
+   "good": 66
+  }, 
+  "status": "finished"
+ }, 
+ "260538": {
+  "Type": "Collisions15", 
+  "duration": "6702", 
+  "lumisections": {
+   "all": 294, 
+   "good": 152
+  }, 
+  "status": "finished"
+ }, 
+ "260541": {
+  "Type": "Collisions15", 
+  "duration": "1006", 
+  "lumisections": {
+   "all": 62, 
+   "good": 62
+  }, 
+  "status": "finished"
+ }, 
+ "260543": {
+  "Type": "Cosmics15", 
+  "duration": "1512", 
+  "lumisections": {
+   "all": 79, 
+   "good": 79
+  }, 
+  "status": "finished"
+ }, 
+ "260548": {
+  "Type": "Cosmics15", 
+  "duration": "711", 
+  "lumisections": {
+   "all": 37, 
+   "good": 37
+  }, 
+  "status": "finished"
+ }, 
+ "260549": {
+  "Type": "Cosmics15", 
+  "duration": "783", 
+  "lumisections": {
+   "all": 42, 
+   "good": 42
+  }, 
+  "status": "finished"
+ }, 
+ "260552": {
+  "Type": "Commissioning15", 
+  "duration": "727", 
+  "lumisections": {
+   "all": 40, 
+   "good": 40
+  }, 
+  "status": "finished"
+ }, 
+ "260557": {
+  "Type": "Cosmics15", 
+  "duration": "1018", 
+  "lumisections": {
+   "all": 60, 
+   "good": 9
+  }, 
+  "status": "finished"
+ }, 
+ "260561": {
+  "Type": "Commissioning15", 
+  "duration": "1193", 
+  "lumisections": {
+   "all": 66, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "260564": {
+  "Type": "Commissioning15", 
+  "duration": "1827", 
+  "lumisections": {
+   "all": 93, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "260568": {
+  "Type": "Commissioning15", 
+  "duration": "7992", 
+  "lumisections": {
+   "all": 355, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "260570": {
+  "Type": "Commissioning15", 
+  "duration": "403", 
+  "lumisections": {
+   "all": 19, 
+   "good": 10
+  }, 
+  "status": "finished"
+ }, 
+ "260575": {
+  "Type": "Collisions15", 
+  "duration": "571", 
+  "lumisections": {
+   "all": 30, 
+   "good": 30
+  }, 
+  "status": "finished"
+ }, 
+ "260576": {
+  "Type": "Collisions15", 
+  "duration": "10892", 
+  "lumisections": {
+   "all": 475, 
+   "good": 475
+  }, 
+  "status": "finished"
+ }, 
+ "260577": {
+  "Type": "Collisions15", 
+  "duration": "1924", 
+  "lumisections": {
+   "all": 102, 
+   "good": 102
+  }, 
+  "status": "finished"
+ }, 
+ "260579": {
+  "Type": "Commissioning15", 
+  "duration": "2422", 
+  "lumisections": {
+   "all": 126, 
+   "good": 74
+  }, 
+  "status": "finished"
+ }, 
+ "260581": {
+  "Type": "Commissioning15", 
+  "duration": "8467", 
+  "lumisections": {
+   "all": 379, 
+   "good": 2
+  }, 
+  "status": "finished"
+ }, 
+ "260583": {
+  "Type": "Commissioning15", 
+  "duration": "1246", 
+  "lumisections": {
+   "all": 75, 
+   "good": 75
+  }, 
+  "status": "finished"
+ }, 
+ "260585": {
+  "Type": "Commissioning15", 
+  "duration": "4143", 
+  "lumisections": {
+   "all": 252, 
+   "good": 157
+  }, 
+  "status": "finished"
+ }, 
+ "260591": {
+  "Type": "Commissioning15", 
+  "duration": "4657", 
+  "lumisections": {
+   "all": 211, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "260593": {
+  "Type": "Collisions15", 
+  "duration": "9810", 
+  "lumisections": {
+   "all": 449, 
+   "good": 441
+  }, 
+  "status": "finished"
+ }, 
+ "260596": {
+  "Type": "Cosmics15", 
+  "duration": "1131", 
+  "lumisections": {
+   "all": 60, 
+   "good": 60
+  }, 
+  "status": "finished"
+ }, 
+ "260599": {
+  "Type": "Commissioning15", 
+  "duration": "5254", 
+  "lumisections": {
+   "all": 258, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "260608": {
+  "Type": "Commissioning15", 
+  "duration": "10723", 
+  "lumisections": {
+   "all": 551, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "260624": {
+  "Type": "Commissioning15", 
+  "duration": "5335", 
+  "lumisections": {
+   "all": 242, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "260627": {
+  "Type": "Collisions15", 
+  "duration": "43383", 
+  "lumisections": {
+   "all": 1910, 
+   "good": 1906
+  }, 
+  "status": "finished"
+ }, 
+ "260648": {
+  "Type": "Cosmics15", 
+  "duration": "1542", 
+  "lumisections": {
+   "all": 170, 
+   "good": 170
+  }, 
+  "status": "finished"
+ }, 
+ "260650": {
+  "Type": "Commissioning15", 
+  "duration": "2662", 
+  "lumisections": {
+   "all": 124, 
+   "good": 124
+  }, 
+  "status": "finished"
+ }, 
+ "260656": {
+  "Type": "Cosmics15", 
+  "duration": "798", 
+  "lumisections": {
+   "all": 60, 
+   "good": 60
+  }, 
+  "status": "finished"
+ }, 
+ "260664": {
+  "Type": "Cosmics15", 
+  "duration": "3643", 
+  "lumisections": {
+   "all": 167, 
+   "good": 167
+  }, 
+  "status": "finished"
+ }, 
+ "260666": {
+  "Type": "Commissioning15", 
+  "duration": "4873", 
+  "lumisections": {
+   "all": 216, 
+   "good": 216
+  }, 
+  "status": "finished"
+ }, 
+ "260674": {
+  "Type": "Cosmics15", 
+  "duration": "4113", 
+  "lumisections": {
+   "all": 180, 
+   "good": 180
+  }, 
+  "status": "finished"
+ }, 
+ "260687": {
+  "Type": "Commissioning15", 
+  "duration": "667", 
+  "lumisections": {
+   "all": 36, 
+   "good": 36
+  }, 
+  "status": "finished"
+ }, 
+ "260689": {
+  "Type": "Cosmics15", 
+  "duration": "2196", 
+  "lumisections": {
+   "all": 104, 
+   "good": 104
+  }, 
+  "status": "finished"
+ }, 
+ "260692": {
+  "Type": "Cosmics15", 
+  "duration": "392", 
+  "lumisections": {
+   "all": 38, 
+   "good": 38
+  }, 
+  "status": "finished"
+ }, 
+ "260693": {
+  "Type": "Commissioning15", 
+  "duration": "536", 
+  "lumisections": {
+   "all": 34, 
+   "good": 34
+  }, 
+  "status": "finished"
+ }, 
+ "260697": {
+  "Type": "Cosmics15", 
+  "duration": "19648", 
+  "lumisections": {
+   "all": 856, 
+   "good": 856
+  }, 
+  "status": "finished"
+ }, 
+ "260701": {
+  "Type": "Cosmics15", 
+  "duration": "1617", 
+  "lumisections": {
+   "all": 83, 
+   "good": 83
+  }, 
+  "status": "finished"
+ }, 
+ "260702": {
+  "Type": "Cosmics15", 
+  "duration": "3933", 
+  "lumisections": {
+   "all": 176, 
+   "good": 176
+  }, 
+  "status": "finished"
+ }, 
+ "260711": {
+  "Type": "Cosmics15", 
+  "duration": "1483", 
+  "lumisections": {
+   "all": 119, 
+   "good": 119
+  }, 
+  "status": "finished"
+ }, 
+ "260713": {
+  "Type": "Cosmics15", 
+  "duration": "14499", 
+  "lumisections": {
+   "all": 800, 
+   "good": 550
+  }, 
+  "status": "finished"
+ }, 
+ "260727": {
+  "Type": "Commissioning15", 
+  "duration": "2735", 
+  "lumisections": {
+   "all": 132, 
+   "good": 4
+  }, 
+  "status": "finished"
+ }, 
+ "260729": {
+  "Type": "Cosmics15", 
+  "duration": "3432", 
+  "lumisections": {
+   "all": 238, 
+   "good": 22
+  }, 
+  "status": "finished"
+ }, 
+ "260737": {
+  "Type": "Commissioning15", 
+  "duration": "2602", 
+  "lumisections": {
+   "all": 4105, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "261366": {
+  "Type": "Commissioning15", 
+  "duration": "5956", 
+  "lumisections": {
+   "all": 279, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "261369": {
+  "Type": "Commissioning15", 
+  "duration": "2821", 
+  "lumisections": {
+   "all": 123, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "261371": {
+  "Type": "Commissioning15", 
+  "duration": "1782", 
+  "lumisections": {
+   "all": 90, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "261395": {
+  "Type": "Commissioning15", 
+  "duration": "498", 
+  "lumisections": {
+   "all": 46, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "261397": {
+  "Type": "Commissioning15", 
+  "duration": "1115", 
+  "lumisections": {
+   "all": 53, 
+   "good": 53
+  }, 
+  "status": "finished"
+ }, 
+ "261399": {
+  "Type": "Commissioning15", 
+  "duration": "386", 
+  "lumisections": {
+   "all": 71, 
+   "good": 71
+  }, 
+  "status": "finished"
+ }, 
+ "261401": {
+  "Type": "Commissioning15", 
+  "duration": "333", 
+  "lumisections": {
+   "all": 18, 
+   "good": 18
+  }, 
+  "status": "finished"
+ }, 
+ "261405": {
+  "Type": "Commissioning15", 
+  "duration": "1518", 
+  "lumisections": {
+   "all": 126, 
+   "good": 37
+  }, 
+  "status": "finished"
+ }, 
+ "261411": {
+  "Type": "Commissioning15", 
+  "duration": "4472", 
+  "lumisections": {
+   "all": 206, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "261424": {
+  "Type": "Commissioning15", 
+  "duration": "1869", 
+  "lumisections": {
+   "all": 86, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "261432": {
+  "Type": "Commissioning15", 
+  "duration": "2893", 
+  "lumisections": {
+   "all": 129, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "261434": {
+  "Type": "Commissioning15", 
+  "duration": "3490", 
+  "lumisections": {
+   "all": 161, 
+   "good": 17
+  }, 
+  "status": "finished"
+ }, 
+ "261435": {
+  "Type": "Commissioning15", 
+  "duration": "1205", 
+  "lumisections": {
+   "all": 76, 
+   "good": 76
+  }, 
+  "status": "finished"
+ }, 
+ "261436": {
+  "Type": "Cosmics15", 
+  "duration": "1142", 
+  "lumisections": {
+   "all": 112, 
+   "good": 43
+  }, 
+  "status": "finished"
+ }, 
+ "261438": {
+  "Type": "Commissioning15", 
+  "duration": "2945", 
+  "lumisections": {
+   "all": 134, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "261443": {
+  "Type": "Commissioning15", 
+  "duration": "3169", 
+  "lumisections": {
+   "all": 156, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "261445": {
+  "Type": "Commissioning15", 
+  "duration": "4001", 
+  "lumisections": {
+   "all": 207, 
+   "good": 200
+  }, 
+  "status": "finished"
+ }, 
+ "261447": {
+  "Type": "Commissioning15", 
+  "duration": "3958", 
+  "lumisections": {
+   "all": 247, 
+   "good": 107
+  }, 
+  "status": "finished"
+ }, 
+ "261451": {
+  "Type": "Commissioning15", 
+  "duration": "757", 
+  "lumisections": {
+   "all": 69, 
+   "good": 12
+  }, 
+  "status": "finished"
+ }, 
+ "261454": {
+  "Type": "Cosmics15", 
+  "duration": "310", 
+  "lumisections": {
+   "all": 23, 
+   "good": 23
+  }, 
+  "status": "finished"
+ }, 
+ "261455": {
+  "Type": "Cosmics15", 
+  "duration": "571", 
+  "lumisections": {
+   "all": 31, 
+   "good": 31
+  }, 
+  "status": "finished"
+ }, 
+ "261466": {
+  "Type": "Commissioning15", 
+  "duration": "8128", 
+  "lumisections": {
+   "all": 493, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "261472": {
+  "Type": "Commissioning15", 
+  "duration": "2506", 
+  "lumisections": {
+   "all": 112, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "261473": {
+  "Type": "Commissioning15", 
+  "duration": "1947", 
+  "lumisections": {
+   "all": 1227, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "261510": {
+  "Type": "Commissioning15", 
+  "duration": "6843", 
+  "lumisections": {
+   "all": 302, 
+   "good": 256
+  }, 
+  "status": "finished"
+ }, 
+ "261544": {
+  "Type": "Commissioning15", 
+  "duration": "2567", 
+  "lumisections": {
+   "all": 116, 
+   "good": 116
+  }, 
+  "status": "finished"
+ }, 
+ "261553": {
+  "Type": "Commissioning15", 
+  "duration": "3285", 
+  "lumisections": {
+   "all": 151, 
+   "good": 139
+  }, 
+  "status": "finished"
+ }, 
+ "261580": {
+  "Type": "Commissioning15", 
+  "duration": "5774", 
+  "lumisections": {
+   "all": 254, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "261606": {
+  "Type": "Commissioning15", 
+  "duration": "1014", 
+  "lumisections": {
+   "all": 124, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "261618": {
+  "Type": "Commissioning15", 
+  "duration": "878", 
+  "lumisections": {
+   "all": 46, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "261619": {
+  "Type": "Commissioning15", 
+  "duration": "568", 
+  "lumisections": {
+   "all": 41, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "261624": {
+  "Type": "Commissioning15", 
+  "duration": "6411", 
+  "lumisections": {
+   "all": 307, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "261629": {
+  "Type": "Commissioning15", 
+  "duration": "602", 
+  "lumisections": {
+   "all": 68, 
+   "good": 68
+  }, 
+  "status": "finished"
+ }, 
+ "261641": {
+  "Type": "Cosmics15", 
+  "duration": "383", 
+  "lumisections": {
+   "all": 65, 
+   "good": 11
+  }, 
+  "status": "finished"
+ }, 
+ "261697": {
+  "Type": "Commissioning15", 
+  "duration": "5853", 
+  "lumisections": {
+   "all": 341, 
+   "good": 341
+  }, 
+  "status": "finished"
+ }, 
+ "261735": {
+  "Type": "Cosmics15", 
+  "duration": "1369", 
+  "lumisections": {
+   "all": 73, 
+   "good": 73
+  }, 
+  "status": "finished"
+ }, 
+ "261738": {
+  "Type": "Cosmics15", 
+  "duration": "2045", 
+  "lumisections": {
+   "all": 96, 
+   "good": 96
+  }, 
+  "status": "finished"
+ }, 
+ "261743": {
+  "Type": "Cosmics15", 
+  "duration": "6554", 
+  "lumisections": {
+   "all": 299, 
+   "good": 299
+  }, 
+  "status": "finished"
+ }, 
+ "261784": {
+  "Type": "Cosmics15", 
+  "duration": "8752", 
+  "lumisections": {
+   "all": 386, 
+   "good": 386
+  }, 
+  "status": "finished"
+ }, 
+ "261801": {
+  "Type": "Cosmics15", 
+  "duration": "4981", 
+  "lumisections": {
+   "all": 223, 
+   "good": 223
+  }, 
+  "status": "finished"
+ }, 
+ "261807": {
+  "Type": "Cosmics15", 
+  "duration": "8073", 
+  "lumisections": {
+   "all": 349, 
+   "good": 349
+  }, 
+  "status": "finished"
+ }, 
+ "261808": {
+  "Type": "Cosmics15", 
+  "duration": "4017", 
+  "lumisections": {
+   "all": 522, 
+   "good": 199
+  }, 
+  "status": "finished"
+ }, 
+ "261926": {
+  "Type": "Commissioning15", 
+  "duration": "1749", 
+  "lumisections": {
+   "all": 82, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "261947": {
+  "Type": "Commissioning15", 
+  "duration": "2463", 
+  "lumisections": {
+   "all": 118, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "261980": {
+  "Type": "Commissioning15", 
+  "duration": "1097", 
+  "lumisections": {
+   "all": 54, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "261995": {
+  "Type": "Commissioning15", 
+  "duration": "1067", 
+  "lumisections": {
+   "all": 87, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "261996": {
+  "Type": "Commissioning15", 
+  "duration": "7176", 
+  "lumisections": {
+   "all": 332, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "261999": {
+  "Type": "Commissioning15", 
+  "duration": "10347", 
+  "lumisections": {
+   "all": 455, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262017": {
+  "Type": "Commissioning15", 
+  "duration": "3165", 
+  "lumisections": {
+   "all": 143, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262018": {
+  "Type": "Commissioning15", 
+  "duration": "691", 
+  "lumisections": {
+   "all": 48, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262020": {
+  "Type": "Commissioning15", 
+  "duration": "8138", 
+  "lumisections": {
+   "all": 366, 
+   "good": 5
+  }, 
+  "status": "finished"
+ }, 
+ "262021": {
+  "Type": "Commissioning15", 
+  "duration": "2235", 
+  "lumisections": {
+   "all": 105, 
+   "good": 105
+  }, 
+  "status": "finished"
+ }, 
+ "262022": {
+  "Type": "Commissioning15", 
+  "duration": "7119", 
+  "lumisections": {
+   "all": 333, 
+   "good": 136
+  }, 
+  "status": "finished"
+ }, 
+ "262028": {
+  "Type": "Commissioning15", 
+  "duration": "875", 
+  "lumisections": {
+   "all": 57, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262029": {
+  "Type": "Cosmics15", 
+  "duration": "1063", 
+  "lumisections": {
+   "all": 55, 
+   "good": 49
+  }, 
+  "status": "finished"
+ }, 
+ "262030": {
+  "Type": "Cosmics15", 
+  "duration": "878", 
+  "lumisections": {
+   "all": 55, 
+   "good": 55
+  }, 
+  "status": "finished"
+ }, 
+ "262033": {
+  "Type": "Cosmics15", 
+  "duration": "3568", 
+  "lumisections": {
+   "all": 174, 
+   "good": 174
+  }, 
+  "status": "finished"
+ }, 
+ "262046": {
+  "Type": "Cosmics15", 
+  "duration": "1254", 
+  "lumisections": {
+   "all": 79, 
+   "good": 79
+  }, 
+  "status": "finished"
+ }, 
+ "262059": {
+  "Type": "Cosmics15", 
+  "duration": "2773", 
+  "lumisections": {
+   "all": 127, 
+   "good": 127
+  }, 
+  "status": "finished"
+ }, 
+ "262063": {
+  "Type": "Cosmics15", 
+  "duration": "1198", 
+  "lumisections": {
+   "all": 82, 
+   "good": 82
+  }, 
+  "status": "finished"
+ }, 
+ "262068": {
+  "Type": "Cosmics15", 
+  "duration": "1890", 
+  "lumisections": {
+   "all": 90, 
+   "good": 26
+  }, 
+  "status": "finished"
+ }, 
+ "262079": {
+  "Type": "Commissioning15", 
+  "duration": "6000", 
+  "lumisections": {
+   "all": 277, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262081": {
+  "Type": "Collisions15", 
+  "duration": "3836", 
+  "lumisections": {
+   "all": 172, 
+   "good": 157
+  }, 
+  "status": "finished"
+ }, 
+ "262121": {
+  "Type": "Collisions15", 
+  "duration": "430", 
+  "lumisections": {
+   "all": 25, 
+   "good": 25
+  }, 
+  "status": "finished"
+ }, 
+ "262137": {
+  "Type": "Collisions15", 
+  "duration": "1878", 
+  "lumisections": {
+   "all": 96, 
+   "good": 96
+  }, 
+  "status": "finished"
+ }, 
+ "262147": {
+  "Type": "Collisions15", 
+  "duration": "1733", 
+  "lumisections": {
+   "all": 81, 
+   "good": 81
+  }, 
+  "status": "finished"
+ }, 
+ "262157": {
+  "Type": "Collisions15", 
+  "duration": "1571", 
+  "lumisections": {
+   "all": 117, 
+   "good": 117
+  }, 
+  "status": "finished"
+ }, 
+ "262163": {
+  "Type": "Collisions15", 
+  "duration": "5473", 
+  "lumisections": {
+   "all": 247, 
+   "good": 247
+  }, 
+  "status": "finished"
+ }, 
+ "262164": {
+  "Type": "Collisions15", 
+  "duration": "8483", 
+  "lumisections": {
+   "all": 387, 
+   "good": 387
+  }, 
+  "status": "finished"
+ }, 
+ "262165": {
+  "Type": "Collisions15", 
+  "duration": "3102", 
+  "lumisections": {
+   "all": 140, 
+   "good": 140
+  }, 
+  "status": "finished"
+ }, 
+ "262167": {
+  "Type": "Collisions15", 
+  "duration": "6499", 
+  "lumisections": {
+   "all": 327, 
+   "good": 327
+  }, 
+  "status": "finished"
+ }, 
+ "262169": {
+  "Type": "Collisions15", 
+  "duration": "1183", 
+  "lumisections": {
+   "all": 58, 
+   "good": 58
+  }, 
+  "status": "finished"
+ }, 
+ "262170": {
+  "Type": "Collisions15", 
+  "duration": "1315", 
+  "lumisections": {
+   "all": 65, 
+   "good": 65
+  }, 
+  "status": "finished"
+ }, 
+ "262171": {
+  "Type": "Collisions15", 
+  "duration": "3757", 
+  "lumisections": {
+   "all": 184, 
+   "good": 184
+  }, 
+  "status": "finished"
+ }, 
+ "262172": {
+  "Type": "Collisions15", 
+  "duration": "3651", 
+  "lumisections": {
+   "all": 169, 
+   "good": 169
+  }, 
+  "status": "finished"
+ }, 
+ "262173": {
+  "Type": "Collisions15", 
+  "duration": "4346", 
+  "lumisections": {
+   "all": 194, 
+   "good": 194
+  }, 
+  "status": "finished"
+ }, 
+ "262174": {
+  "Type": "Collisions15", 
+  "duration": "4029", 
+  "lumisections": {
+   "all": 188, 
+   "good": 188
+  }, 
+  "status": "finished"
+ }, 
+ "262175": {
+  "Type": "Cosmics15", 
+  "duration": "3381", 
+  "lumisections": {
+   "all": 151, 
+   "good": 109
+  }, 
+  "status": "finished"
+ }, 
+ "262176": {
+  "Type": "Commissioning15", 
+  "duration": "788", 
+  "lumisections": {
+   "all": 54, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262178": {
+  "Type": "Commissioning15", 
+  "duration": "4201", 
+  "lumisections": {
+   "all": 163, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262192": {
+  "Type": "Commissioning15", 
+  "duration": "523", 
+  "lumisections": {
+   "all": 27, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262194": {
+  "Type": "Commissioning15", 
+  "duration": "449", 
+  "lumisections": {
+   "all": 30, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262195": {
+  "Type": "Commissioning15", 
+  "duration": "1561", 
+  "lumisections": {
+   "all": 81, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262204": {
+  "Type": "Collisions15", 
+  "duration": "1152", 
+  "lumisections": {
+   "all": 55, 
+   "good": 55
+  }, 
+  "status": "finished"
+ }, 
+ "262205": {
+  "Type": "Collisions15", 
+  "duration": "6562", 
+  "lumisections": {
+   "all": 329, 
+   "good": 329
+  }, 
+  "status": "finished"
+ }, 
+ "262233": {
+  "Type": "Commissioning15", 
+  "duration": "1565", 
+  "lumisections": {
+   "all": 98, 
+   "good": 14
+  }, 
+  "status": "finished"
+ }, 
+ "262235": {
+  "Type": "Collisions15", 
+  "duration": "9094", 
+  "lumisections": {
+   "all": 470, 
+   "good": 470
+  }, 
+  "status": "finished"
+ }, 
+ "262238": {
+  "Type": "Commissioning15", 
+  "duration": "696", 
+  "lumisections": {
+   "all": 46, 
+   "good": 30
+  }, 
+  "status": "finished"
+ }, 
+ "262239": {
+  "Type": "Commissioning15", 
+  "duration": "464", 
+  "lumisections": {
+   "all": 42, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262243": {
+  "Type": "Commissioning15", 
+  "duration": "3455", 
+  "lumisections": {
+   "all": 159, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262244": {
+  "Type": "Commissioning15", 
+  "duration": "771", 
+  "lumisections": {
+   "all": 41, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262248": {
+  "Type": "Collisions15", 
+  "duration": "674", 
+  "lumisections": {
+   "all": 35, 
+   "good": 34
+  }, 
+  "status": "finished"
+ }, 
+ "262249": {
+  "Type": "Collisions15", 
+  "duration": "1127", 
+  "lumisections": {
+   "all": 55, 
+   "good": 55
+  }, 
+  "status": "finished"
+ }, 
+ "262250": {
+  "Type": "Collisions15", 
+  "duration": "2156", 
+  "lumisections": {
+   "all": 105, 
+   "good": 105
+  }, 
+  "status": "finished"
+ }, 
+ "262252": {
+  "Type": "Collisions15", 
+  "duration": "5495", 
+  "lumisections": {
+   "all": 243, 
+   "good": 243
+  }, 
+  "status": "finished"
+ }, 
+ "262253": {
+  "Type": "Collisions15", 
+  "duration": "3667", 
+  "lumisections": {
+   "all": 163, 
+   "good": 163
+  }, 
+  "status": "finished"
+ }, 
+ "262254": {
+  "Type": "Collisions15", 
+  "duration": "25691", 
+  "lumisections": {
+   "all": 1123, 
+   "good": 1123
+  }, 
+  "status": "finished"
+ }, 
+ "262255": {
+  "Type": "Commissioning15", 
+  "duration": "2883", 
+  "lumisections": {
+   "all": 127, 
+   "good": 123
+  }, 
+  "status": "finished"
+ }, 
+ "262256": {
+  "Type": "Commissioning15", 
+  "duration": "351", 
+  "lumisections": {
+   "all": 55, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262262": {
+  "Type": "Commissioning15", 
+  "duration": "10661", 
+  "lumisections": {
+   "all": 473, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262269": {
+  "Type": "Commissioning15", 
+  "duration": "9754", 
+  "lumisections": {
+   "all": 428, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262270": {
+  "Type": "Collisions15", 
+  "duration": "1905", 
+  "lumisections": {
+   "all": 88, 
+   "good": 86
+  }, 
+  "status": "finished"
+ }, 
+ "262271": {
+  "Type": "Collisions15", 
+  "duration": "8013", 
+  "lumisections": {
+   "all": 351, 
+   "good": 351
+  }, 
+  "status": "finished"
+ }, 
+ "262272": {
+  "Type": "Collisions15", 
+  "duration": "5452", 
+  "lumisections": {
+   "all": 241, 
+   "good": 241
+  }, 
+  "status": "finished"
+ }, 
+ "262273": {
+  "Type": "Collisions15", 
+  "duration": "1846", 
+  "lumisections": {
+   "all": 85, 
+   "good": 85
+  }, 
+  "status": "finished"
+ }, 
+ "262274": {
+  "Type": "Collisions15", 
+  "duration": "23645", 
+  "lumisections": {
+   "all": 1022, 
+   "good": 1022
+  }, 
+  "status": "finished"
+ }, 
+ "262275": {
+  "Type": "Collisions15", 
+  "duration": "1858", 
+  "lumisections": {
+   "all": 101, 
+   "good": 101
+  }, 
+  "status": "finished"
+ }, 
+ "262277": {
+  "Type": "Collisions15", 
+  "duration": "7109", 
+  "lumisections": {
+   "all": 324, 
+   "good": 324
+  }, 
+  "status": "finished"
+ }, 
+ "262279": {
+  "Type": "Commissioning15", 
+  "duration": "2579", 
+  "lumisections": {
+   "all": 170, 
+   "good": 170
+  }, 
+  "status": "finished"
+ }, 
+ "262289": {
+  "Type": "Commissioning15", 
+  "duration": "695", 
+  "lumisections": {
+   "all": 154, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262297": {
+  "Type": "Commissioning15", 
+  "duration": "542", 
+  "lumisections": {
+   "all": 62, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262323": {
+  "Type": "Commissioning15", 
+  "duration": "4340", 
+  "lumisections": {
+   "all": 197, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262325": {
+  "Type": "Collisions15", 
+  "duration": "10736", 
+  "lumisections": {
+   "all": 467, 
+   "good": 467
+  }, 
+  "status": "finished"
+ }, 
+ "262326": {
+  "Type": "Collisions15", 
+  "duration": "1846", 
+  "lumisections": {
+   "all": 86, 
+   "good": 86
+  }, 
+  "status": "finished"
+ }, 
+ "262327": {
+  "Type": "Collisions15", 
+  "duration": "5459", 
+  "lumisections": {
+   "all": 240, 
+   "good": 240
+  }, 
+  "status": "finished"
+ }, 
+ "262328": {
+  "Type": "Collisions15", 
+  "duration": "4205", 
+  "lumisections": {
+   "all": 201, 
+   "good": 201
+  }, 
+  "status": "finished"
+ }, 
+ "262332": {
+  "Type": "Cosmics15", 
+  "duration": "4520", 
+  "lumisections": {
+   "all": 722, 
+   "good": 199
+  }, 
+  "status": "finished"
+ }, 
+ "262406": {
+  "Type": "Commissioning15", 
+  "duration": "7759", 
+  "lumisections": {
+   "all": 344, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262409": {
+  "Type": "Commissioning15", 
+  "duration": "552", 
+  "lumisections": {
+   "all": 25, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262414": {
+  "Type": "Commissioning15", 
+  "duration": "2815", 
+  "lumisections": {
+   "all": 138, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262422": {
+  "Type": "Commissioning15", 
+  "duration": "982", 
+  "lumisections": {
+   "all": 66, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262432": {
+  "Type": "Commissioning15", 
+  "duration": "14498", 
+  "lumisections": {
+   "all": 719, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262435": {
+  "Type": "Commissioning15", 
+  "duration": "10205", 
+  "lumisections": {
+   "all": 453, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262455": {
+  "Type": "Commissioning15", 
+  "duration": "2314", 
+  "lumisections": {
+   "all": 107, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262465": {
+  "Type": "Commissioning15", 
+  "duration": "898", 
+  "lumisections": {
+   "all": 56, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262478": {
+  "Type": "Commissioning15", 
+  "duration": "530", 
+  "lumisections": {
+   "all": 30, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262484": {
+  "Type": "Commissioning15", 
+  "duration": "3092", 
+  "lumisections": {
+   "all": 162, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262486": {
+  "Type": "Commissioning15", 
+  "duration": "2478", 
+  "lumisections": {
+   "all": 121, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262500": {
+  "Type": "Commissioning15", 
+  "duration": "2010", 
+  "lumisections": {
+   "all": 128, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262521": {
+  "Type": "Commissioning15", 
+  "duration": "309", 
+  "lumisections": {
+   "all": 33, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262533": {
+  "Type": "Commissioning15", 
+  "duration": "11531", 
+  "lumisections": {
+   "all": 517, 
+   "good": 341
+  }, 
+  "status": "finished"
+ }, 
+ "262535": {
+  "Type": "Commissioning15", 
+  "duration": "1667", 
+  "lumisections": {
+   "all": 135, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262540": {
+  "Type": "Commissioning15", 
+  "duration": "604", 
+  "lumisections": {
+   "all": 42, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262541": {
+  "Type": "Commissioning15", 
+  "duration": "602", 
+  "lumisections": {
+   "all": 29, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262542": {
+  "Type": "Commissioning15", 
+  "duration": "5725", 
+  "lumisections": {
+   "all": 299, 
+   "good": 3
+  }, 
+  "status": "finished"
+ }, 
+ "262548": {
+  "Type": "Collisions15", 
+  "duration": "8575", 
+  "lumisections": {
+   "all": 411, 
+   "good": 402
+  }, 
+  "status": "finished"
+ }, 
+ "262563": {
+  "Type": "Collisions15", 
+  "duration": "3019", 
+  "lumisections": {
+   "all": 138, 
+   "good": 140
+  }, 
+  "status": "finished"
+ }, 
+ "262606": {
+  "Type": "Commissioning15", 
+  "duration": "2489", 
+  "lumisections": {
+   "all": 183, 
+   "good": 2
+  }, 
+  "status": "finished"
+ }, 
+ "262607": {
+  "Type": "Cosmics15", 
+  "duration": "783", 
+  "lumisections": {
+   "all": 41, 
+   "good": 41
+  }, 
+  "status": "finished"
+ }, 
+ "262608": {
+  "Type": "Cosmics15", 
+  "duration": "4288", 
+  "lumisections": {
+   "all": 227, 
+   "good": 181
+  }, 
+  "status": "finished"
+ }, 
+ "262615": {
+  "Type": "Commissioning15", 
+  "duration": "2236", 
+  "lumisections": {
+   "all": 98, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262616": {
+  "Type": "Commissioning15", 
+  "duration": "2070", 
+  "lumisections": {
+   "all": 99, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262620": {
+  "Type": "Collisions15", 
+  "duration": "12194", 
+  "lumisections": {
+   "all": 550, 
+   "good": 544
+  }, 
+  "status": "finished"
+ }, 
+ "262634": {
+  "Type": "Commissioning15", 
+  "duration": "601", 
+  "lumisections": {
+   "all": 49, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262636": {
+  "Type": "Commissioning15", 
+  "duration": "2401", 
+  "lumisections": {
+   "all": 166, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262640": {
+  "Type": "Collisions15", 
+  "duration": "5414", 
+  "lumisections": {
+   "all": 349, 
+   "good": 349
+  }, 
+  "status": "finished"
+ }, 
+ "262656": {
+  "Type": "Collisions15", 
+  "duration": "4486", 
+  "lumisections": {
+   "all": 240, 
+   "good": 240
+  }, 
+  "status": "finished"
+ }, 
+ "262661": {
+  "Type": "Commissioning15", 
+  "duration": "969", 
+  "lumisections": {
+   "all": 53, 
+   "good": 53
+  }, 
+  "status": "finished"
+ }, 
+ "262686": {
+  "Type": "Commissioning15", 
+  "duration": "5361", 
+  "lumisections": {
+   "all": 253, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262690": {
+  "Type": "Commissioning15", 
+  "duration": "5050", 
+  "lumisections": {
+   "all": 289, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262694": {
+  "Type": "Collisions15", 
+  "duration": "5262", 
+  "lumisections": {
+   "all": 229, 
+   "good": 228
+  }, 
+  "status": "finished"
+ }, 
+ "262695": {
+  "Type": "Collisions15", 
+  "duration": "5213", 
+  "lumisections": {
+   "all": 227, 
+   "good": 227
+  }, 
+  "status": "finished"
+ }, 
+ "262697": {
+  "Type": "Collisions15", 
+  "duration": "1467", 
+  "lumisections": {
+   "all": 71, 
+   "good": 71
+  }, 
+  "status": "finished"
+ }, 
+ "262698": {
+  "Type": "Collisions15", 
+  "duration": "362", 
+  "lumisections": {
+   "all": 18, 
+   "good": 18
+  }, 
+  "status": "finished"
+ }, 
+ "262699": {
+  "Type": "Collisions15", 
+  "duration": "988", 
+  "lumisections": {
+   "all": 59, 
+   "good": 59
+  }, 
+  "status": "finished"
+ }, 
+ "262703": {
+  "Type": "Collisions15", 
+  "duration": "3233", 
+  "lumisections": {
+   "all": 177, 
+   "good": 177
+  }, 
+  "status": "finished"
+ }, 
+ "262710": {
+  "Type": "Commissioning15", 
+  "duration": "2170", 
+  "lumisections": {
+   "all": 139, 
+   "good": 72
+  }, 
+  "status": "finished"
+ }, 
+ "262720": {
+  "Type": "Commissioning15", 
+  "duration": "23901", 
+  "lumisections": {
+   "all": 1050, 
+   "good": 973
+  }, 
+  "status": "finished"
+ }, 
+ "262722": {
+  "Type": "Commissioning15", 
+  "duration": "4279", 
+  "lumisections": {
+   "all": 190, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262726": {
+  "Type": "Collisions15", 
+  "duration": "11798", 
+  "lumisections": {
+   "all": 512, 
+   "good": 512
+  }, 
+  "status": "finished"
+ }, 
+ "262733": {
+  "Type": "Collisions15", 
+  "duration": "1983", 
+  "lumisections": {
+   "all": 89, 
+   "good": 89
+  }, 
+  "status": "finished"
+ }, 
+ "262735": {
+  "Type": "Collisions15", 
+  "duration": "5229", 
+  "lumisections": {
+   "all": 403, 
+   "good": 331
+  }, 
+  "status": "finished"
+ }, 
+ "262755": {
+  "Type": "Commissioning15", 
+  "duration": "1518", 
+  "lumisections": {
+   "all": 80, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262757": {
+  "Type": "Commissioning15", 
+  "duration": "929", 
+  "lumisections": {
+   "all": 98, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262759": {
+  "Type": "Cosmics15", 
+  "duration": "2406", 
+  "lumisections": {
+   "all": 130, 
+   "good": 92
+  }, 
+  "status": "finished"
+ }, 
+ "262760": {
+  "Type": "Commissioning15", 
+  "duration": "695", 
+  "lumisections": {
+   "all": 53, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262762": {
+  "Type": "Commissioning15", 
+  "duration": "4282", 
+  "lumisections": {
+   "all": 191, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262766": {
+  "Type": "Commissioning15", 
+  "duration": "666", 
+  "lumisections": {
+   "all": 41, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262768": {
+  "Type": "Collisions15", 
+  "duration": "9928", 
+  "lumisections": {
+   "all": 432, 
+   "good": 432
+  }, 
+  "status": "finished"
+ }, 
+ "262777": {
+  "Type": "Collisions15", 
+  "duration": "3622", 
+  "lumisections": {
+   "all": 177, 
+   "good": 177
+  }, 
+  "status": "finished"
+ }, 
+ "262784": {
+  "Type": "Collisions15", 
+  "duration": "9265", 
+  "lumisections": {
+   "all": 408, 
+   "good": 408
+  }, 
+  "status": "finished"
+ }, 
+ "262787": {
+  "Type": "Commissioning15", 
+  "duration": "1724", 
+  "lumisections": {
+   "all": 116, 
+   "good": 48
+  }, 
+  "status": "finished"
+ }, 
+ "262789": {
+  "Type": "Commissioning15", 
+  "duration": "3576", 
+  "lumisections": {
+   "all": 162, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262790": {
+  "Type": "Commissioning15", 
+  "duration": "913", 
+  "lumisections": {
+   "all": 45, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262797": {
+  "Type": "Cosmics15", 
+  "duration": "1856", 
+  "lumisections": {
+   "all": 115, 
+   "good": 56
+  }, 
+  "status": "finished"
+ }, 
+ "262798": {
+  "Type": "Commissioning15", 
+  "duration": "4418", 
+  "lumisections": {
+   "all": 224, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262801": {
+  "Type": "Commissioning15", 
+  "duration": "2593", 
+  "lumisections": {
+   "all": 144, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262805": {
+  "Type": "Commissioning15", 
+  "duration": "1347", 
+  "lumisections": {
+   "all": 65, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262811": {
+  "Type": "Collisions15", 
+  "duration": "10217", 
+  "lumisections": {
+   "all": 451, 
+   "good": 451
+  }, 
+  "status": "finished"
+ }, 
+ "262816": {
+  "Type": "Collisions15", 
+  "duration": "10474", 
+  "lumisections": {
+   "all": 463, 
+   "good": 463
+  }, 
+  "status": "finished"
+ }, 
+ "262817": {
+  "Type": "Collisions15", 
+  "duration": "643", 
+  "lumisections": {
+   "all": 33, 
+   "good": 33
+  }, 
+  "status": "finished"
+ }, 
+ "262818": {
+  "Type": "Collisions15", 
+  "duration": "6512", 
+  "lumisections": {
+   "all": 285, 
+   "good": 285
+  }, 
+  "status": "finished"
+ }, 
+ "262819": {
+  "Type": "Collisions15", 
+  "duration": "3065", 
+  "lumisections": {
+   "all": 165, 
+   "good": 165
+  }, 
+  "status": "finished"
+ }, 
+ "262820": {
+  "Type": "Cosmics15", 
+  "duration": "1975", 
+  "lumisections": {
+   "all": 93, 
+   "good": 93
+  }, 
+  "status": "finished"
+ }, 
+ "262823": {
+  "Type": "Commissioning15", 
+  "duration": "1873", 
+  "lumisections": {
+   "all": 98, 
+   "good": 43
+  }, 
+  "status": "finished"
+ }, 
+ "262827": {
+  "Type": "Commissioning15", 
+  "duration": "561", 
+  "lumisections": {
+   "all": 26, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262830": {
+  "Type": "Commissioning15", 
+  "duration": "1323", 
+  "lumisections": {
+   "all": 64, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262834": {
+  "Type": "Collisions15", 
+  "duration": "5110", 
+  "lumisections": {
+   "all": 247, 
+   "good": 247
+  }, 
+  "status": "finished"
+ }, 
+ "262836": {
+  "Type": "Collisions15", 
+  "duration": "2383", 
+  "lumisections": {
+   "all": 108, 
+   "good": 108
+  }, 
+  "status": "finished"
+ }, 
+ "262837": {
+  "Type": "Collisions15", 
+  "duration": "18296", 
+  "lumisections": {
+   "all": 802, 
+   "good": 802
+  }, 
+  "status": "finished"
+ }, 
+ "262839": {
+  "Type": "Cosmics15", 
+  "duration": "433", 
+  "lumisections": {
+   "all": 26, 
+   "good": 26
+  }, 
+  "status": "finished"
+ }, 
+ "262843": {
+  "Type": "Cosmics15", 
+  "duration": "404", 
+  "lumisections": {
+   "all": 25, 
+   "good": 12
+  }, 
+  "status": "finished"
+ }, 
+ "262844": {
+  "Type": "Commissioning15", 
+  "duration": "417", 
+  "lumisections": {
+   "all": 32, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262846": {
+  "Type": "Commissioning15", 
+  "duration": "3245", 
+  "lumisections": {
+   "all": 142, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262847": {
+  "Type": "Commissioning15", 
+  "duration": "3858", 
+  "lumisections": {
+   "all": 172, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262848": {
+  "Type": "Commissioning15", 
+  "duration": "2844", 
+  "lumisections": {
+   "all": 128, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262851": {
+  "Type": "Commissioning15", 
+  "duration": "815", 
+  "lumisections": {
+   "all": 42, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262853": {
+  "Type": "Cosmics15", 
+  "duration": "1764", 
+  "lumisections": {
+   "all": 112, 
+   "good": 74
+  }, 
+  "status": "finished"
+ }, 
+ "262859": {
+  "Type": "Commissioning15", 
+  "duration": "6216", 
+  "lumisections": {
+   "all": 272, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262893": {
+  "Type": "Collisions15", 
+  "duration": "25456", 
+  "lumisections": {
+   "all": 1106, 
+   "good": 1106
+  }, 
+  "status": "finished"
+ }, 
+ "262904": {
+  "Type": "Commissioning15", 
+  "duration": "376", 
+  "lumisections": {
+   "all": 13, 
+   "good": 1
+  }, 
+  "status": "finished"
+ }, 
+ "262907": {
+  "Type": "Commissioning15", 
+  "duration": "3725", 
+  "lumisections": {
+   "all": 163, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262908": {
+  "Type": "Commissioning15", 
+  "duration": "3671", 
+  "lumisections": {
+   "all": 159, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262909": {
+  "Type": "Commissioning15", 
+  "duration": "3225", 
+  "lumisections": {
+   "all": 140, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262910": {
+  "Type": "Commissioning15", 
+  "duration": "1582", 
+  "lumisections": {
+   "all": 80, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262911": {
+  "Type": "Commissioning15", 
+  "duration": "972", 
+  "lumisections": {
+   "all": 44, 
+   "good": 6
+  }, 
+  "status": "finished"
+ }, 
+ "262915": {
+  "Type": "Commissioning15", 
+  "duration": "5925", 
+  "lumisections": {
+   "all": 255, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262921": {
+  "Type": "Collisions15", 
+  "duration": "25123", 
+  "lumisections": {
+   "all": 1273, 
+   "good": 1273
+  }, 
+  "status": "finished"
+ }, 
+ "262934": {
+  "Type": "Commissioning15", 
+  "duration": "756", 
+  "lumisections": {
+   "all": 34, 
+   "good": 34
+  }, 
+  "status": "finished"
+ }, 
+ "262947": {
+  "Type": "Cosmics15", 
+  "duration": "301", 
+  "lumisections": {
+   "all": 16, 
+   "good": 16
+  }, 
+  "status": "finished"
+ }, 
+ "262951": {
+  "Type": "Cosmics15", 
+  "duration": "631", 
+  "lumisections": {
+   "all": 33, 
+   "good": 33
+  }, 
+  "status": "finished"
+ }, 
+ "262980": {
+  "Type": "Commissioning15", 
+  "duration": "1855", 
+  "lumisections": {
+   "all": 91, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "262987": {
+  "Type": "Collisions15", 
+  "duration": "4064", 
+  "lumisections": {
+   "all": 178, 
+   "good": 178
+  }, 
+  "status": "finished"
+ }, 
+ "262988": {
+  "Type": "Collisions15", 
+  "duration": "16471", 
+  "lumisections": {
+   "all": 458, 
+   "good": 732
+  }, 
+  "status": "finished"
+ }, 
+ "262989": {
+  "Type": "Commissioning15", 
+  "duration": "479", 
+  "lumisections": {
+   "all": 24, 
+   "good": 24
+  }, 
+  "status": "finished"
+ }, 
+ "262991": {
+  "Type": "Cosmics15", 
+  "duration": "675", 
+  "lumisections": {
+   "all": 31, 
+   "good": 31
+  }, 
+  "status": "finished"
+ }, 
+ "262993": {
+  "Type": "Cosmics15", 
+  "duration": "348", 
+  "lumisections": {
+   "all": 17, 
+   "good": 17
+  }, 
+  "status": "finished"
+ }, 
+ "262994": {
+  "Type": "Cosmics15", 
+  "duration": "506", 
+  "lumisections": {
+   "all": 25, 
+   "good": 25
+  }, 
+  "status": "finished"
+ }, 
+ "262996": {
+  "Type": "Cosmics15", 
+  "duration": "1884", 
+  "lumisections": {
+   "all": 83, 
+   "good": 83
+  }, 
+  "status": "finished"
+ }, 
+ "262999": {
+  "Type": "Commissioning15", 
+  "duration": "347", 
+  "lumisections": {
+   "all": 48, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "263001": {
+  "Type": "Commissioning15", 
+  "duration": "8033", 
+  "lumisections": {
+   "all": 422, 
+   "good": 11
+  }, 
+  "status": "finished"
+ }, 
+ "263005": {
+  "Type": "Collisions15", 
+  "duration": "15380", 
+  "lumisections": {
+   "all": 665, 
+   "good": 665
+  }, 
+  "status": "finished"
+ }, 
+ "263007": {
+  "Type": "Collisions15", 
+  "duration": "2997", 
+  "lumisections": {
+   "all": 132, 
+   "good": 132
+  }, 
+  "status": "finished"
+ }, 
+ "263022": {
+  "Type": "Collisions15", 
+  "duration": "4770", 
+  "lumisections": {
+   "all": 217, 
+   "good": 190
+  }, 
+  "status": "finished"
+ }, 
+ "263031": {
+  "Type": "Collisions15", 
+  "duration": "2573", 
+  "lumisections": {
+   "all": 120, 
+   "good": 120
+  }, 
+  "status": "finished"
+ }, 
+ "263033": {
+  "Type": "Collisions15", 
+  "duration": "1460", 
+  "lumisections": {
+   "all": 67, 
+   "good": 67
+  }, 
+  "status": "finished"
+ }, 
+ "263035": {
+  "Type": "Collisions15", 
+  "duration": "16176", 
+  "lumisections": {
+   "all": 810, 
+   "good": 810
+  }, 
+  "status": "finished"
+ }, 
+ "263046": {
+  "Type": "Cosmics15", 
+  "duration": "1572", 
+  "lumisections": {
+   "all": 101, 
+   "good": 65
+  }, 
+  "status": "finished"
+ }, 
+ "263073": {
+  "Type": "Commissioning15", 
+  "duration": "13813", 
+  "lumisections": {
+   "all": 617, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "263095": {
+  "Type": "Commissioning15", 
+  "duration": "7065", 
+  "lumisections": {
+   "all": 432, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "263099": {
+  "Type": "Collisions15", 
+  "duration": "5316", 
+  "lumisections": {
+   "all": 240, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "263103": {
+  "Type": "Collisions15", 
+  "duration": "2855", 
+  "lumisections": {
+   "all": 131, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "263105": {
+  "Type": "Collisions15", 
+  "duration": "1219", 
+  "lumisections": {
+   "all": 152, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "263110": {
+  "Type": "Commissioning15", 
+  "duration": "1653", 
+  "lumisections": {
+   "all": 71, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "263111": {
+  "Type": "Commissioning15", 
+  "duration": "2313", 
+  "lumisections": {
+   "all": 242, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "263168": {
+  "Type": "Commissioning15", 
+  "duration": "2164", 
+  "lumisections": {
+   "all": 103, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "263173": {
+  "Type": "Commissioning15", 
+  "duration": "1788", 
+  "lumisections": {
+   "all": 224, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "263185": {
+  "Type": "Commissioning15", 
+  "duration": "4193", 
+  "lumisections": {
+   "all": 182, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "263186": {
+  "Type": "Commissioning15", 
+  "duration": "2062", 
+  "lumisections": {
+   "all": 138, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "263195": {
+  "Type": "Commissioning15", 
+  "duration": "479", 
+  "lumisections": {
+   "all": 23, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "263197": {
+  "Type": "Commissioning15", 
+  "duration": "390", 
+  "lumisections": {
+   "all": 37, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "263203": {
+  "Type": "Commissioning15", 
+  "duration": "1162", 
+  "lumisections": {
+   "all": 56, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "263211": {
+  "Type": "Collisions15", 
+  "duration": "1378", 
+  "lumisections": {
+   "all": 68, 
+   "good": 68
+  }, 
+  "status": "finished"
+ }, 
+ "263212": {
+  "Type": "Collisions15", 
+  "duration": "617", 
+  "lumisections": {
+   "all": 30, 
+   "good": 30
+  }, 
+  "status": "finished"
+ }, 
+ "263213": {
+  "Type": "Collisions15", 
+  "duration": "612", 
+  "lumisections": {
+   "all": 157, 
+   "good": 157
+  }, 
+  "status": "finished"
+ }, 
+ "263221": {
+  "Type": "Cosmics15", 
+  "duration": "1021", 
+  "lumisections": {
+   "all": 67, 
+   "good": 16
+  }, 
+  "status": "finished"
+ }, 
+ "263223": {
+  "Type": "Commissioning15", 
+  "duration": "3207", 
+  "lumisections": {
+   "all": 164, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "263225": {
+  "Type": "Commissioning15", 
+  "duration": "344", 
+  "lumisections": {
+   "all": 52, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "263228": {
+  "Type": "Commissioning15", 
+  "duration": "6102", 
+  "lumisections": {
+   "all": 278, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "263233": {
+  "Type": "Collisions15", 
+  "duration": "17150", 
+  "lumisections": {
+   "all": 737, 
+   "good": 737
+  }, 
+  "status": "finished"
+ }, 
+ "263234": {
+  "Type": "Collisions15", 
+  "duration": "16553", 
+  "lumisections": {
+   "all": 722, 
+   "good": 722
+  }, 
+  "status": "finished"
+ }, 
+ "263241": {
+  "Type": "Commissioning15", 
+  "duration": "448", 
+  "lumisections": {
+   "all": 35, 
+   "good": 35
+  }, 
+  "status": "finished"
+ }, 
+ "263244": {
+  "Type": "Commissioning15", 
+  "duration": "428", 
+  "lumisections": {
+   "all": 75, 
+   "good": 24
+  }, 
+  "status": "finished"
+ }, 
+ "263256": {
+  "Type": "Commissioning15", 
+  "duration": "540", 
+  "lumisections": {
+   "all": 32, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "263257": {
+  "Type": "Commissioning15", 
+  "duration": "1489", 
+  "lumisections": {
+   "all": 76, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "263261": {
+  "Type": "Collisions15", 
+  "duration": "32372", 
+  "lumisections": {
+   "all": 1407, 
+   "good": 1407
+  }, 
+  "status": "finished"
+ }, 
+ "263263": {
+  "Type": "Cosmics15", 
+  "duration": "2371", 
+  "lumisections": {
+   "all": 110, 
+   "good": 92
+  }, 
+  "status": "finished"
+ }, 
+ "263280": {
+  "Type": "Commissioning15", 
+  "duration": "1849", 
+  "lumisections": {
+   "all": 86, 
+   "good": 86
+  }, 
+  "status": "finished"
+ }, 
+ "263284": {
+  "Type": "Collisions15", 
+  "duration": "5205", 
+  "lumisections": {
+   "all": 232, 
+   "good": 232
+  }, 
+  "status": "finished"
+ }, 
+ "263286": {
+  "Type": "Collisions15", 
+  "duration": "14063", 
+  "lumisections": {
+   "all": 605, 
+   "good": 605
+  }, 
+  "status": "finished"
+ }, 
+ "263293": {
+  "Type": "Collisions15", 
+  "duration": "9148", 
+  "lumisections": {
+   "all": 518, 
+   "good": 510
+  }, 
+  "status": "finished"
+ }, 
+ "263316": {
+  "Type": "Commissioning15", 
+  "duration": "1475", 
+  "lumisections": {
+   "all": 104, 
+   "good": 7
+  }, 
+  "status": "finished"
+ }, 
+ "263322": {
+  "Type": "Collisions15", 
+  "duration": "29105", 
+  "lumisections": {
+   "all": 1290, 
+   "good": 1290
+  }, 
+  "status": "finished"
+ }, 
+ "263329": {
+  "Type": "Commissioning15", 
+  "duration": "3675", 
+  "lumisections": {
+   "all": 165, 
+   "good": 163
+  }, 
+  "status": "finished"
+ }, 
+ "263333": {
+  "Type": "Collisions15", 
+  "duration": "5543", 
+  "lumisections": {
+   "all": 506, 
+   "good": 491
+  }, 
+  "status": "finished"
+ }, 
+ "263349": {
+  "Type": "Collisions15", 
+  "duration": "9375", 
+  "lumisections": {
+   "all": 404, 
+   "good": 404
+  }, 
+  "status": "finished"
+ }, 
+ "263355": {
+  "Type": "Collisions15", 
+  "duration": "2756", 
+  "lumisections": {
+   "all": 121, 
+   "good": 121
+  }, 
+  "status": "finished"
+ }, 
+ "263362": {
+  "Type": "Collisions15", 
+  "duration": "14128", 
+  "lumisections": {
+   "all": 633, 
+   "good": 633
+  }, 
+  "status": "finished"
+ }, 
+ "263379": {
+  "Type": "Collisions15", 
+  "duration": "21719", 
+  "lumisections": {
+   "all": 984, 
+   "good": 984
+  }, 
+  "status": "finished"
+ }, 
+ "263400": {
+  "Type": "Collisions15", 
+  "duration": "21508", 
+  "lumisections": {
+   "all": 946, 
+   "good": 946
+  }, 
+  "status": "finished"
+ }, 
+ "263406": {
+  "Type": "Collisions15", 
+  "duration": "3843", 
+  "lumisections": {
+   "all": 309, 
+   "good": 277
+  }, 
+  "status": "finished"
+ }, 
+ "263407": {
+  "Type": "Commissioning15", 
+  "duration": "4933", 
+  "lumisections": {
+   "all": 272, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "263410": {
+  "Type": "Collisions15", 
+  "duration": "15535", 
+  "lumisections": {
+   "all": 670, 
+   "good": 670
+  }, 
+  "status": "finished"
+ }, 
+ "263412": {
+  "Type": "Collisions15", 
+  "duration": "5699", 
+  "lumisections": {
+   "all": 253, 
+   "good": 253
+  }, 
+  "status": "finished"
+ }, 
+ "263480": {
+  "Type": "Commissioning15", 
+  "duration": "466", 
+  "lumisections": {
+   "all": 198, 
+   "good": 248
+  }, 
+  "status": "finished"
+ }, 
+ "263491": {
+  "Type": "Collisions15", 
+  "duration": "9855", 
+  "lumisections": {
+   "all": 460, 
+   "good": 460
+  }, 
+  "status": "finished"
+ }, 
+ "263495": {
+  "Type": "Commissioning15", 
+  "duration": "3831", 
+  "lumisections": {
+   "all": 169, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "263502": {
+  "Type": "Collisions15", 
+  "duration": "12090", 
+  "lumisections": {
+   "all": 526, 
+   "good": 526
+  }, 
+  "status": "finished"
+ }, 
+ "263511": {
+  "Type": "Collisions15", 
+  "duration": "5876", 
+  "lumisections": {
+   "all": 280, 
+   "good": 280
+  }, 
+  "status": "finished"
+ }, 
+ "263522": {
+  "Type": "Commissioning15", 
+  "duration": "968", 
+  "lumisections": {
+   "all": 136, 
+   "good": 30
+  }, 
+  "status": "finished"
+ }, 
+ "263524": {
+  "Type": "Commissioning15", 
+  "duration": "2321", 
+  "lumisections": {
+   "all": 171, 
+   "good": 2
+  }, 
+  "status": "finished"
+ }, 
+ "263530": {
+  "Type": "Cosmics15", 
+  "duration": "3889", 
+  "lumisections": {
+   "all": 898, 
+   "good": 815
+  }, 
+  "status": "finished"
+ }, 
+ "263577": {
+  "Type": "Commissioning15", 
+  "duration": "7575", 
+  "lumisections": {
+   "all": 843, 
+   "good": 627
+  }, 
+  "status": "finished"
+ }, 
+ "263580": {
+  "Type": "Commissioning15", 
+  "duration": "350", 
+  "lumisections": {
+   "all": 22, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "263584": {
+  "Type": "Collisions15", 
+  "duration": "22624", 
+  "lumisections": {
+   "all": 1042, 
+   "good": 1041
+  }, 
+  "status": "finished"
+ }, 
+ "263604": {
+  "Type": "Collisions15", 
+  "duration": "23013", 
+  "lumisections": {
+   "all": 1157, 
+   "good": 1064
+  }, 
+  "status": "finished"
+ }, 
+ "263612": {
+  "Type": "Commissioning15", 
+  "duration": "3875", 
+  "lumisections": {
+   "all": 223, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "263614": {
+  "Type": "Collisions15", 
+  "duration": "25653", 
+  "lumisections": {
+   "all": 1631, 
+   "good": 1477
+  }, 
+  "status": "finished"
+ }, 
+ "263667": {
+  "Type": "Commissioning15", 
+  "duration": "710", 
+  "lumisections": {
+   "all": 33, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "263669": {
+  "Type": "Commissioning15", 
+  "duration": "806", 
+  "lumisections": {
+   "all": 32, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "263675": {
+  "Type": "Cosmics15", 
+  "duration": "2360", 
+  "lumisections": {
+   "all": 265, 
+   "good": 116
+  }, 
+  "status": "finished"
+ }, 
+ "263680": {
+  "Type": "Commissioning15", 
+  "duration": "337", 
+  "lumisections": {
+   "all": 267, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "263685": {
+  "Type": "Collisions15", 
+  "duration": "21427", 
+  "lumisections": {
+   "all": 927, 
+   "good": 923
+  }, 
+  "status": "finished"
+ }, 
+ "263689": {
+  "Type": "Collisions15", 
+  "duration": "3510", 
+  "lumisections": {
+   "all": 396, 
+   "good": 259
+  }, 
+  "status": "finished"
+ }, 
+ "263718": {
+  "Type": "Collisions15", 
+  "duration": "13371", 
+  "lumisections": {
+   "all": 590, 
+   "good": 590
+  }, 
+  "status": "Failed"
+ }, 
+ "263728": {
+  "Type": "Collisions15", 
+  "duration": "6158", 
+  "lumisections": {
+   "all": 271, 
+   "good": 271
+  }, 
+  "status": "Failed"
+ }, 
+ "263729": {
+  "Type": "Collisions15", 
+  "duration": "5252", 
+  "lumisections": {
+   "all": 3752, 
+   "good": 244
+  }, 
+  "status": "Failed"
+ }, 
+ "263743": {
+  "Type": "Collisions15", 
+  "duration": "1575", 
+  "lumisections": {
+   "all": 75, 
+   "good": 75
+  }, 
+  "status": "finished"
+ }, 
+ "263744": {
+  "Type": "Collisions15", 
+  "duration": "2168", 
+  "lumisections": {
+   "all": 101, 
+   "good": 101
+  }, 
+  "status": "Failed"
+ }, 
+ "263745": {
+  "Type": "Collisions15", 
+  "duration": "10977", 
+  "lumisections": {
+   "all": 486, 
+   "good": 486
+  }, 
+  "status": "Failed"
+ }, 
+ "263752": {
+  "Type": "Cosmics15", 
+  "duration": "1102", 
+  "lumisections": {
+   "all": 116, 
+   "good": 44
+  }, 
+  "status": "Failed"
+ }, 
+ "263755": {
+  "Type": "Commissioning15", 
+  "duration": "4492", 
+  "lumisections": {
+   "all": 247, 
+   "good": 0
+  }, 
+  "status": "finished"
+ }, 
+ "263757": {
+  "Type": "Collisions15", 
+  "duration": "41377", 
+  "lumisections": {
+   "all": 7453, 
+   "good": 2256
+  }, 
+  "status": "Failed"
  }
 }

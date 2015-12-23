@@ -4,7 +4,10 @@ import os
 import subprocess
 import os.path
 import json
-#import psu
+from threading import Thread, Event
+import psutil
+import time
+import datetime
 
 class SSHTunnelDescriptor:
     def __init__(self,tName=None,options=None,localHost=None,localPort=None,remoteHost=None,remotePort=None,debug=False):
@@ -15,6 +18,7 @@ class SSHTunnelDescriptor:
         self.tunnelName = tName
         self.options = options
         self.debug = debug
+
         self.isRunning = False
 
     def tunnelString(self):
@@ -28,40 +32,36 @@ class SSHTunnelDescriptor:
         if self.debug:
             print 'SSHDescriptorDestructor called for tunnel', self.tunnelName
 
-class ProcessDescriptor: #TODO - SSHTUnnelDescriptor could inherit from process, since
+class ProcessDescriptor: #TODO - SSHTUnnelDescriptor could inherit from process, since they share fields
     def __init__(self,name=None,pname=None,powner=None):
         self.name = name
         self.powner = powner
         self.pname = pname
 
-class EnvHandler:
+class EnvHandler(Thread):
 
     #http://stackoverflow.com/questions/3764291/checking-network-connection
-    #http://stackoverflow.com/questions/4689984/implementing-a-callback-in-python-passing-a-callable-reference-to-the-current
 
     def __del__(self):
         if self.debug:
             print 'dunno , print ?'
 
-    def __init__(self, fileWithTunnels=None, fileWithProcesses=None, fileWithEnvVars=None, debug=False):
+    def __init__(self, fileWithTunnels=None, fileWithProcesses=None, debug=False):
+        super(EnvHandler, self).__init__()
         self.listOfTunnels = []
         self.listOfProcesses = []
-        self.listOfEnvVars = []
         self.debug = debug
         self.initConfigs(fileWithTunnels)
         self.initProcesses(fileWithProcesses)
-
-        #self.checkListOfTunnels()
-        #self.checkListOfProcesses()
-        #self.initEnvVars(fileWithEnvVars)
-
+        self.checkListOfTunnels()
+        self.stopSignal = None
 
         if self.debug:
             print 'tunnels file', fileWithTunnels
-            print 'env vars file', fileWithEnvVars
+
             print 'debug in  EnvHandler __init__' #not set yet
 
-    def start(self, tunnel):
+    def startTunnel(self, tunnel):
         '''
         starts new ssh tunnel
         :param tunnel: SSHDescriptor object
@@ -70,33 +70,26 @@ class EnvHandler:
         tunnelStr = tunnel.tunnelString()
         hasStarted = False
         try:
-            tunopen = subprocess.Popen("ssh -f -N -L "+tunnelStr,shell = True,close_fds=True)
+            tunopen = subprocess.Popen("ssh -f -N -L "+tunnelStr, shell = True, close_fds=True)
             out, err = tunopen.communicate()
             if err is None:
                 hasStarted = True
                 tunnel.isRunning = True
-        except ValueError:
+        except Exception, e:
+            print e.message
             print 'tunnel', tunnel.tunnelName, 'failed to start !'
 
         return hasStarted
 
     def checkTunnel(self, sshTunnel):
-        '''
-        checks whether a tunnel is started or not. only checks, doesnt start it
-        :param sshTunnel: SSHDescriptor
-        :return: return true if the process exists, false if doesn't
-        '''
 
         tstring = sshTunnel.tunnelString()
-        p = subprocess.Popen("ps -ef | grep ssh | grep '"+tstring+"' | grep -v grep", shell = True, stdout = subprocess.PIPE)
-        out, err = p.communicate()
         isRunning = False
-        if not out:
-            isRunning = False
-            if self.debug:
-                print 'output for', sshTunnel.tunnelName, 'is', out
-        else:
-            isRunning = True
+        for p in psutil.process_iter():
+            process = psutil.Process(p.pid)
+            withargs =  ' '.join(process.cmdline())
+            if withargs.find(tstring) is not -1:
+                isRunning = True
 
         return isRunning
 
@@ -109,7 +102,7 @@ class EnvHandler:
         for tunnel in self.listOfTunnels:
             tunnelCheck = self.checkTunnel(tunnel)
             if not tunnelCheck:
-                self.start(tunnel) # do not execute when in dev mode, it would start ssh tunnels
+                self.startTunnel(tunnel) # do not execute when in dev mode, it would start ssh tunnels
                 if self.debug:
                     print 'starting tunnel', tunnel.tunnelName
             else:
@@ -134,7 +127,6 @@ class EnvHandler:
             for tunnelConfig in f:
                 dic = json.loads(tunnelConfig)
                 dictOfTunnel.append(dic)
-                #not valid ? why # because you are dumb f**k and check your last commit to see that there was no lHost rHost members, moron
                 sshDescriptor = SSHTunnelDescriptor(
                 dic['name'],
                 dic['options'],
@@ -167,7 +159,7 @@ class EnvHandler:
         except Exception, e:
             return e.message
 
-    def checkProcess(self,process):
+    def checkProcess(self, process):
         '''
         :param process: process object
         :return: return process run status True or False
@@ -192,31 +184,20 @@ class EnvHandler:
                 print 'process ', process.name, ' status is', status
         return statusDict
 
-    '''
-    List of methods to be finished
-    when there is any point of doing this with python
-    '''
+    def run(self):
+        while True:
+            self.checkListOfTunnels()
+            print 'tunnels checked at ', datetime.datetime.now().replace(microsecond=0)
+            time.sleep(100)
+            if self.stopSignal.is_set():
+                break
 
-    def initEnvVars(self,listVars):
+if __name__ == "__main__":
 
-        if not os.path.isfile(listVars) or os.path.getsize(listVars) == 0:
-            return 'vars config file not found or empty'
-        with open(listVars) as data_file:
-            data = json.load(data_file)
-            for k,v in data.items():
-                pair = {}
-                pair[k] = v
-                self.listOfEnvVars.append(pair)
+    e_handler = EnvHandler('resources/ListOfTunnels.json','resources/process.json')
+    e_handler.stopSignal = Event()
+    e_handler.start()
+    e_handler.join()
 
-    def setListOfEnvVars(self):
-        varDict = {}
-        for k,v in self.listOfEnvVars.items():
-            os.environ[k] = v
-            #check if the var has to be set, set it if it has to, and the assign the
-            varDict[k] = os.environ[k]
-        return varDict
 
-    def executeListOfShellCommands(self):
-        dictOfExitStatuses = {} # command name - exit status dictionary
-        #lol
-        return dictOfExitStatuses
+    # TODO - to test the RR query suspend when closing the RR tunnel. just point port to :80 and run queries on the pointing port, kill the tunnel and see if it brings it back

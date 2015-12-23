@@ -8,7 +8,7 @@ Author: Algirdas Beinaravicius, modifications by Mircho Rodozov mrodozov@cern.ch
 from Singleton import Singleton
 import json
 import sqlalchemy
-from CommandClasses import *
+#from CommandClasses import *
 from sqlalchemy.engine import reflection
 import datetime
 
@@ -34,7 +34,7 @@ class DBService(object):
                 self.__alchemyDBString = dbType + user + ':' + password + '@' + host + ':' + port + '/' + dbName
             else:
                 self.__alchemyDBString = dbType + dbName
-        #self.__alchemyDBString = 'mysql+mysqldb://rodozov:BAKsh0321__@localhost/RPC?charset=utf8'
+        self.__alchemyDBString = 'mysql+mysqldb://rodozov:BAKsh0321__@localhost/RPC?charset=utf8'
         #rodozov/tralala@localhost.localdomain:1521/rpc.localdomain
         self.__engine = sqlalchemy.create_engine(self.__alchemyDBString)
 
@@ -72,7 +72,8 @@ class DBService(object):
         retval = False
         #print self.__alchemyDBString
         metadata = sqlalchemy.MetaData()
-        table = sqlalchemy.Table(tableName, metadata, schema=self.__schema, autoload=True, autoload_with=self.__engine)
+        table = sqlalchemy.Table(tableName, metadata, schema='RPC', autoload=True, autoload_with=self.__engine)
+        #table = sqlalchemy.Table(tableName, metadata, schema=self.__schema, autoload=True, autoload_with=self.__engine)
         connection = self.__engine.connect()
         #insp = reflection.Inspector.from_engine(self.__engine)
         #print insp.get_schema_names()
@@ -121,6 +122,7 @@ class DBService(object):
     def selectFromDB(self, runNumber=None, tableName=None):
         metadata = sqlalchemy.MetaData()
         table = sqlalchemy.Table(tableName, metadata, schema=self.__schema, autoload=True, autoload_with=self.__engine)
+        #table = sqlalchemy.Table(tableName, metadata, schema=self.__schema, autoload=True, autoload_with=self.__engine)
         connection = self.__engine.connect()
 
         select = table.select()
@@ -136,8 +138,9 @@ if __name__ == "__main__":
     with open('resources/options_object.txt', 'r') as optobj:
         optionsObject = json.loads(optobj.read())
 
-
     DBService('oracle://','localhost','1521','rodozov','tralala','','RPC')
+
+    '''
     db_obj = DBService()
 
     print db_obj
@@ -157,5 +160,4 @@ if __name__ == "__main__":
     print dbup.options
     dbup.processTask()
     dbuptwo.processTask()
-
-
+    '''
