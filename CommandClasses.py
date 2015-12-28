@@ -443,9 +443,9 @@ class DBDataUpload(Command):
             dataFile = ''.join([f for f in self.options['filescheck'] if f.find(rec['file']) is not -1])
             print dataFile
             data = self.getDBDataFromFile(dataFile)
-            completed = dbService.insertToDB(data, rec['name'], rec['schm'], rec['argsList'])
+            #completed = dbService.insertToDB(data, rec['name'], rec['schm'], rec['argsList'])
             #catch the error, push it to the log
-            completed = True # TODO - to remove
+            completed = True # TODO - to remove, first finish what is returned by insertToDB
             self.results[dataFile] = completed
             self.log[dataFile] = completed
             complete = completed
@@ -671,17 +671,12 @@ class CopyFilesOnRemoteLocation(Command):
 
     def __init__(self, name=None, args=None):
         Command.__init__(self, name, args)
-        #self.transport_service = SSHTransportService() # singleton to serve the connections, setup in main
-        self.sftp_client = None
+        transportService = SSHTransportService() # singleton to serve the connections, setup in main
+        self.sftp_client = paramiko.SFTPClient.from_transport(transportService.connections_dict[self.name]['ssh_client'].get_transport())
 
     def processTask(self):
-        transportService = SSHTransportService()
 
         print self.name, self.options
-
-        #self.sftp_client = paramiko.SFTPClient.from_transport(transportService.connections_dict[self.name]['ssh_client'].get_transport())
-        #print self.sftp_client
-
         rval = False
         rnum = self.options['run']
         list_of_files = self.options['json_products']
@@ -689,16 +684,9 @@ class CopyFilesOnRemoteLocation(Command):
         runfolder = 'run'+rnum
         remote_root = self.args['destination_root']
         destination = remote_root + runfolder
-        #print destination
-        self.results = {'files':{}}
+        self.results = self.options
+        self.results['files'] = {}
 
-        creds = transportService.connections_dict[self.name]
-        #print creds
-        ssh_cli = paramiko.SSHClient()
-        ssh_cli.load_host_keys(os.path.expanduser(os.path.join("~", ".ssh", "known_hosts")))
-        ssh_cli.connect(creds['rhost'],creds['port'],username=creds['user'],password=creds['pass'])
-
-        self.sftp_client = ssh_cli.open_sftp()
         self.create_dir_on_remotehost(remote_root, runfolder)
 
         for f in list_of_files:
@@ -716,8 +704,8 @@ class CopyFilesOnRemoteLocation(Command):
             self.results['files'][f] = rval
         if not rval:
             self.results='Failed'
-        self.sftp_client.close()
-        ssh_cli.close()
+
+        self.sftp_client.get_channel().close()
 
         return rval
 

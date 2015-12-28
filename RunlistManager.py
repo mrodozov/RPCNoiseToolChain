@@ -153,6 +153,7 @@ class RunlistManager(Thread):
             #update runlist when the processed queue is empty -
             if self.processedRunsQueue.empty() and self.toProcessQueue.empty():
                 self.synchronizeRemoteRunlistFile()
+                print 'runlist synched'
 
             if self.stop_event.is_set() and self.processedRunsQueue.empty():
                 # do some finishing stuff

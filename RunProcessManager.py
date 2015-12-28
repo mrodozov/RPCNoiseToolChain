@@ -5,6 +5,7 @@ from Chain import Chain
 from Event import SimpleEvent
 from RunlistManager import RunlistManager
 import multiprocessing as mp
+from multiprocessing.pool import ThreadPool
 import Queue
 import time
 from threading import Thread
@@ -21,7 +22,7 @@ class RunProcessPool(Thread):
 
         super(RunProcessPool, self).__init__()
         self.options = options
-        self.pool = mp.Pool()
+        self.pool = ThreadPool(mp.cpu_count())
         self.toprocess = runs_to_process_queue
         self.processed_runs_q = processed_runs_queue
         self.sequence_handler = sequence_handler_object

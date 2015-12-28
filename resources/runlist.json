@@ -5947,7 +5947,7 @@
    "all": 590, 
    "good": 590
   }, 
-  "status": "Failed"
+  "status": "finished"
  }, 
  "263728": {
   "Type": "Collisions15", 
@@ -5956,7 +5956,7 @@
    "all": 271, 
    "good": 271
   }, 
-  "status": "Failed"
+  "status": "finished"
  }, 
  "263729": {
   "Type": "Collisions15", 
@@ -5965,7 +5965,7 @@
    "all": 3752, 
    "good": 244
   }, 
-  "status": "Failed"
+  "status": "finished"
  }, 
  "263743": {
   "Type": "Collisions15", 
@@ -5983,7 +5983,7 @@
    "all": 101, 
    "good": 101
   }, 
-  "status": "Failed"
+  "status": "finished"
  }, 
  "263745": {
   "Type": "Collisions15", 
@@ -5992,7 +5992,7 @@
    "all": 486, 
    "good": 486
   }, 
-  "status": "Failed"
+  "status": "finished"
  }, 
  "263752": {
   "Type": "Cosmics15", 
@@ -6001,7 +6001,7 @@
    "all": 116, 
    "good": 44
   }, 
-  "status": "Failed"
+  "status": "finished"
  }, 
  "263755": {
   "Type": "Commissioning15", 
@@ -6019,6 +6019,6 @@
    "all": 7453, 
    "good": 2256
   }, 
-  "status": "Failed"
+  "status": "finished"
  }
 }

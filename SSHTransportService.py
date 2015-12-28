@@ -3,7 +3,7 @@ __author__ = 'rodozov'
 from Singleton import Singleton
 import paramiko
 import os
-from threading import RLock
+from threading import RLock, Lock
 import json
 
 class SSHTransportService(object):
@@ -13,8 +13,9 @@ class SSHTransportService(object):
     def __init__(self, connections_description = None):
         self.connections_dict = {}
         self.open_connections(connections_description)
-        #paramiko.util.log_to_file("filename.log")
-        #paramiko.common.logging.basicConfig(level=paramiko.common.DEBUG)
+        self.lockWhenUpload = Lock()
+        paramiko.util.log_to_file("filename.log")
+        paramiko.common.logging.basicConfig(level=paramiko.common.DEBUG)
 
     def open_connection(self, name, description):
         ssh_client = paramiko.SSHClient()
@@ -28,7 +29,7 @@ class SSHTransportService(object):
             destination = description['destination_root']
             ssh_client.connect(remote_host, transfer_port, username=transfer_username, password=transfer_password)
             sftp_client = ssh_client.open_sftp()
-            #ssh_client.get_transport().set_keepalive(60) # keep it alive
+            ssh_client.get_transport().set_keepalive(60) # keep it alive
 
             self.connections_dict[name] = {'ssh_client': ssh_client,'sftp_client': sftp_client,
                                            'destination_root': destination, 'user': transfer_username,
@@ -47,12 +48,49 @@ class SSHTransportService(object):
         for conn in self.connections_dict.keys():
             self.connections_dict[conn]['ssh_client'].close()
 
+    def uploadFilesOnRemote(self, files, resultsdir, subdir, remotename):
+        #not needed by command objects anymore but leave it just in case
+        warnings = []
+        logs = {}
+        results = {}
+        success = True
+        print 'enter command '
+
+        #with self.lockWhenUpload:
+
+        remote_root = self.connections_dict[remotename]['destination_root']
+        print self.connections_dict[remotename]['ssh_client']
+        t = self.connections_dict[remotename]['ssh_client'].get_transport()
+        ssh_transport = paramiko.SFTPClient.from_transport(t)
+        print ssh_transport, ssh_transport.get_channel()
+
+        try:
+            if not subdir in ssh_transport.listdir(remote_root):
+                ssh_transport.chdir(remote_root)
+                ssh_transport.mkdir(subdir)
+        except IOError, err:
+            logs['errors'] = err.message
+            success = 'Failed'
+        for f in files:
+            try:
+                ssh_transport.put(resultsdir + f, remote_root + subdir + '/' + f)
+                results['files'][f] = True
+            except IOError, err:
+                errout = "I/O error({0}): {1}".format(err.errno, err.strerror)
+                warnings.append('file transfer failed for ' + f + ' with ' + errout)
+                results['files'][f] = 'Failed'
+
+        print 'subdir is ', subdir
+        return success, warnings, logs, results
+
+
+
 if __name__ == "__main__":
 
     with open('resources/options_object.txt', 'r') as optobj:
         optionsObject = json.loads(optobj.read())
 
-    p = 'BAKsho__4321'
+    p = ''
 
     connections_dict = {}
     connections_dict.update({'webserver':optionsObject['webserver_remote']})
