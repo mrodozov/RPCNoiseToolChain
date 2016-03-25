@@ -18,11 +18,16 @@ import copy
 
 if __name__ == "__main__":
 
+
     #ssh -f -N -D 1080 mrodozov@lxplus.cern.ch # to open proxy
     #os.environ['LD_LIBRARY_PATH'] = '/home/rodozov/Programs/ROOT/INSTALL/lib/root'  # the only hardcoded variable remaining, probably. let's change it in the next commit
     socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, 'localhost', 1080) # don't use when inside CERN's network
 
     passwd = ''
+    with open('resources/passwd') as pfile:
+        passwd = pfile.readline()
+
+    print passwd
     #lp_ssh_cl.connect('localhost', 22, 'mrodozov', passwd)
 
     with open('resources/options_object.txt', 'r') as optobj:

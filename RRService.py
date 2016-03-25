@@ -76,6 +76,19 @@ class RRService:
             raise
         return result
 
+    def getRangeWithStartAndDuration(runType, lastRun, runDuration, RRUrl):
+
+        runInfo = []
+        startRun = 0
+        endRun = 0
+        print "Accessing run registry.......\n"
+        api = RRApi(RRUrl, debug = True)
+        an_array = api.data('GLOBAL', 'runsummary', 'json', ['number','startTime', 'duration'], {'datasetExists': '= true', 'number': '> '+ str(lastRun),
+        'duration': '> '+str(runDuration), 'rpcPresent' : 'true' , 'runClassName': runType})
+        for k in an_array:
+            print k['number'], k['startTime'], k['duration']
+
+
     '''
     methods with predefined run settings, most used cases
     '''
@@ -85,19 +98,9 @@ class RRService:
         runlist = self.getRunRange('Collisions'+year+' OR Cosmics'+year+' OR Commissioning'+year, lastRun, 600)
         return runlist
 
+
 if __name__ == "__main__":
 
     socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 1080)
     rr_obj = RRService(use_proxy=True)
-    #rlist = rr_obj.getRunRange('Collisions15', '257000', '600')
-    #print rlist
-    #rlist = rr_obj.getRunlistForLongRuns(258000)
-    #print rlist
-    #lumis = rr_obj.getRunsLumiSectionsInfo(lastRun=257000)
-    #print lumis
-    res = rr_obj.getRunRangeWithLumiInfo('Commissioning15 OR Cosmics15 OR Collisions15', '260796', '1')
-    print res
-    #for k in res.keys():
-    #    print k
-    #res.keys().sort()
-    #if res.keys(): print res.keys()[0]
+    rr_obj.getRangeWithStartAndDuration('Cosmics11 OR Cosmics12 or Cosmics13 or Cosmics4 or Cosmics15', 160077, 600, 'http://runregistry.web.cern.ch/runregistry/')

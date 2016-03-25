@@ -32,7 +32,7 @@ class SSHTunnelDescriptor:
         if self.debug:
             print 'SSHDescriptorDestructor called for tunnel', self.tunnelName
 
-class ProcessDescriptor: #TODO - SSHTUnnelDescriptor could inherit from process, since they share fields
+class ProcessDescriptor:
     def __init__(self,name=None,pname=None,powner=None):
         self.name = name
         self.powner = powner
@@ -51,10 +51,12 @@ class EnvHandler(Thread):
         self.listOfTunnels = []
         self.listOfProcesses = []
         self.debug = debug
+        self.suspend = None
+        self.stopSignal = None
         self.initConfigs(fileWithTunnels)
         self.initProcesses(fileWithProcesses)
-        self.checkListOfTunnels()
-        self.stopSignal = None
+        #self.checkListOfTunnels()
+
 
         if self.debug:
             print 'tunnels file', fileWithTunnels
@@ -102,9 +104,10 @@ class EnvHandler(Thread):
         for tunnel in self.listOfTunnels:
             tunnelCheck = self.checkTunnel(tunnel)
             if not tunnelCheck:
-                self.startTunnel(tunnel) # do not execute when in dev mode, it would start ssh tunnels
+                self.suspend.clear()
+                if (self.startTunnel(tunnel)): self.suspend.set() # do not execute when in dev mode, it would start ssh tunnels
                 if self.debug:
-                    print 'starting tunnel', tunnel.tunnelName
+                    print 're/starting tunnel', tunnel.tunnelName
             else:
                 if self.debug:
                     print 'tunnel ', tunnel.tunnelName , ' is running'
@@ -142,7 +145,7 @@ class EnvHandler(Thread):
         except Exception, e:
             return e.message
 
-    def initProcesses(self,listOfProcesses):
+    def initProcesses(self, listOfProcesses):
         if not os.path.isfile(listOfProcesses):
             raise Exception("processes config file not found of empty")
         try:
@@ -192,12 +195,39 @@ class EnvHandler(Thread):
             if self.stopSignal.is_set():
                 break
 
+
+
+def checkSuspendEventVariable(susvar = None, stopvar = None):
+    while True:
+
+        while not susvar.is_set():
+            print 'now its waiting ...'
+            time.sleep(5)
+        susvar.wait()
+        time.sleep(30)
+        print 'check suspend at ', datetime.datetime.now().replace(microsecond=0)
+        if stopvar.is_set():
+            break
+
+
 if __name__ == "__main__":
 
-    e_handler = EnvHandler('resources/ListOfTunnels.json','resources/process.json')
-    e_handler.stopSignal = Event()
+
+    susp = Event()
+    stop = Event()
+    susp.set()
+    checkSuspend = Thread(target=checkSuspendEventVariable, args=(susp, stop,))
+
+    e_handler = EnvHandler('resources/ListOfTunnels.json','resources/process.json', True)
+    e_handler.stopSignal = stop
+    e_handler.suspend = susp
     e_handler.start()
+    checkSuspend.start()
     e_handler.join()
+
+
+
+
 
 
     # TODO - to test the RR query suspend when closing the RR tunnel. just point port to :80 and run queries on the pointing port, kill the tunnel and see if it brings it back

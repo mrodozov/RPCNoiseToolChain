@@ -8,8 +8,8 @@ Author: Algirdas Beinaravicius, modifications by Mircho Rodozov mrodozov@cern.ch
 from Singleton import Singleton
 import json
 import sqlalchemy
-#from CommandClasses import *
-from sqlalchemy.engine import reflection
+from CommandClasses import *
+#from sqlalchemy.engine import reflection
 import datetime
 
 class DBService(object):
@@ -25,7 +25,8 @@ class DBService(object):
         self.__dbName = dbName
         self.__supportedDBs = {'sqlite': ['sqlite://', 'sqlite:///'], 'oracle': ['oracle://']}
 
-        if (dbType in self.__supportedDBs['sqlite']):
+        if (dbType in self.__supportedDBs['sqlite']): # why is this even here ?
+            print dbType
             self.__alchemyDBString = dbType + dbName
         else:
 
@@ -34,8 +35,9 @@ class DBService(object):
                 self.__alchemyDBString = dbType + user + ':' + password + '@' + host + ':' + port + '/' + dbName
             else:
                 self.__alchemyDBString = dbType + dbName
-        self.__alchemyDBString = 'mysql+mysqldb://rodozov:BAKsh0321__@localhost/RPC?charset=utf8'
-        #rodozov/tralala@localhost.localdomain:1521/rpc.localdomain
+        #self.__alchemyDBString = 'mysql+mysqldb://rodozov:BAKsh0321__@localhost/RPC?charset=utf8'
+        #self.__alchemyDBString = 'oracle+cx_oracle://rodozov:BAKsh0321__@localhost:1521/XE'
+        #print self.__alchemyDBString
         self.__engine = sqlalchemy.create_engine(self.__alchemyDBString)
 
         print self.__alchemyDBString
@@ -72,8 +74,8 @@ class DBService(object):
         retval = False
         #print self.__alchemyDBString
         metadata = sqlalchemy.MetaData()
-        table = sqlalchemy.Table(tableName, metadata, schema='RPC', autoload=True, autoload_with=self.__engine)
-        #table = sqlalchemy.Table(tableName, metadata, schema=self.__schema, autoload=True, autoload_with=self.__engine)
+        #table = sqlalchemy.Table(tableName, metadata, schema='RPC', autoload=True, autoload_with=self.__engine)
+        table = sqlalchemy.Table(tableName, metadata, schema=self.__schema, autoload=True, autoload_with=self.__engine)
         connection = self.__engine.connect()
         #insp = reflection.Inspector.from_engine(self.__engine)
         #print insp.get_schema_names()
@@ -90,7 +92,7 @@ class DBService(object):
             for columnName in orderedColumnNames:
                 if argnum in argsList:
                     value = None
-                    if columnName == 'rate_hz_cm2': value = float(line[argnum]) # oracle complain about the non numberic type
+                    if columnName == 'rate_hz_cm2': value = float(line[argnum]) # oracle complains about the non numberic type
                     else: value = int(line[argnum])
                     insertion[columnName] = value
                 argnum += 1
@@ -138,26 +140,27 @@ if __name__ == "__main__":
     with open('resources/options_object.txt', 'r') as optobj:
         optionsObject = json.loads(optobj.read())
 
-    DBService('oracle://','localhost','1521','rodozov','tralala','','RPC')
+    DBService(dbType='oracle+cx_oracle://',host= 'localhost',port= '1521',user= 'rodozov',password= 'BAKsh0321__',schema= '',dbName= 'XE')
 
-    '''
     db_obj = DBService()
 
     print db_obj
-    db_obj2 = DBService()
-    print db_obj2
+    #db_obj2 = DBService()
+    #print db_obj2
 
     #db_obj.createDBRolls()
     #db_obj.createDBStrips()
 
+
     dbup = DBDataUpload(args=optionsObject['dbdataupload'])
     dbup.options['filescheck'] = ['results/run220796/database_new.txt', 'results/run220796/database_full.txt']
     dbuptwo = DBDataUpload(args=optionsObject['dbdataupload'])
-    dbuptwo.options['filescheck'] = ['results/run220796/database_new.txt', 'results/run220796/database_full.txt']
+    dbuptwo.options['filescheck'] = ['results/run251638/database_new.txt', 'results/run251638/database_full.txt']
     dbuptwo.options['run'] = '220796'
-    dbup.options['run'] = '220796'
+    dbup.options['run'] = '251638'
     print dbup.args
     print dbup.options
     dbup.processTask()
     dbuptwo.processTask()
-    '''
+
+

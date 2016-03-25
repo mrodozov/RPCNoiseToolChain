@@ -443,7 +443,7 @@ class DBDataUpload(Command):
             dataFile = ''.join([f for f in self.options['filescheck'] if f.find(rec['file']) is not -1])
             print dataFile
             data = self.getDBDataFromFile(dataFile)
-            #completed = dbService.insertToDB(data, rec['name'], rec['schm'], rec['argsList'])
+            completed = dbService.insertToDB(data, rec['name'], rec['schm'], rec['argsList'])
             #catch the error, push it to the log
             completed = True # TODO - to remove, first finish what is returned by insertToDB
             self.results[dataFile] = completed
@@ -671,8 +671,9 @@ class CopyFilesOnRemoteLocation(Command):
 
     def __init__(self, name=None, args=None):
         Command.__init__(self, name, args)
-        transportService = SSHTransportService() # singleton to serve the connections, setup in main
-        self.sftp_client = paramiko.SFTPClient.from_transport(transportService.connections_dict[self.name]['ssh_client'].get_transport())
+        #transportService = SSHTransportService() # singleton to serve the connections, setup in main
+        #self.sftp_client = paramiko.SFTPClient.from_transport(transportService.connections_dict[self.name]['ssh_client'].get_transport())
+        self.sftp_client = None
 
     def processTask(self):
 
@@ -684,9 +685,11 @@ class CopyFilesOnRemoteLocation(Command):
         runfolder = 'run'+rnum
         remote_root = self.args['destination_root']
         destination = remote_root + runfolder
-        self.results = self.options
+        #self.results = self.options
         self.results['files'] = {}
 
+        transportService = SSHTransportService() # singleton to serve the connections, setup in main, connection
+        self.sftp_client = paramiko.SFTPClient.from_transport(transportService.connections_dict[self.name]['ssh_client'].get_transport())
         self.create_dir_on_remotehost(remote_root, runfolder)
 
         for f in list_of_files:
@@ -696,7 +699,7 @@ class CopyFilesOnRemoteLocation(Command):
                 self.sftp_client.chdir(destination)
                 self.sftp_client.put(results_folder + f, destination + '/' + f)
                 rval = True
-            except Exception as exc:
+            except IOError, exc:
                 errout = "I/O error({0}): {1}".format(exc.errno, exc.strerror)
                 self.warnings.append('file transfer failed for ' + f + 'with ' + errout)
                 rval = False
@@ -813,7 +816,10 @@ if __name__ == "__main__":
     with open('resources/options_object.txt', 'r') as optobj:
         optionsObject = json.loads(optobj.read())
 
-    p = 'BAKsho__4321'
+    p = ''
+    with open('resources/passwd') as pfile:
+        passwd = pfile.readline()
+
 
     connections_dict = {}
     connections_dict.update({'webserver_remote':optionsObject['webserver_remote']})

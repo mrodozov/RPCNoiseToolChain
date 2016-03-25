@@ -9,7 +9,7 @@
         {"type":"dbdataupload","name":"dbdataupload","optionskey":"dbdataupload","starton":"dbfilecheck"},
         {"type":"outputfilesprep","name":"outputprep","optionskey":"outputformat","starton":"dbfilecheck"},
         {"type":"remotecopy","name":"webserver","optionskey":"webserver_remote","starton":"outputprep"},
-        {"type":"remotecopy","name":"lxplus","optionskey":"lxplus_archive_remote","starton":"webserver"}
+        {"type":"remotecopy","name":"lxplus","optionskey":"lxplus_archive_remote","starton":"outputprep"}
     ],
   "resubmit":{},
   "db_retry":{},
