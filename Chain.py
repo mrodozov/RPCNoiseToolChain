@@ -35,10 +35,11 @@ class Chain(Observer):
     this class is chain that put commands in list, and executes them in order.
     '''
 
-    def __init__(self):
+    def __init__(self, event_handler=None):
         self.commands = {}
+        # self.command_results = {}
         self.log = {}
-        self.event_handler = EventsHandler([self])
+        self.event_handler = event_handler
         self.jobsQueue = Queue.Queue()
 
     def add_commands_for_event_name(self, commandsList, eventname):
@@ -49,9 +50,12 @@ class Chain(Observer):
             commands_for_queue = self.commands[event.name]
             for c in commands_for_queue:
                 # get options from event
-                print 'received update to put ', c.name, ' on the queue'
+                #print 'received update to put ', c.name, ' on the queue'
                 c.options = event.message
                 self.jobsQueue.put(c)
+
+        # self.command_results[event.name] = {'results':self.commands[event.name].results,'logs':self.commands[event.name].logs,'warnings':self.commands[event.name].warnings}
+        #del self.commands[event.name]
 
     def startChainWithEvent(self, init_event):
         number_of_threads = 0

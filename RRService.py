@@ -95,6 +95,7 @@ class RRService:
 
     def getRunlistForLongRuns(self, lastRun=None):
         year = time.strftime("%y")
+        #year = '15'
         runlist = self.getRunRange('Collisions'+year+' OR Cosmics'+year+' OR Commissioning'+year, lastRun, 600)
         return runlist
 

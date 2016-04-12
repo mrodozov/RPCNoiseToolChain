@@ -9,6 +9,7 @@ The event dispatcher register observers
 class EventsHandler(object):
 
     def __init__(self, observers=None):
+        self.observers = []
 
         if observers is not None:
             # assert not isinstance(observers, list)

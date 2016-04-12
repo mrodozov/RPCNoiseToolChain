@@ -10,6 +10,7 @@ import copy
 import datetime
 import os.path
 import shutil
+import paramiko
 
 class RunlistManager(Thread):
 
@@ -37,7 +38,6 @@ class RunlistManager(Thread):
         self.loadRunlistFile(runlist_file)
         self.runlistLock = RLock()
         self.ssh_service = None
-        self.ssh_connection_name = None
         self.runlist_remote_dir = None
 
     def __del__(self):
@@ -124,28 +124,21 @@ class RunlistManager(Thread):
             #self.suspendProcessedRunsHandler.wait() # block in case it needs to wait until network srvc is restarted
             run = self.processedRunsQueue.get()
             # check status and update the run
-            rnum = None
 
-            run_results = None
-            for r in run.keys():
-                rnum = r
+            rnum = run.keys()[0]
             run_details = run[rnum].get()
-            #print 'Run ', rnum, ' in results'
-            run_status = 'Failed'
+            #print 'run details ', run_details
+            run_status = 'finished' # to remove, its for a test
             try:
-                #print run_details.keys()
-
+                # print run_details.keys()
                 run_results = run_details['results']
-                for k in run_results:
-                    run_status = 'finished'
-                    if run_results[k][0] == 'Failed':
+                for i in run_results.keys():
+                    if run_results[i][0] == 'Failed':
+                        print i, run_results[i][0]
                         run_status = 'Failed'
-                        #self.updateRun(rnum, 'status', run_status)
-                        run_details['status'] = run_status
-                        self.reportQueue.put({rnum:run_details})
-                        break
-            except KeyError, e:
-                e.message
+                        self.reportQueue.put({rnum: run_details})
+            except Exception, e:
+                print e.message, ', deiba'
             #update runlist
             self.updateRun(rnum, 'status', run_status)
             self.processedRunsQueue.task_done()
@@ -174,9 +167,10 @@ class RunlistManager(Thread):
             last_run = runlist_runs[-1]
             print 'last run is: ', last_run
             year = time.strftime('%y')
+            year = '15' # TODO - remove this
             new_runs = {}
             try:
-                new_runs = self.rr_connector.getRunRangeWithLumiInfo('Collisions'+year+' OR Cosmics'+year+' OR Commissioning'+year, last_run, 300)
+                new_runs = self.rr_connector.getRunRangeWithLumiInfo('Collisions'+year+' OR Cosmics'+year+' OR Commissioning'+year+'', last_run, 300)
             except Exception, e:
                 print e.message, ' RR check failed at ', datetime.datetime.now().replace(microsecond=0)
                 # try to set semaphore that calls the env handler to reestablish the channel to RR
@@ -192,7 +186,7 @@ class RunlistManager(Thread):
 
             for r in ordered_list_to_process.keys():
 
-                print 'before status change run', r, ordered_list_to_process[r]
+                #print 'before status change run', r, ordered_list_to_process[r]
                 rn_copy = copy.deepcopy(r)
                 rd_copy = copy.deepcopy(self.runlist[r])
                 self.toProcessQueue.put({rn_copy: rd_copy})
@@ -220,15 +214,15 @@ class RunlistManager(Thread):
                 # so its better the rlist mngr keeps a reference to the service itself
                 # (some service, any service that is already established for the manager)
 
-                runlist_sftp_client = self.ssh_service.open_sftp()
-                remote_runlist = json.loads(runlist_sftp_client.file(self.runlist_remote_dir+'/runlist.json').read())
+                runlist_sftp_client = paramiko.SFTPClient.from_transport(self.ssh_service.get_transport())
+                remote_runlist = json.loads(runlist_sftp_client.file(self.runlist_remote_dir+'runlist.json').read())
                 list_to_resub = [r for r in remote_runlist.keys() if remote_runlist[r]['status'] == 'toresub']
                 for r in list_to_resub:
                     self.updateRun(r, 'status', 'submitted')
                 self.updateRunlistFile()
                 #upload the local on remote like this now
                 runlist_sftp_client.put(self.runlist_file, self.runlist_remote_dir+'/runlist.json')
-                runlist_sftp_client.close()
+                runlist_sftp_client.get_channel().close()
                 #now change the local run keys to 'toresub'. this way runs goes to be processed
                 for r in list_to_resub:
                     self.updateRun(r, 'status', 'toresub')
@@ -281,6 +275,7 @@ if __name__ == "__main__":
     processedRunsQueue = Queue.Queue()
     reportsQueue = Queue.Queue()
     stop_rlistmngr = Event()  # set this to kill the loop and exit
+    suspendRunRegistry = Event()
     mq = Thread(target=moveQueueEntries, args=(runsToProcessQueue, processedRunsQueue))
     rq = Thread(target=getReportQueueEntries, args=(reportsQueue,))
 
@@ -294,6 +289,7 @@ if __name__ == "__main__":
     rlistMngr.reportQueue = reportsQueue
     rlistMngr.rr_connector = rr_obj
     rlistMngr.stop_event = stop_rlistmngr
+    rlistMngr.suspendRRcheck = suspendRunRegistry
     rlistMngr.suspendRRcheck.set()
     rlistMngr.check_run_registry.start()
 

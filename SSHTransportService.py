@@ -14,8 +14,8 @@ class SSHTransportService(object):
         self.connections_dict = {}
         self.open_connections(connections_description)
         self.lockWhenUpload = Lock()
-        paramiko.util.log_to_file("filename.log")
-        paramiko.common.logging.basicConfig(level=paramiko.common.DEBUG)
+        paramiko.util.log_to_file("paramiko_log.log")
+        # paramiko.common.logging.basicConfig(level=paramiko.common.DEBUG)
 
     def open_connection(self, name, description):
         ssh_client = paramiko.SSHClient()
@@ -92,6 +92,9 @@ if __name__ == "__main__":
 
     p = ''
 
+    with open('resources/passwd') as pfile:
+        p = pfile.readline()
+
     connections_dict = {}
     connections_dict.update({'webserver':optionsObject['webserver_remote']})
     connections_dict.update({'lxplus':optionsObject['lxplus_archive_remote']})
@@ -109,3 +112,6 @@ if __name__ == "__main__":
         wserver.chdir(connections_dict['webserver']['destination_root'])
         wserver.listdir()
         wserver.mkdir('run263757')
+
+    files = wserver.listdir(connections_dict['webserver']['destination_root'])
+

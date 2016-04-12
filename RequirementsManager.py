@@ -191,10 +191,9 @@ class EnvHandler(Thread):
         while True:
             self.checkListOfTunnels()
             print 'tunnels checked at ', datetime.datetime.now().replace(microsecond=0)
-            time.sleep(100)
+            time.sleep(30)
             if self.stopSignal.is_set():
                 break
-
 
 
 def checkSuspendEventVariable(susvar = None, stopvar = None):
@@ -204,8 +203,8 @@ def checkSuspendEventVariable(susvar = None, stopvar = None):
             print 'now its waiting ...'
             time.sleep(5)
         susvar.wait()
-        time.sleep(30)
-        print 'check suspend at ', datetime.datetime.now().replace(microsecond=0)
+        time.sleep(10)
+        print 'check suspend semaphore at ', datetime.datetime.now().replace(microsecond=0)
         if stopvar.is_set():
             break
 

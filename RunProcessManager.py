@@ -1,7 +1,7 @@
 __author__ = 'rodozov'
 
 from CommandClasses import *
-from Chain import Chain
+from Chain import Chain, EventsHandler
 from Event import SimpleEvent
 from RunlistManager import RunlistManager
 import multiprocessing as mp
@@ -22,7 +22,7 @@ class RunProcessPool(Thread):
 
         super(RunProcessPool, self).__init__()
         self.options = options
-        self.pool = ThreadPool(mp.cpu_count())
+        self.pool = mp.Pool(mp.cpu_count(),maxtasksperchild=1)
         self.toprocess = runs_to_process_queue
         self.processed_runs_q = processed_runs_queue
         self.sequence_handler = sequence_handler_object
@@ -35,22 +35,16 @@ class RunProcessPool(Thread):
         while True:
 
             r_copy = self.toprocess.get()
-            #r_copy = copy.deepcopy(run)
             results_folder = self.options['result_folder']
             run_status = None
             for k in r_copy:
                 run_status = r_copy[k]['status']
             print k, run_status
-            #print 'r copy', r_copy
             sequence = self.sequence_handler.getSequenceForName(run_status)
-            print 'sequence ', sequence
+            #print 'sequence ', sequence
             runChainArgs = {'rundetails':r_copy, 'commands': sequence, 'result_folder': results_folder}
-            result = self.pool.apply_async(self.runChainProcessFunction, (runChainArgs, ))
-            #r = result.get()
-            #r_copy['results'] = {'overall':['result1,result2']}
-            #r_copy[k]['status'] = 'finished'
-            #result = r_copy
-            self.processed_runs_q.put({k:result})
+            result = self.pool.apply_async(functoapply, (runChainArgs, ))
+            self.processed_runs_q.put({k: result})
             self.toprocess.task_done() # remove the run from the toprocess queue
 
             if self.stop_process_event.is_set() and self.toprocess.empty():
@@ -77,8 +71,10 @@ def processSingleRunChain(args=None):
     Function to run single runChain object
     Setup the run chain object with the args
     '''
+    e_handler = EventsHandler()
+    runchain = Chain(e_handler)
+    e_handler.addObserver(runchain)
 
-    runchain = Chain()
     run_num = None
     for k in args['rundetails'].keys():
         run_num = k
@@ -86,7 +82,7 @@ def processSingleRunChain(args=None):
     print 'process is ', mp.current_process().name , ' for run ', run_num
 
     runchain.commands = args['commands']
-    print 'commands', runchain.commands
+    #print 'commands', runchain.commands
     rfolder = args['result_folder']
 
     initialEvent = SimpleEvent('init', True, {'run':run_num, 'result_folder':rfolder})
@@ -99,10 +95,9 @@ if __name__ == "__main__":
 
     os.environ['LD_LIBRARY_PATH'] = '/home/rodozov/Programs/ROOT/INSTALL/lib/root'  # important
     optionsObject = None
-    with open('resources/options_object.txt', 'r') as optobj:
-        optionsObject = json.loads(optobj.read())
-
-    p = 'BAKsho__4321'
+    with open('resources/options_object.txt', 'r') as optobj: optionsObject = json.loads(optobj.read())
+    with open('resources/passwd') as pfile: passwd = pfile.readline()
+    p = passwd
 
     connections_dict = {}
     connections_dict.update({'webserver':optionsObject['webserver_remote']})
@@ -133,6 +128,7 @@ if __name__ == "__main__":
     stop.set()
     rpmngr.stop_process_event = stop
     rpmngr.runChainProcessFunction = processSingleRunChain
+
 
     runsToProcessQueue.put({'263743':rlistMngr.runlist['263743']})
     runsToProcessQueue.put({'263744':rlistMngr.runlist['263744']})

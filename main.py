@@ -9,29 +9,37 @@ import Queue
 from threading import Thread
 import datetime
 import paramiko
-import os.path
+import os
 import json
 from threading import Event
 import socks
 from RRService import RRService
 import copy
+import gc
 
 if __name__ == "__main__":
 
+    # gc.enable()
+    # gc.set_debug(gc.DEBUG_LEAK)
+    print os.getpid()
 
     #ssh -f -N -D 1080 mrodozov@lxplus.cern.ch # to open proxy
     #os.environ['LD_LIBRARY_PATH'] = '/home/rodozov/Programs/ROOT/INSTALL/lib/root'  # the only hardcoded variable remaining, probably. let's change it in the next commit
     socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, 'localhost', 1080) # don't use when inside CERN's network
 
     passwd = ''
-    with open('resources/passwd') as pfile:
-        passwd = pfile.readline()
+    mailpass = ''
+    dbpass = ''
+    #empty_dict = {}
+    #with open('resources/ErrorLog.log', 'w') as errfile: errfile.write(json.dumps(empty_dict, indent=1, sort_keys=True))
+    with open('resources/mailpaswd') as mapssf: mailpass = mapssf.readline()
+    with open('resources/passwd') as pfile: passwd = pfile.readline()
+    with open('resources/dbpaswd') as dbpassf: dbpass = dbpassf.readline()
 
     print passwd
     #lp_ssh_cl.connect('localhost', 22, 'mrodozov', passwd)
 
-    with open('resources/options_object.txt', 'r') as optobj:
-        optionsObject = json.loads(optobj.read())
+    with open('resources/options_object.txt', 'r') as optobj: optionsObject = json.loads(optobj.read())
 
     #some setup
 
@@ -45,7 +53,10 @@ if __name__ == "__main__":
     #print os.environ['LD_LIBRARY_PATH']
 
     ssh_t_s = SSHTransportService(remote_destinations)
-    db_obj = DBService('oracle://','localhost','1521','rodozov','tralala','','RPC')
+    db_obj = DBService('oracle://','localhost','1521','rodozov', dbpass,'','RPC')
+    #erase data from tables to clean it up for tests
+    #db_obj.deleteDataFromTable('RPC_NOISE_ROLLS')
+    #db_obj.deleteDataFromTable('RPC_NOISE_STRIPS')
 
     runsToProcessQueue = Queue.Queue()
     processedRunsQueue = Queue.Queue()
@@ -58,21 +69,24 @@ if __name__ == "__main__":
 
     rlistMngr = RunlistManager('resources/runlist.json')
     rpMngr = RunProcessPool(runsToProcessQueue, processedRunsQueue, sequence_handler, {'result_folder':'results/'})
-    #environ_handler = EnvHandler('resources/ListOfTunnels.json', 'resources/process.json', 'resources/variables.json')
-    reportsMngr = ReportHandler(reportsQueue, 'resources/mail_settings.json')
-    #print 'env ok ?'
+    environMngr = EnvHandler('resources/ListOfTunnels.json', 'resources/process.json')
+    reportsMngr = ReportHandler(reportsQueue, 'resources/mail_settings.json', mailpass, 'resources/ErrorLog.log')
+
+    print 'env ok ?'
 
     rlistMngr.toProcessQueue = runsToProcessQueue
     rlistMngr.processedRunsQueue = processedRunsQueue
     rlistMngr.reportQueue = reportsQueue
     rlistMngr.suspendRRcheck = suspendRRcheck
     rlistMngr.rr_connector = RRService(use_proxy=True)
-    #print 'rr service again ?'
+    print 'rr service ok ?'
     rpMngr.runChainProcessFunction = processSingleRunChain
+    environMngr.suspend = suspendRRcheck
+
     rpMngr.stop_process_event = stop
     reportsMngr.stop_signal = stop
     rlistMngr.stop_event = stop
-
+    environMngr.stopSignal = stop
     # enough setup, run the managers
 
     #paramiko.common.logging.basicConfig(level=paramiko.common.DEBUG)
@@ -83,12 +97,57 @@ if __name__ == "__main__":
 
     rlistMngr.ssh_service = ssh_t_s.connections_dict['webserver']['ssh_client']
     rlistMngr.runlist_remote_dir = remote_webserver
+    reportsMngr.remote_dir = remote_webserver
+    reportsMngr.ssh_client = ssh_t_s.connections_dict['webserver']['ssh_client']
 
     #print 'starting'
     suspendRRcheck.set()
     print 'starting managers ...'
 
+    environMngr.start()
     SpeedyGonzales.start()
     ForestGump.runForestRun()
     Sonic.runSonicRun()
 
+
+    '''
+    dbpass = ''
+
+    optionsObject = None
+    with open('resources/options_object.txt', 'r') as optobj:
+        optionsObject = json.loads(optobj.read())
+    with open('resources/dbpaswd') as dbpassf:
+        dbpass = dbpassf.readline()
+
+    DBService(dbType='oracle+cx_oracle://',host= 'localhost',port= '1521',user= 'rodozov',password= dbpass,schema= '',dbName= 'XE')
+
+    db_obj = DBService()
+
+    print db_obj
+    db_obj2 = DBService()
+    print db_obj2
+
+    #db_obj.createDBRolls()
+    #db_obj.createDBStrips()
+    #db_obj.deleteDataFromTable('RPC_NOISE_ROLLS')
+    #db_obj.deleteDataFromTable('RPC_NOISE_STRIPS') #blocks for unknown reason
+
+
+    dbup = DBDataUpload(args=optionsObject['dbdataupload'])
+    dbup.options['filescheck'] = ['results/run263755/database_new.txt', 'results/run263755/database_full.txt']
+    dbup.options['run'] = '263755'
+    dbuptwo = DBDataUpload(args=optionsObject['dbdataupload'])
+    dbuptwo.options['filescheck'] = ['results/run263757/database_new.txt', 'results/run263757/database_full.txt']
+    dbuptwo.options['run'] = '263757'
+
+    # print dbup.args
+    # print dbup.options
+    #dbup.processTask()
+    #dbuptwo.processTask()
+
+    dbthread_one = Thread(target=dbup.processTask)
+    dbthread_two = Thread(target=dbuptwo.processTask)
+
+    dbthread_one.start()
+    dbthread_two.start()
+    '''

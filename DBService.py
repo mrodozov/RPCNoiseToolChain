@@ -11,6 +11,8 @@ import sqlalchemy
 from CommandClasses import *
 #from sqlalchemy.engine import reflection
 import datetime
+import multiprocessing as mp
+from threading import Thread
 
 class DBService(object):
 
@@ -24,6 +26,7 @@ class DBService(object):
         self.__password = password
         self.__dbName = dbName
         self.__supportedDBs = {'sqlite': ['sqlite://', 'sqlite:///'], 'oracle': ['oracle://']}
+        self.lock = mp.Lock()
 
         if (dbType in self.__supportedDBs['sqlite']): # why is this even here ?
             print dbType
@@ -36,7 +39,7 @@ class DBService(object):
             else:
                 self.__alchemyDBString = dbType + dbName
         #self.__alchemyDBString = 'mysql+mysqldb://rodozov:BAKsh0321__@localhost/RPC?charset=utf8'
-        #self.__alchemyDBString = 'oracle+cx_oracle://rodozov:BAKsh0321__@localhost:1521/XE'
+        self.__alchemyDBString = 'oracle+cx_oracle://rodozov:BAKsh0321__@localhost:1521/XE'
         #print self.__alchemyDBString
         self.__engine = sqlalchemy.create_engine(self.__alchemyDBString)
 
@@ -74,8 +77,11 @@ class DBService(object):
         retval = False
         #print self.__alchemyDBString
         metadata = sqlalchemy.MetaData()
-        #table = sqlalchemy.Table(tableName, metadata, schema='RPC', autoload=True, autoload_with=self.__engine)
+        # table = sqlalchemy.Table(tableName, metadata, schema='RPC', autoload=True, autoload_with=self.__engine)
         table = sqlalchemy.Table(tableName, metadata, schema=self.__schema, autoload=True, autoload_with=self.__engine)
+
+        #eng = sqlalchemy.create_engine(self.__alchemyDBString)
+        #table = sqlalchemy.Table(tableName, metadata, schema=self.__schema, autoload=True, autoload_with=eng)
         connection = self.__engine.connect()
         #insp = reflection.Inspector.from_engine(self.__engine)
         #print insp.get_schema_names()
@@ -83,8 +89,9 @@ class DBService(object):
 
         insertionList = []
         #print tableName
-        print connection
+        #print connection
         start_time = datetime.datetime.now().replace(microsecond=0)
+        #print 'insert to db', start_time, self
 
         for line in data:
             insertion = {}
@@ -98,26 +105,38 @@ class DBService(object):
                 argnum += 1
             insertionList.append(insertion)
 
+        data = None
         transaction = connection.begin()
         try:
             queryResult = connection.execute(table.insert(), insertionList)
             transaction.commit()
+            insertionList = None
         except:
             transaction.rollback()
             raise
-
+        retval = True
         connection.close()
+        # eng.dispose()
         endtime = datetime.datetime.now().replace(microsecond=0)
         print 'time it took: ', endtime-start_time
         #retval = queryResult
         return retval
 
-    def deleteFromDB(self, runNumber=None, tableName=None):
+    def deleteRunFromDB(self, runNumber=None, tableName=None):
         metadata = sqlalchemy.MetaData()
         table = sqlalchemy.Table(tableName, metadata, schema=self.__schema, autoload=True, autoload_with=self.__engine)
         # delete all rows with given runnumber from the data base
         connection = self.__engine.connect()
         delete = table.delete().where(table.c.runnumber==runNumber)
+        connection.execute(delete)
+        connection.close()
+
+    def deleteDataFromTable(self, tableName=None):
+        metadata = sqlalchemy.MetaData()
+        table = sqlalchemy.Table(tableName, metadata, schema=self.__schema, autoload=True, autoload_with=self.__engine)
+        # delete all rows with given runnumber from the data base
+        connection = self.__engine.connect()
+        delete = table.delete()
         connection.execute(delete)
         connection.close()
 
@@ -136,31 +155,46 @@ class DBService(object):
 
 if __name__ == "__main__":
 
+    dbpass = ''
+
     optionsObject = None
     with open('resources/options_object.txt', 'r') as optobj:
         optionsObject = json.loads(optobj.read())
+    with open('resources/dbpaswd') as dbpassf:
+        dbpass = dbpassf.readline()
 
-    DBService(dbType='oracle+cx_oracle://',host= 'localhost',port= '1521',user= 'rodozov',password= 'BAKsh0321__',schema= '',dbName= 'XE')
+    DBService(dbType='oracle+cx_oracle://',host= 'localhost',port= '1521',user= 'rodozov',password= dbpass,schema= '',dbName= 'XE')
 
     db_obj = DBService()
 
     print db_obj
-    #db_obj2 = DBService()
-    #print db_obj2
+    db_obj2 = DBService()
+    print db_obj2
 
     #db_obj.createDBRolls()
     #db_obj.createDBStrips()
+    #db_obj.deleteDataFromTable('RPC_NOISE_ROLLS')
+    #db_obj.deleteDataFromTable('RPC_NOISE_STRIPS') #blocks for unknown reason
 
 
     dbup = DBDataUpload(args=optionsObject['dbdataupload'])
-    dbup.options['filescheck'] = ['results/run220796/database_new.txt', 'results/run220796/database_full.txt']
+    dbup.options['filescheck'] = ['results/run263755/database_new.txt', 'results/run263755/database_full.txt']
+    dbup.options['run'] = '263755'
     dbuptwo = DBDataUpload(args=optionsObject['dbdataupload'])
-    dbuptwo.options['filescheck'] = ['results/run251638/database_new.txt', 'results/run251638/database_full.txt']
-    dbuptwo.options['run'] = '220796'
-    dbup.options['run'] = '251638'
-    print dbup.args
-    print dbup.options
+    dbuptwo.options['filescheck'] = ['results/run263757/database_new.txt', 'results/run263757/database_full.txt']
+    dbuptwo.options['run'] = '263757'
+
+    # print dbup.args
+    # print dbup.options
     dbup.processTask()
     dbuptwo.processTask()
+    '''
+    dbthread_one = Thread(target=dbup.processTask)
+    dbthread_two = Thread(target=dbuptwo.processTask)
 
+    dbthread_one.start()
+    dbthread_two.start()
 
+    dbthread_one.join()
+    dbthread_two.join()
+    '''

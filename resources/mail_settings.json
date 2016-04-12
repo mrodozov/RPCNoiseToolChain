@@ -1,5 +1,7 @@
 {
-  "sender":"",
-  "url":"",
-  "port":""
+  "sender":"mrodozov@gmail.com",
+  "username":"mrodozov",
+  "url":"smtp.gmail.com",
+  "port":"587",
+  "mail_list":["mrodozov@gmai.com"]
 }

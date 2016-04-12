@@ -10,13 +10,13 @@ import os
 import time
 import re
 import json
-from threading import Lock, RLock
 from thirdPartyAPI.RPCMap import RPCMap
 from Event import SimpleEvent
 from Chain import Chain
 from DBService import DBService
 from SSHTransportService import SSHTransportService
 import paramiko
+from multiprocessing import Lock
 
 # TODO - See if there is need to format HTML for any reason,
 
@@ -33,7 +33,7 @@ class Command(object):
         self.results = {}
         self.warnings = []
         self.args = args # static options, from a file
-        self.options = {} # dynamic options, passed from
+        self.options = {} # dynamic options, passed from the initiating comand finish
         self.exitcode = None
 
     def __del__(self):
@@ -70,7 +70,12 @@ class Command(object):
 
         if not self.checkRequirements():
             return False
-        if not self.processTask():
+        try:
+            if not self.processTask():
+                return False
+        except Exception as e:
+            self.warnings.append('Exception: '+e.message)
+            self.results = 'Failed'
             return False
         if not self.checkResult():
             return False
@@ -207,7 +212,6 @@ class NoiseToolMainExe(Command):
         filesToProcess = [f for f in self.options['rootfiles']]
         #print filesToProcess # for debug
 
-
         '''
         create the result dir if doesn't exist yet
 
@@ -251,14 +255,20 @@ class NoiseToolMainExe(Command):
             results['tounmask'] = [f for f in os.listdir(res_folder) if f.find('ToUnmask') is not -1 and f.find('All') is -1]
             results['tomask'] = [f for f in os.listdir(res_folder) if f.find('ToMask') is not -1 and f.find('All') is -1]
             results['rootfiles'] = [f for f in os.listdir(res_folder) if f.find('Noise_') is not -1 and f.endswith('.root')]
-            childp = subprocess.Popen('hadd -f ' + res_folder+'total.root ' + res_folder + 'Noise_*', shell=True, stdout=subprocess.PIPE,
+            childp = subprocess.Popen('executables/MergeRoots ' + res_folder + ' ' + ' '.join(results['rootfiles']), shell=True, stdout=subprocess.PIPE,
                                       stderr=subprocess.STDOUT, close_fds=True)
             current_stdout, current_stderr = childp.communicate()
-            urrent_excode = childp.returncode
+            current_excode = childp.returncode
+            if current_excode == 0 and current_stderr is None:
+                complete = True
+            else:
+                complete = False
             if  os.path.isfile(res_folder + 'total.root'):
                 results['totalroot'] = res_folder+'total.root'
             else:
                 results = 'Failed'
+            hadd_err = {'hadd_complete':complete,'hadd_err':current_stderr,'hadd_out':current_stdout,'hadd_exitcode':current_excode}
+            self.log.update(hadd_err)
 
         self.results = results
         self.results['result_folder'] = self.options['result_folder']
@@ -438,21 +448,23 @@ class DBDataUpload(Command):
         complete = False
         # files from results, table names and schemas from options
         dbService = DBService() # this object is singleton, it's setup is expected to be already done (in the main)
-        print dbService
+        #print dbService, 'db service object'
         for rec in self.args['connectionDetails']:
             dataFile = ''.join([f for f in self.options['filescheck'] if f.find(rec['file']) is not -1])
-            print dataFile
+            #print dataFile
             data = self.getDBDataFromFile(dataFile)
-            completed = dbService.insertToDB(data, rec['name'], rec['schm'], rec['argsList'])
+            #with dbService.lock: # TODO - remove this using Session or Pool, multithread queries takes forever so for now are in queue
+                #completed = dbService.insertToDB(data, rec['name'], rec['schm'], rec['argsList'])
+            completed = True
+            data = None
             #catch the error, push it to the log
-            completed = True # TODO - to remove, first finish what is returned by insertToDB
-            self.results[dataFile] = completed
-            self.log[dataFile] = completed
-            complete = completed
-            if not completed:
+
+            if completed is not True:
                 self.results = 'Failed'
+                complete = False
                 self.warnings.append('file failed to be inserted')
-                break
+            self.results[dataFile] = complete
+            self.log[dataFile] = complete
         self.results['run'] = self.options['run']
         return complete
 
@@ -495,7 +507,7 @@ class OutputFilesFormat(Command):
         rnum = self.options['run']
 
         # first print
-        print detailedFile, rollsFile
+        #print detailedFile, rollsFile
         rollObject = {}
         stripsobject = {}
         with open(rollsFile, 'r') as rolls_data:
@@ -677,7 +689,7 @@ class CopyFilesOnRemoteLocation(Command):
 
     def processTask(self):
 
-        print self.name, self.options
+        #print self.name, self.options
         rval = False
         rnum = self.options['run']
         list_of_files = self.options['json_products']
@@ -689,7 +701,15 @@ class CopyFilesOnRemoteLocation(Command):
         self.results['files'] = {}
 
         transportService = SSHTransportService() # singleton to serve the connections, setup in main, connection
-        self.sftp_client = paramiko.SFTPClient.from_transport(transportService.connections_dict[self.name]['ssh_client'].get_transport())
+        # self.sftp_client = paramiko.SFTPClient.from_transport(transportService.connections_dict[self.name]['ssh_client'].get_transport())
+
+        descr = transportService.connections_dict[self.name]
+        ssh_cl = paramiko.SSHClient()
+        ssh_cl.load_host_keys(os.path.expanduser(os.path.join("~", ".ssh", "known_hosts")))
+        ssh_cl.connect(descr['rhost'],descr['port'],descr['user'],descr['pass'])
+
+        self.sftp_client = ssh_cl.open_sftp() # to remove this and restore the previous
+
         self.create_dir_on_remotehost(remote_root, runfolder)
 
         for f in list_of_files:
@@ -701,14 +721,15 @@ class CopyFilesOnRemoteLocation(Command):
                 rval = True
             except IOError, exc:
                 errout = "I/O error({0}): {1}".format(exc.errno, exc.strerror)
-                self.warnings.append('file transfer failed for ' + f + 'with ' + errout)
+                self.warnings.append('file transfer failed for ' + f + ' with ' + errout)
                 rval = False
                 #print errout
             self.results['files'][f] = rval
         if not rval:
             self.results='Failed'
 
-        self.sftp_client.get_channel().close()
+        ssh_cl.close()
+        # self.sftp_client.get_channel().close()
 
         return rval
 
