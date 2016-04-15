@@ -93,11 +93,16 @@ def processSingleRunChain(args=None):
 
 if __name__ == "__main__":
 
-    os.environ['LD_LIBRARY_PATH'] = '/home/rodozov/Programs/ROOT/INSTALL/lib/root'  # important
+    print os.getpid()
+
+    #os.environ['LD_LIBRARY_PATH'] = '/opt/offline/slc6_amd64_gcc491/cms/cmssw/CMSSW_7_3_6/external/slc6_amd64_gcc491/bin/root'  # important
+
     optionsObject = None
     with open('resources/options_object.txt', 'r') as optobj: optionsObject = json.loads(optobj.read())
-    with open('resources/passwd') as pfile: passwd = pfile.readline()
-    p = passwd
+    os.environ['LD_LIBRARY_PATH'] = optionsObject['paths']['cms_online_nt_machine']['root_path']
+    print os.environ['LD_LIBRARY_PATH']
+    #with open('resources/passwd') as pfile: passwd = pfile.readline()
+    p = ''
 
     connections_dict = {}
     connections_dict.update({'webserver':optionsObject['webserver_remote']})
@@ -108,7 +113,8 @@ if __name__ == "__main__":
     print connections_dict
 
     sshTransport = SSHTransportService(connections_dict)
-    db_obj = DBService('oracle://','localhost','1521','rodozov','tralala','','RPC')
+    db_obj = DBService(dbType='oracle+cx_oracle://',host= 'localhost',port= '1521',user= 'CMS_COND_RPC_NOISE',password= 'j6XFEznqH9f92WUf',schema= 'CMS_RPC_COND',dbName= 'cms_orcoff_prep')
+    
 
     #print alist
     ssh_one = sshTransport.connections_dict['webserver']
@@ -119,22 +125,19 @@ if __name__ == "__main__":
     runsToProcessQueue = Queue.Queue()
     processedRunsQueue = Queue.Queue()
     sequence_handler = CommandSequenceHandler('resources/SequenceDictionaries.json', 'resources/options_object.txt')
-    rpmngr = RunProcessPool(runsToProcessQueue, processedRunsQueue, sequence_handler, {'result_folder':'results/'})
+    rpmngr = RunProcessPool(runsToProcessQueue, processedRunsQueue, sequence_handler, {'result_folder':'/rpctdata/CAF/'})
 
     rlistMngr = RunlistManager('resources/runlist.json')
     rlistMngr.toProcessQueue = runsToProcessQueue
 
     stop = mp.Event()
-    stop.set()
+    #stop.set()
     rpmngr.stop_process_event = stop
     rpmngr.runChainProcessFunction = processSingleRunChain
 
 
-    runsToProcessQueue.put({'263743':rlistMngr.runlist['263743']})
-    runsToProcessQueue.put({'263744':rlistMngr.runlist['263744']})
-    runsToProcessQueue.put({'263745':rlistMngr.runlist['263745']})
-    runsToProcessQueue.put({'263752':rlistMngr.runlist['263752']})
-    runsToProcessQueue.put({'263757':rlistMngr.runlist['263757']})
+    runsToProcessQueue.put({'269615':rlistMngr.runlist['269615']})
+    
 
     rpmngr.start()
 

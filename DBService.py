@@ -32,17 +32,18 @@ class DBService(object):
             print dbType
             self.__alchemyDBString = dbType + dbName
         else:
-
+            
             # create oracle connection string
             if host and port:
                 self.__alchemyDBString = dbType + user + ':' + password + '@' + host + ':' + port + '/' + dbName
             else:
                 self.__alchemyDBString = dbType + dbName
         #self.__alchemyDBString = 'mysql+mysqldb://rodozov:BAKsh0321__@localhost/RPC?charset=utf8'
-        self.__alchemyDBString = 'oracle+cx_oracle://rodozov:BAKsh0321__@localhost:1521/XE'
-        #print self.__alchemyDBString
+        #self.__alchemyDBString = 'oracle+cx_oracle://rodozov:BAKsh0321__@localhost:1521/XE'
+        #self.__alchemyDBString = 'oracle+cx_oracle://CMS_COND_RPC_NOISE:j6XFEznqH9f92WUf@cms_orcoff_prep' # pass is wrong
+        #self.__alchemyDBString = 'oracle+cx_oracle://CMS_RPC_R:rpcr34d3r@cms_omds_lb'
+        self.__alchemyDBString = 'oracle+cx_oracle://CMS_RPC_COND_W:8B1M410RM1N0RC3SS4T@cms_omds_lb'
         self.__engine = sqlalchemy.create_engine(self.__alchemyDBString)
-
         print self.__alchemyDBString
 
     def createDBStrips(self):
@@ -146,8 +147,9 @@ class DBService(object):
         #table = sqlalchemy.Table(tableName, metadata, schema=self.__schema, autoload=True, autoload_with=self.__engine)
         connection = self.__engine.connect()
 
-        select = table.select()
+        select = table.select().where(table.c.run_number==runNumber)
         result = connection.execute(select)
+        connection.close()
         return result
 
     def getConnection(self):
@@ -156,38 +158,43 @@ class DBService(object):
 if __name__ == "__main__":
 
     dbpass = ''
-
+    
     optionsObject = None
     with open('resources/options_object.txt', 'r') as optobj:
         optionsObject = json.loads(optobj.read())
-    with open('resources/dbpaswd') as dbpassf:
-        dbpass = dbpassf.readline()
-
-    DBService(dbType='oracle+cx_oracle://',host= 'localhost',port= '1521',user= 'rodozov',password= dbpass,schema= '',dbName= 'XE')
-
-    db_obj = DBService()
-
-    print db_obj
-    db_obj2 = DBService()
-    print db_obj2
+    #with open('resources/dbpaswd') as dbpassf:
+    #    dbpass = dbpassf.readline()
+    
+    db_obj = DBService(dbType='oracle://',host= '',port= '',user= 'CMS_RPC_COND_W',password= '8B1M410RM1N0RC3SS4T',schema= 'CMS_RPC_COND',dbName= 'cms_omds_lb')
+    
+    #print db_obj
+    #db_obj2 = DBService()
+    #print db_obj2
+    result = db_obj.selectFromDB(269136,'RPC_NOISE_ROLLS')
+    print result
+    for row in result:
+        print 'raw id: ', row['raw_id'] # working, it's ok now
 
     #db_obj.createDBRolls()
     #db_obj.createDBStrips()
     #db_obj.deleteDataFromTable('RPC_NOISE_ROLLS')
     #db_obj.deleteDataFromTable('RPC_NOISE_STRIPS') #blocks for unknown reason
-
-
+    
     dbup = DBDataUpload(args=optionsObject['dbdataupload'])
-    dbup.options['filescheck'] = ['results/run263755/database_new.txt', 'results/run263755/database_full.txt']
-    dbup.options['run'] = '263755'
+    dbup.options['filescheck'] = ['/rpctdata/CAF/run269615/database_new.txt', '/rpctdata/CAF/run269615/database_full.txt']
+    dbup.options['run'] = '269615'
+    dbup.processTask()
+    
+    '''
     dbuptwo = DBDataUpload(args=optionsObject['dbdataupload'])
     dbuptwo.options['filescheck'] = ['results/run263757/database_new.txt', 'results/run263757/database_full.txt']
     dbuptwo.options['run'] = '263757'
-
+    '''
+    
     # print dbup.args
     # print dbup.options
-    dbup.processTask()
-    dbuptwo.processTask()
+    #bup.processTask()
+    #buptwo.processTask()
     '''
     dbthread_one = Thread(target=dbup.processTask)
     dbthread_two = Thread(target=dbuptwo.processTask)
@@ -198,3 +205,4 @@ if __name__ == "__main__":
     dbthread_one.join()
     dbthread_two.join()
     '''
+    

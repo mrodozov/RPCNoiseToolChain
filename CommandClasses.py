@@ -127,7 +127,7 @@ class GetListOfFiles(Command):
         # print files
         self.results['rootfiles'] = [filespath + f for f in files]
         self.results['run'] = runnum
-        self.results['result_folder'] = 'results'
+        self.results['result_folder'] = rfolder
         #format the output
         towerslist = self.args['towers_list']
         for t in towerslist:
@@ -172,13 +172,14 @@ class CheckIfFilesAreCorrupted(Command):
             self.stout, self.sterr = childp.communicate()
             self.exitcode = childp.returncode
             overall = {'sterr': self.sterr, 'stout': self.stout, 'exitcode': self.exitcode}
-
+            
+            #print file, ' ' , self.stout, self.sterr
             if self.exitcode == 0 and self.sterr is None:
                 complete = True
                 goodresult.append(file)
             else:
                 corrupted_files[file] = overall
-
+        
         self.log = {'good_files':goodresult, 'corrupted_files': corrupted_files}
         if corrupted_files: self.warnings.append('corrupted files found')
         self.results['rootfiles'] = goodresult
@@ -189,7 +190,7 @@ class CheckIfFilesAreCorrupted(Command):
         #print self.results['result_folder']
 
         if not complete:
-            print complete
+            print 'files ok: ',complete
             self.results = 'Failed'
             self.warnings.append('all files corrupted')
             #print 'exit code', self.exitcode
@@ -228,9 +229,9 @@ class NoiseToolMainExe(Command):
                 print e.message
         executable = self.args[0]
         arguments = self.args[1] + ' ' + self.args[2] + ' ' + res_folder
-
+        
         for f in filesToProcess:
-            # print executable, f, arguments
+            print executable, f, arguments
             childp = subprocess.Popen(executable + ' ' + f + ' ' + arguments, shell=True, stdout=subprocess.PIPE,
                                       stderr=subprocess.STDOUT, close_fds=True)
             current_stdout, current_stderr = childp.communicate()
@@ -243,7 +244,7 @@ class NoiseToolMainExe(Command):
                 complete = True
             self.log[f] = {'complete': complete,'err': current_stderr,'out':current_stdout,'exitcode':current_excode}
                 # so far, and thanks for all the fish
-
+        
         complete = True
         if not complete:
             results = 'Failed'
@@ -255,7 +256,8 @@ class NoiseToolMainExe(Command):
             results['tounmask'] = [f for f in os.listdir(res_folder) if f.find('ToUnmask') is not -1 and f.find('All') is -1]
             results['tomask'] = [f for f in os.listdir(res_folder) if f.find('ToMask') is not -1 and f.find('All') is -1]
             results['rootfiles'] = [f for f in os.listdir(res_folder) if f.find('Noise_') is not -1 and f.endswith('.root')]
-            childp = subprocess.Popen('executables/MergeRoots ' + res_folder + ' ' + ' '.join(results['rootfiles']), shell=True, stdout=subprocess.PIPE,
+            #print results['rootfiles']
+            childp = subprocess.Popen('executables/MergeRoots ' + res_folder + ' ' + ' '.join(results['rootfiles']  ), shell=True, stdout=subprocess.PIPE,
                                       stderr=subprocess.STDOUT, close_fds=True)
             current_stdout, current_stderr = childp.communicate()
             current_excode = childp.returncode
@@ -273,7 +275,9 @@ class NoiseToolMainExe(Command):
         self.results = results
         self.results['result_folder'] = self.options['result_folder']
         # TODO - improve the options again, this is redundant here.
-
+        
+        #print 'Noise exe', complete
+        #print self.results['result_folder']
         return complete
 
 
@@ -451,14 +455,14 @@ class DBDataUpload(Command):
         #print dbService, 'db service object'
         for rec in self.args['connectionDetails']:
             dataFile = ''.join([f for f in self.options['filescheck'] if f.find(rec['file']) is not -1])
-            #print dataFile
+            print dataFile
             data = self.getDBDataFromFile(dataFile)
             #with dbService.lock: # TODO - remove this using Session or Pool, multithread queries takes forever so for now are in queue
                 #completed = dbService.insertToDB(data, rec['name'], rec['schm'], rec['argsList'])
             completed = True
             data = None
             #catch the error, push it to the log
-
+            
             if completed is not True:
                 self.results = 'Failed'
                 complete = False
@@ -693,6 +697,8 @@ class CopyFilesOnRemoteLocation(Command):
         rval = False
         rnum = self.options['run']
         list_of_files = self.options['json_products']
+        if 'lxplus' in self.name:
+            list_of_files.append('total.root')
         results_folder = self.options['result_folder'] + 'run' + rnum + '/'
         runfolder = 'run'+rnum
         remote_root = self.args['destination_root']

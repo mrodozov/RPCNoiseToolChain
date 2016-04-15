@@ -1,7 +1,7 @@
 {
-  "sender":"mrodozov@gmail.com",
+  "sender":"mrodozov@cern.ch",
   "username":"mrodozov",
-  "url":"smtp.gmail.com",
-  "port":"587",
-  "mail_list":["mrodozov@gmai.com"]
+  "url":"localhost",
+  "port":"22224",
+  "mail_list":["mrodozov@cern.ch"]
 }

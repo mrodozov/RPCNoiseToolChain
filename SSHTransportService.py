@@ -92,8 +92,8 @@ if __name__ == "__main__":
 
     p = ''
 
-    with open('resources/passwd') as pfile:
-        p = pfile.readline()
+    #with open('resources/passwd') as pfile:
+    #    p = pfile.readline()
 
     connections_dict = {}
     connections_dict.update({'webserver':optionsObject['webserver_remote']})
@@ -114,4 +114,4 @@ if __name__ == "__main__":
         wserver.mkdir('run263757')
 
     files = wserver.listdir(connections_dict['webserver']['destination_root'])
-
+    print files
