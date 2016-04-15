@@ -167,7 +167,7 @@ class RunlistManager(Thread):
             last_run = runlist_runs[-1]
             print 'last run is: ', last_run
             year = time.strftime('%y')
-            year = '15' # TODO - remove this
+            #year = '15' # TODO - remove this
             new_runs = {}
             try:
                 new_runs = self.rr_connector.getRunRangeWithLumiInfo('Collisions'+year+' OR Cosmics'+year+' OR Commissioning'+year+'', last_run, 300)

@@ -11,7 +11,8 @@ class RRService:
 
     def __init__(self, RRURL = 'http://runregistry.web.cern.ch/runregistry/', debug = False, use_proxy = False):
         self.use_proxy = use_proxy
-        self.rr_obj = RRApi(RRURL, debug = debug , use_proxy=self.use_proxy)
+        #self.rr_obj = RRApi(RRURL, debug = debug , use_proxy=self.use_proxy)
+        self.rr_obj = RRApi(RRURL, debug = debug)
 
     def __del__(self):
         pass
@@ -102,6 +103,8 @@ class RRService:
 
 if __name__ == "__main__":
 
-    socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 1080)
-    rr_obj = RRService(use_proxy=True)
-    rr_obj.getRangeWithStartAndDuration('Cosmics11 OR Cosmics12 or Cosmics13 or Cosmics4 or Cosmics15', 160077, 600, 'http://runregistry.web.cern.ch/runregistry/')
+    #socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 1080)
+    rr_obj = RRService('http://localhost:22223/runregistry/',False,False)
+    #rr_obj.getRangeWithStartAndDuration('Cosmics11 OR Cosmics12 or Cosmics13 or Cosmics4 or Cosmics15', 160077, 600, 'http://runregistry.web.cern.ch/runregistry/')
+    result = rr_obj.getRunRangeWithLumiInfo('Cosmics15 OR Collisions15', 263680, 1);
+    print result

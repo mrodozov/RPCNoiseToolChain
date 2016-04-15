@@ -37,16 +37,16 @@ class ReportHandler(Thread):
 
             shortLog, fullLog = self.log_service.parseLog(run_result)
 
-            print 'short log', shortLog
-            print 'full log ', fullLog
-
+            #print 'short log', shortLog
+            #print 'full log ', fullLog
+            
             rnum = [r for r in shortLog.keys()][0]
             if shortLog:
                 try:
                     self.mail_service.sendMail(json.dumps(shortLog), 'Run number ' + rnum + ' failed')
                 except Exception as e:
                     print e.message
-
+            
             if fullLog:
                 self.log_service.updateLogFile(self.logFile, fullLog)
                 sftp_client = paramiko.SFTPClient.from_transport(self.ssh_client.get_transport())
@@ -78,10 +78,11 @@ class MailService(object):
         with open(emails_settings, 'r') as msettings:
             self.description = json.loads(msettings.read())
         self.server = smtplib.SMTP(self.description['url']+':'+self.description['port'])
-        self.server.ehlo()
-        self.server.starttls()
-        print self.description['username'], paswd
-        self.server.login(self.description['username'], paswd)
+        if paswd:
+            self.server.ehlo()
+            self.server.starttls()
+            print self.description['username'], paswd
+            self.server.login(self.description['username'], paswd)
 
 
     def sendMail(self, emailText = None, subject = None):
@@ -122,10 +123,11 @@ if __name__ == "__main__":
 
     # make a check on server connection (ReportService run loop)
     # save unsaved reports to local file
-
-    mpass = ''
-    with open('resources/mailpaswd') as mapssf: mpass = mapssf.readline()
-    with open('resources/passwd') as pfile: passwd = pfile.readline()
+    
+    mpass = None
+    passwd = ''
+    #with open('resources/mailpaswd') as mapssf: mpass = mapssf.readline()
+    #with open('resources/passwd') as pfile: passwd = pfile.readline()
     with open('resources/options_object.txt', 'r') as optobj: optionsObject = json.loads(optobj.read())
     with open('resources/mail_settings.json') as mail_settings_file: mail_settings = json.loads(mail_settings_file.read())
 
@@ -135,5 +137,17 @@ if __name__ == "__main__":
 
     remote_destinations = {'webserver': optionsObject['webserver_remote']}
     remote_webserver = optionsObject['webserver_remote']['destination_root']
-
-    transportService = SSHTransportService()
+    
+    transportService = SSHTransportService(remote_destinations)
+    reportsQueue = Queue.Queue()
+    stop = Event()
+    
+    reportsMngr = ReportHandler(reportsQueue, 'resources/mail_settings.json', mailpass, 'resources/ErrorLog.log')
+    
+    
+    '''
+    
+    with open('resources/mail_settings.json') as mail_settings_file: mail_settings = json.loads(mail_settings_file.read())
+    m_service = MailService('resources/mail_settings.json', None)
+    m_service.sendMail('test the service','test service')
+    '''

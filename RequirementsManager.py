@@ -216,7 +216,7 @@ if __name__ == "__main__":
     stop = Event()
     susp.set()
     checkSuspend = Thread(target=checkSuspendEventVariable, args=(susp, stop,))
-
+    
     e_handler = EnvHandler('resources/ListOfTunnels.json','resources/process.json', True)
     e_handler.stopSignal = stop
     e_handler.suspend = susp
