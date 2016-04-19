@@ -9,6 +9,7 @@ import time
 import json
 import paramiko
 import SSHTransportService
+import getpass
 
 class ReportHandler(Thread):
     
@@ -22,6 +23,7 @@ class ReportHandler(Thread):
         self.suspend_signal = None
         self.stop_signal = None # signal to stop
         self.ssh_client = None
+        self.ssh_conn_name = None
         self.remote_dir = None
         self.logFile = logFile
 
@@ -32,7 +34,7 @@ class ReportHandler(Thread):
 
     def run(self):
         while True:
-            print 'Bla from report mngr run method'
+            #print 'Bla from report mngr run method'
             run_result = self.run_results_queue.get()
 
             shortLog, fullLog = self.log_service.parseLog(run_result)
@@ -49,7 +51,7 @@ class ReportHandler(Thread):
             
             if fullLog:
                 self.log_service.updateLogFile(self.logFile, fullLog)
-                sftp_client = paramiko.SFTPClient.from_transport(self.ssh_client.get_transport())
+                sftp_client = paramiko.SFTPClient.from_transport(self.ssh_client.get_transport_for_connection(self.ssh_conn_name))
                 try:
                     sftp_client.chdir(self.remote_dir)
                     sftp_client.put(self.logFile, self.remote_dir + '/' + 'ErrorLog.log')
@@ -81,7 +83,7 @@ class MailService(object):
         if paswd:
             self.server.ehlo()
             self.server.starttls()
-            print self.description['username'], paswd
+            #print self.description['username'], paswd
             self.server.login(self.description['username'], paswd)
 
 
@@ -124,10 +126,9 @@ if __name__ == "__main__":
     # make a check on server connection (ReportService run loop)
     # save unsaved reports to local file
     
-    mpass = None
-    passwd = ''
-    #with open('resources/mailpaswd') as mapssf: mpass = mapssf.readline()
-    #with open('resources/passwd') as pfile: passwd = pfile.readline()
+    mpass = getpass.getpass('mail pass: ')
+    passwd = getpass.getpass('lxplus pass: ')
+
     with open('resources/options_object.txt', 'r') as optobj: optionsObject = json.loads(optobj.read())
     with open('resources/mail_settings.json') as mail_settings_file: mail_settings = json.loads(mail_settings_file.read())
 
@@ -142,7 +143,7 @@ if __name__ == "__main__":
     reportsQueue = Queue.Queue()
     stop = Event()
     
-    reportsMngr = ReportHandler(reportsQueue, 'resources/mail_settings.json', mailpass, 'resources/ErrorLog.log')
+    reportsMngr = ReportHandler(reportsQueue, 'resources/mail_settings.json', mpass, 'resources/ErrorLog.log')
     
     
     '''

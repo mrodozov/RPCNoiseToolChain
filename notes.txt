@@ -8,7 +8,9 @@
   takes care of runlists to be collected, and waits until the execution is done to take 
   care file with the runs.
   Also it may take care of new data availability, to subscribe to the runregistry
-  and wait for events such as new available runs. 
+  and wait for events such as new available runs.
+  - decouple methods using ssh calls. rlist mngr should not know how ssh work,
+    but instead using interface
   
 - Execution manager (RunProcessManager)
   Takes care of producing analysis. Executes C++, Python, ROOT macroses

@@ -11,8 +11,8 @@ class RRService:
 
     def __init__(self, RRURL = 'http://runregistry.web.cern.ch/runregistry/', debug = False, use_proxy = False):
         self.use_proxy = use_proxy
-        #self.rr_obj = RRApi(RRURL, debug = debug , use_proxy=self.use_proxy)
-        self.rr_obj = RRApi(RRURL, debug = debug)
+        self.rr_obj = RRApi(RRURL, debug = debug , use_proxy=self.use_proxy)
+        #self.rr_obj = RRApi(RRURL, debug = debug)
 
     def __del__(self):
         pass

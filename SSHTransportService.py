@@ -3,8 +3,10 @@ __author__ = 'rodozov'
 from Singleton import Singleton
 import paramiko
 import os
-from threading import RLock, Lock
+import multiprocessing as mp
 import json
+import Queue
+import getpass
 
 class SSHTransportService(object):
 
@@ -13,9 +15,9 @@ class SSHTransportService(object):
     def __init__(self, connections_description = None):
         self.connections_dict = {}
         self.open_connections(connections_description)
-        self.lockWhenUpload = Lock()
+        self.lockWhenUpload = mp.Lock()
+        self.queue = Queue.Queue()
         paramiko.util.log_to_file("paramiko_log.log")
-        # paramiko.common.logging.basicConfig(level=paramiko.common.DEBUG)
 
     def open_connection(self, name, description):
         ssh_client = paramiko.SSHClient()
@@ -48,37 +50,76 @@ class SSHTransportService(object):
         for conn in self.connections_dict.keys():
             self.connections_dict[conn]['ssh_client'].close()
 
+    def get_transport_for_connection(self, name):
+        transport = None
+        ssh_client = None
+        if name in self.connections_dict:
+            conn_params = self.connections_dict[name]
+            ssh_client = conn_params['ssh_client']
+            #sftp_client = conn_params['sftp_client']
+            if not ssh_client.get_transport().is_active():
+                try:
+                    #ssh_client.get_transport.get_channel
+                    ssh_client.connect(conn_params['rhost'], conn_params['port'], conn_params['user'], conn_params['pass'])
+                    transport = ssh_client.get_transport()
+                except Exception, e:
+                    print e.message
+        try:
+            transport = ssh_client.get_transport()
+        except Exception, e:
+            print e.message
+
+        return transport
+
+    def create_dir_on_remotehost(self, base_dir, dirname):
+        try:
+            self.sftp_client.chdir(base_dir)
+            if not dirname in self.sftp_client.listdir():
+                self.sftp_client.mkdir(dirname)
+        except IOError, err:
+            print err.message
+
+
+
     def uploadFilesOnRemote(self, files, resultsdir, subdir, remotename):
         #not needed by command objects anymore but leave it just in case
         warnings = []
         logs = {}
         results = {}
         success = True
-        print 'enter command '
+        # print 'enter command '
 
         #with self.lockWhenUpload:
 
+        print resultsdir, ' ', subdir , ' ', remotename
+
         remote_root = self.connections_dict[remotename]['destination_root']
-        print self.connections_dict[remotename]['ssh_client']
+        #print self.connections_dict[remotename]['ssh_client']
         t = self.connections_dict[remotename]['ssh_client'].get_transport()
         ssh_transport = paramiko.SFTPClient.from_transport(t)
         print ssh_transport, ssh_transport.get_channel()
 
         try:
+            ssh_transport.chdir(remote_root)
             if not subdir in ssh_transport.listdir(remote_root):
-                ssh_transport.chdir(remote_root)
                 ssh_transport.mkdir(subdir)
         except IOError, err:
             logs['errors'] = err.message
-            success = 'Failed'
+            print err.message
+            success = False
+
+
         for f in files:
             try:
-                ssh_transport.put(resultsdir + f, remote_root + subdir + '/' + f)
+                ssh_transport.put( os.path.join(resultsdir, f), os.path.join(remote_root, subdir, f))
                 results['files'][f] = True
             except IOError, err:
                 errout = "I/O error({0}): {1}".format(err.errno, err.strerror)
                 warnings.append('file transfer failed for ' + f + ' with ' + errout)
                 results['files'][f] = 'Failed'
+                print err.message
+
+        ssh_transport.get_channel().close()
 
         print 'subdir is ', subdir
         return success, warnings, logs, results
@@ -87,13 +128,10 @@ class SSHTransportService(object):
 
 if __name__ == "__main__":
 
-    with open('resources/options_object.txt', 'r') as optobj:
+    with open('resources/options_object_rodozov.txt', 'r') as optobj:
         optionsObject = json.loads(optobj.read())
 
-    p = ''
-
-    #with open('resources/passwd') as pfile:
-    #    p = pfile.readline()
+    p = getpass.getpass('lxplus pass: ')
 
     connections_dict = {}
     connections_dict.update({'webserver':optionsObject['webserver_remote']})

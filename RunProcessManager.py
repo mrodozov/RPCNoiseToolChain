@@ -5,11 +5,9 @@ from Chain import Chain, EventsHandler
 from Event import SimpleEvent
 from RunlistManager import RunlistManager
 import multiprocessing as mp
-from multiprocessing.pool import ThreadPool
 import Queue
-import time
 from threading import Thread
-import copy
+import getpass
 
 '''
 
@@ -33,10 +31,9 @@ class RunProcessPool(Thread):
     def processRuns(self, functoapply):
 
         while True:
-
             r_copy = self.toprocess.get()
             results_folder = self.options['result_folder']
-            run_status = None
+            #run_status = None
             for k in r_copy:
                 run_status = r_copy[k]['status']
             print k, run_status
@@ -52,11 +49,6 @@ class RunProcessPool(Thread):
                 self.pool.join()
                 print 'Exiting run proccess mngr'
                 break
-
-    def formatRunResult(self, rnum, result_output):
-        result = {}
-        result[rnum] = result_output
-        return
 
     def run(self):
         self.processRuns(self.runChainProcessFunction)
@@ -95,14 +87,11 @@ if __name__ == "__main__":
 
     print os.getpid()
 
-    #os.environ['LD_LIBRARY_PATH'] = '/opt/offline/slc6_amd64_gcc491/cms/cmssw/CMSSW_7_3_6/external/slc6_amd64_gcc491/bin/root'  # important
-
     optionsObject = None
     with open('resources/options_object.txt', 'r') as optobj: optionsObject = json.loads(optobj.read())
     os.environ['LD_LIBRARY_PATH'] = optionsObject['paths']['cms_online_nt_machine']['root_path']
     print os.environ['LD_LIBRARY_PATH']
-    #with open('resources/passwd') as pfile: passwd = pfile.readline()
-    p = ''
+    p = getpass.getpass('lxplus passwd: ')
 
     connections_dict = {}
     connections_dict.update({'webserver':optionsObject['webserver_remote']})
@@ -124,8 +113,8 @@ if __name__ == "__main__":
 
     runsToProcessQueue = Queue.Queue()
     processedRunsQueue = Queue.Queue()
-    sequence_handler = CommandSequenceHandler('resources/SequenceDictionaries.json', 'resources/options_object.txt')
-    rpmngr = RunProcessPool(runsToProcessQueue, processedRunsQueue, sequence_handler, {'result_folder':'/rpctdata/CAF/'})
+    sequence_handler = CommandSequenceHandler('resources/SequenceDictionaries.json', 'resources/options_object_mrodozov.txt')
+    rpmngr = RunProcessPool(runsToProcessQueue, processedRunsQueue, sequence_handler, {'result_folder':'results/'})
 
     rlistMngr = RunlistManager('resources/runlist.json')
     rlistMngr.toProcessQueue = runsToProcessQueue

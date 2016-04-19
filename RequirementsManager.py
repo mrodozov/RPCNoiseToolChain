@@ -87,11 +87,14 @@ class EnvHandler(Thread):
 
         tstring = sshTunnel.tunnelString()
         isRunning = False
-        for p in psutil.process_iter():
-            process = psutil.Process(p.pid)
-            withargs =  ' '.join(process.cmdline())
-            if withargs.find(tstring) is not -1:
-                isRunning = True
+        try:
+            for p in psutil.process_iter():
+                process = psutil.Process(p.pid)
+                withargs =  ' '.join(process.cmdline())
+                if withargs.find(tstring) is not -1:
+                    isRunning = True
+        except Exception, e:
+            print e.message
 
         return isRunning
 

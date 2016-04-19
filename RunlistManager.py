@@ -38,6 +38,7 @@ class RunlistManager(Thread):
         self.loadRunlistFile(runlist_file)
         self.runlistLock = RLock()
         self.ssh_service = None
+        self.ssh_conn_name = None
         self.runlist_remote_dir = None
 
     def __del__(self):
@@ -167,7 +168,7 @@ class RunlistManager(Thread):
             last_run = runlist_runs[-1]
             print 'last run is: ', last_run
             year = time.strftime('%y')
-            #year = '15' # TODO - remove this
+            year = '15' # TODO - remove this
             new_runs = {}
             try:
                 new_runs = self.rr_connector.getRunRangeWithLumiInfo('Collisions'+year+' OR Cosmics'+year+' OR Commissioning'+year+'', last_run, 300)
@@ -214,7 +215,8 @@ class RunlistManager(Thread):
                 # so its better the rlist mngr keeps a reference to the service itself
                 # (some service, any service that is already established for the manager)
 
-                runlist_sftp_client = paramiko.SFTPClient.from_transport(self.ssh_service.get_transport())
+                self.updateRunlistFile()
+                runlist_sftp_client = paramiko.SFTPClient.from_transport(self.ssh_service.get_transport_for_connection(self.ssh_conn_name))
                 remote_runlist = json.loads(runlist_sftp_client.file(self.runlist_remote_dir+'runlist.json').read())
                 list_to_resub = [r for r in remote_runlist.keys() if remote_runlist[r]['status'] == 'toresub']
                 for r in list_to_resub:
@@ -228,6 +230,8 @@ class RunlistManager(Thread):
                     self.updateRun(r, 'status', 'toresub')
                 #self.updateRunlistFile()
                 # test this
+
+
 
             except Exception, e:
                 print e.message # this exception is not printed

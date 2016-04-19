@@ -17,6 +17,7 @@ from DBService import DBService
 from SSHTransportService import SSHTransportService
 import paramiko
 from multiprocessing import Lock
+import getpass
 
 # TODO - See if there is need to format HTML for any reason,
 
@@ -231,7 +232,8 @@ class NoiseToolMainExe(Command):
         arguments = self.args[1] + ' ' + self.args[2] + ' ' + res_folder
         
         for f in filesToProcess:
-            print executable, f, arguments
+            #print executable, f, arguments
+
             childp = subprocess.Popen(executable + ' ' + f + ' ' + arguments, shell=True, stdout=subprocess.PIPE,
                                       stderr=subprocess.STDOUT, close_fds=True)
             current_stdout, current_stderr = childp.communicate()
@@ -242,10 +244,14 @@ class NoiseToolMainExe(Command):
             #if at least one file has finished
             if current_excode == 0 and current_stderr is None:
                 complete = True
-            self.log[f] = {'complete': complete,'err': current_stderr,'out':current_stdout,'exitcode':current_excode}
+
+            if complete is True:
+                self.log[f] = {'complete': complete}
+            else:
+                self.log[f] = {'complete': complete,'err': current_stderr,'out':current_stdout,'exitcode':current_excode}
                 # so far, and thanks for all the fish
-        
-        complete = True
+
+        #complete = True
         if not complete:
             results = 'Failed'
             self.warnings.append('no properly processed files')
@@ -263,13 +269,14 @@ class NoiseToolMainExe(Command):
             current_excode = childp.returncode
             if current_excode == 0 and current_stderr is None:
                 complete = True
+                hadd_err = {'hadd_complete':complete}
             else:
                 complete = False
+                hadd_err = {'hadd_complete':complete,'hadd_err':current_stderr,'hadd_out':current_stdout,'hadd_exitcode':current_excode}
             if  os.path.isfile(res_folder + 'total.root'):
                 results['totalroot'] = res_folder+'total.root'
             else:
                 results = 'Failed'
-            hadd_err = {'hadd_complete':complete,'hadd_err':current_stderr,'hadd_out':current_stdout,'hadd_exitcode':current_excode}
             self.log.update(hadd_err)
 
         self.results = results
@@ -321,7 +328,7 @@ class DBInputPrepare(Command):
         areaFile = resourcesDir + self.args[6]
         rawids = resourcesDir + self.args[7]
         inputrolls = resourcesDir + self.args[8]
-        print resultsDir
+        #print resultsDir
         for f in fileToSearch:
             listOfOrderedArgs = [6, 3]
             if f == 'ToMask':
@@ -453,19 +460,19 @@ class DBDataUpload(Command):
         # files from results, table names and schemas from options
         dbService = DBService() # this object is singleton, it's setup is expected to be already done (in the main)
         #print dbService, 'db service object'
+        print self.options['run'], 'db up ...'
         for rec in self.args['connectionDetails']:
             dataFile = ''.join([f for f in self.options['filescheck'] if f.find(rec['file']) is not -1])
             print dataFile
             data = self.getDBDataFromFile(dataFile)
-            #with dbService.lock: # TODO - remove this using Session or Pool, multithread queries takes forever so for now are in queue
-                #completed = dbService.insertToDB(data, rec['name'], rec['schm'], rec['argsList'])
-            completed = True
+            with dbService.lock: # TODO - remove this using Session or Pool, multithread queries takes forever so for now are in queue
+                complete = dbService.insertToDB(data, rec['name'], rec['schm'], rec['argsList'], None)
+                #complete = True
             data = None
             #catch the error, push it to the log
             
-            if completed is not True:
+            if complete is not True:
                 self.results = 'Failed'
-                complete = False
                 self.warnings.append('file failed to be inserted')
             self.results[dataFile] = complete
             self.log[dataFile] = complete
@@ -687,17 +694,16 @@ class CopyFilesOnRemoteLocation(Command):
 
     def __init__(self, name=None, args=None):
         Command.__init__(self, name, args)
-        #transportService = SSHTransportService() # singleton to serve the connections, setup in main
-        #self.sftp_client = paramiko.SFTPClient.from_transport(transportService.connections_dict[self.name]['ssh_client'].get_transport())
         self.sftp_client = None
+        self.evnt = None
 
     def processTask(self):
 
         #print self.name, self.options
-        rval = False
+        succ = False
         rnum = self.options['run']
         list_of_files = self.options['json_products']
-        if 'lxplus' in self.name:
+        if self.name is 'lxplus':
             list_of_files.append('total.root')
         results_folder = self.options['result_folder'] + 'run' + rnum + '/'
         runfolder = 'run'+rnum
@@ -707,37 +713,54 @@ class CopyFilesOnRemoteLocation(Command):
         self.results['files'] = {}
 
         transportService = SSHTransportService() # singleton to serve the connections, setup in main, connection
-        # self.sftp_client = paramiko.SFTPClient.from_transport(transportService.connections_dict[self.name]['ssh_client'].get_transport())
+        #sftp_cl = paramiko.SFTPClient.from_transport(transportService.get_transport_for_connection(self.name))
 
         descr = transportService.connections_dict[self.name]
-        ssh_cl = paramiko.SSHClient()
-        ssh_cl.load_host_keys(os.path.expanduser(os.path.join("~", ".ssh", "known_hosts")))
-        ssh_cl.connect(descr['rhost'],descr['port'],descr['user'],descr['pass'])
 
-        self.sftp_client = ssh_cl.open_sftp() # to remove this and restore the previous
-
-        self.create_dir_on_remotehost(remote_root, runfolder)
-
-        for f in list_of_files:
+        #self.sftp_client = ssh_cl.open_sftp() # to remove this and restore the previous
+        with transportService.lockWhenUpload:
+            ssh_cl = paramiko.SSHClient()
+            ssh_cl.load_host_keys(os.path.expanduser(os.path.join("~", ".ssh", "known_hosts")))
+            ssh_cl.connect(descr['rhost'],descr['port'],descr['user'],descr['pass'])
+            sftp_cl = paramiko.SFTPClient.from_transport(ssh_cl.get_transport())
+            #sftp_cl = paramiko.SFTPClient.from_transport(transportService.connections_dict)
+            files_in_dir = None
             try:
-                #print 'from thread ', remote_root,'rfoldr', runfolder, results_folder , f
-                #print results_folder + f
-                self.sftp_client.chdir(destination)
-                self.sftp_client.put(results_folder + f, destination + '/' + f)
-                rval = True
-            except IOError, exc:
-                errout = "I/O error({0}): {1}".format(exc.errno, exc.strerror)
-                self.warnings.append('file transfer failed for ' + f + ' with ' + errout)
-                rval = False
-                #print errout
-            self.results['files'][f] = rval
-        if not rval:
-            self.results='Failed'
 
-        ssh_cl.close()
-        # self.sftp_client.get_channel().close()
+                sftp_cl.chdir(remote_root)
+                files_in_dir = sftp_cl.listdir()
+                if not runfolder in files_in_dir:
+                    sftp_cl.mkdir(runfolder)
+            except IOError, err:
+                self.log['errors'] = err.message
+                print err.message
+                succ = False
 
-        return rval
+            for f in list_of_files:
+
+                try:
+                    print 'from thread ', remote_root,'rfoldr', runfolder, results_folder , f
+                    #sftp_cl.chdir(os.path.join(remote_root, runfolder))
+                    #if f in files_in_dir:
+                    #    sftp_cl.remove(os.path.join(remote_root, runfolder, f))
+                    sftp_cl.put(os.path.join(results_folder, f), os.path.join(remote_root, runfolder, f))
+                    succ = True
+                except IOError, exc:
+                    errout = "I/O error({0}): {1}".format(exc.errno, exc.strerror)
+                    self.warnings.append('file transfer failed for ' + f + ' with ' + errout)
+                    succ = False
+                    #print errout
+                self.results['files'][f] = succ
+
+            if succ is not True:
+                self.results='Failed'
+
+            #ssh_cl.close()
+
+            #sftp_cl.get_channel().close()
+            ssh_cl.close()
+
+        return succ
 
 
     def create_dir_on_remotehost(self, base_dir, dirname):
@@ -843,9 +866,7 @@ if __name__ == "__main__":
     with open('resources/options_object.txt', 'r') as optobj:
         optionsObject = json.loads(optobj.read())
 
-    p = ''
-    with open('resources/passwd') as pfile:
-        passwd = pfile.readline()
+    p = getpass.getpass('lxplus passwd: ')
 
 
     connections_dict = {}

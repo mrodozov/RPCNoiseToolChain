@@ -12,13 +12,12 @@ from CommandClasses import *
 #from sqlalchemy.engine import reflection
 import datetime
 import multiprocessing as mp
-from threading import Thread
 
 class DBService(object):
 
     __metaclass__ = Singleton
 
-    def __init__(self, dbType='sqlite:///', host=None, port=None, user='', password='', schema='', dbName='dbfiles/runData.db'):
+    def __init__(self, dbType='sqlite:///', host=None, port=None, user='', password=None, schema='', dbName='dbfiles/runData.db'):
         self.__dbType = dbType
         self.__schema = schema
         self.__host = host
@@ -39,11 +38,11 @@ class DBService(object):
             else:
                 self.__alchemyDBString = dbType + dbName
         #self.__alchemyDBString = 'mysql+mysqldb://rodozov:BAKsh0321__@localhost/RPC?charset=utf8'
-        #self.__alchemyDBString = 'oracle+cx_oracle://rodozov:BAKsh0321__@localhost:1521/XE'
+        self.__alchemyDBString = 'oracle+cx_oracle://rodozov:'+password+'@localhost:1521/XE'
         #self.__alchemyDBString = 'oracle+cx_oracle://CMS_COND_RPC_NOISE:j6XFEznqH9f92WUf@cms_orcoff_prep' # pass is wrong
         #self.__alchemyDBString = 'oracle+cx_oracle://CMS_RPC_R:rpcr34d3r@cms_omds_lb'
-        self.__alchemyDBString = 'oracle+cx_oracle://CMS_RPC_COND_W:8B1M410RM1N0RC3SS4T@cms_omds_lb'
-        self.__engine = sqlalchemy.create_engine(self.__alchemyDBString)
+        #self.__alchemyDBString = 'oracle+cx_oracle://CMS_RPC_COND_W:8B1M410RM1N0RC3SS4T@cms_omds_lb'
+        #self.__engine = sqlalchemy.create_engine(self.__alchemyDBString)
         print self.__alchemyDBString
 
     def createDBStrips(self):
@@ -74,16 +73,16 @@ class DBService(object):
         #sqlalchemy.Column('rate_hz_cm2', sqlalchemy.Numeric(13,7)))
         metadata.create_all(self.__engine)
 
-    def insertToDB(self, data, tableName, orderedColumnNames, argsList):
+    def insertToDB(self, data, tableName, orderedColumnNames, argsList, rval=None):
         retval = False
         #print self.__alchemyDBString
         metadata = sqlalchemy.MetaData()
         # table = sqlalchemy.Table(tableName, metadata, schema='RPC', autoload=True, autoload_with=self.__engine)
-        table = sqlalchemy.Table(tableName, metadata, schema=self.__schema, autoload=True, autoload_with=self.__engine)
+        #table = sqlalchemy.Table(tableName, metadata, schema=self.__schema, autoload=True, autoload_with=self.__engine)
 
-        #eng = sqlalchemy.create_engine(self.__alchemyDBString)
-        #table = sqlalchemy.Table(tableName, metadata, schema=self.__schema, autoload=True, autoload_with=eng)
-        connection = self.__engine.connect()
+        eng = sqlalchemy.create_engine(self.__alchemyDBString)
+        table = sqlalchemy.Table(tableName, metadata, schema=self.__schema, autoload=True, autoload_with=eng)
+        connection = eng.connect()
         #insp = reflection.Inspector.from_engine(self.__engine)
         #print insp.get_schema_names()
         #print insp.get_table_names()
@@ -117,10 +116,11 @@ class DBService(object):
             raise
         retval = True
         connection.close()
-        # eng.dispose()
+        eng.dispose()
         endtime = datetime.datetime.now().replace(microsecond=0)
         print 'time it took: ', endtime-start_time
         #retval = queryResult
+        rval = retval
         return retval
 
     def deleteRunFromDB(self, runNumber=None, tableName=None):
