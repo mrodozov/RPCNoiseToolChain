@@ -193,7 +193,7 @@ class EnvHandler(Thread):
     def run(self):
         while True:
             self.checkListOfTunnels()
-            print 'tunnels checked at ', datetime.datetime.now().replace(microsecond=0)
+            #print 'tunnels checked at ', datetime.datetime.now().replace(microsecond=0)
             time.sleep(30)
             if self.stopSignal.is_set():
                 break

@@ -250,7 +250,7 @@ class NoiseToolMainExe(Command):
             else:
                 self.log[f] = {'complete': complete,'err': current_stderr,'out':current_stdout,'exitcode':current_excode}
                 # so far, and thanks for all the fish
-
+        
         #complete = True
         if not complete:
             results = 'Failed'
@@ -295,10 +295,10 @@ class DBInputPrepare(Command):
 
     def mergeInputFilesByName(self, fileDir, outputFileName, substringToSearch, orderingList, exploder):
 
-        listOfFiles = [f for f in os.listdir(fileDir) if
-                       f.endswith('.txt') and f.find(substringToSearch) is not -1 and f.find('All') is -1]
+        listOfFiles = [f for f in os.listdir(fileDir) if f.endswith('.txt') and f.find(substringToSearch) is not -1 and f.find('All') is -1]
         # print listOfFiles
         # check if files exists
+        
         if not listOfFiles:
             return False
         with open(fileDir + outputFileName, 'w') as outputFile:
@@ -312,6 +312,7 @@ class DBInputPrepare(Command):
                                 # print l, f
                                 argstowrite = [listElements[a] for a in orderingList]
                                 outputFile.write(' '.join(argstowrite) + '\n')
+        
         return True
 
     def processTask(self):
@@ -460,14 +461,14 @@ class DBDataUpload(Command):
         # files from results, table names and schemas from options
         dbService = DBService() # this object is singleton, it's setup is expected to be already done (in the main)
         #print dbService, 'db service object'
-        print self.options['run'], 'db up ...'
+        #print self.options['run'], 'db up ...'
         for rec in self.args['connectionDetails']:
             dataFile = ''.join([f for f in self.options['filescheck'] if f.find(rec['file']) is not -1])
-            print dataFile
+            # print dataFile
             data = self.getDBDataFromFile(dataFile)
             with dbService.lock: # TODO - remove this using Session or Pool, multithread queries takes forever so for now are in queue
-                complete = dbService.insertToDB(data, rec['name'], rec['schm'], rec['argsList'], None)
-                #complete = True
+                #complete = dbService.insertToDB(data, rec['name'], rec['schm'], rec['argsList'], None)
+                complete = True
             data = None
             #catch the error, push it to the log
             
@@ -739,7 +740,7 @@ class CopyFilesOnRemoteLocation(Command):
             for f in list_of_files:
 
                 try:
-                    print 'from thread ', remote_root,'rfoldr', runfolder, results_folder , f
+                    #print 'from thread ', remote_root,'rfoldr', runfolder, results_folder , f
                     #sftp_cl.chdir(os.path.join(remote_root, runfolder))
                     #if f in files_in_dir:
                     #    sftp_cl.remove(os.path.join(remote_root, runfolder, f))

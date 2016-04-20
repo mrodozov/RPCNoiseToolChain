@@ -139,16 +139,14 @@ if __name__ == "__main__":
     remote_destinations = {'webserver': optionsObject['webserver_remote']}
     remote_webserver = optionsObject['webserver_remote']['destination_root']
     
-    transportService = SSHTransportService(remote_destinations)
+    #transportService = SSHTransportService(remote_destinations)
     reportsQueue = Queue.Queue()
-    stop = Event()
+    #stop = Event()
     
-    reportsMngr = ReportHandler(reportsQueue, 'resources/mail_settings.json', mpass, 'resources/ErrorLog.log')
+    #reportsMngr = ReportHandler(reportsQueue, 'resources/mail_settings.json', mpass, 'resources/ErrorLog.log')
     
-    
-    '''
     
     with open('resources/mail_settings.json') as mail_settings_file: mail_settings = json.loads(mail_settings_file.read())
-    m_service = MailService('resources/mail_settings.json', None)
+    m_service = MailService('resources/mail_settings.json', mpass)
     m_service.sendMail('test the service','test service')
-    '''
+    

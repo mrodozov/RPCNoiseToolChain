@@ -155,7 +155,7 @@ class RunlistManager(Thread):
                 break
 
     def checkRRforNewRuns(self):
-        init_sleep_time = 10
+        init_sleep_time = 60
         current_sleep_time = 0
         while True:
             self.suspendRRcheck.wait()
@@ -166,9 +166,9 @@ class RunlistManager(Thread):
                 runlist_runs = self.runlist.keys()
                 runlist_runs.sort()
             last_run = runlist_runs[-1]
-            print 'last run is: ', last_run
+            #print 'last run is: ', last_run
             year = time.strftime('%y')
-            year = '15' # TODO - remove this
+            #year = '15' # TODO - remove this
             new_runs = {}
             try:
                 new_runs = self.rr_connector.getRunRangeWithLumiInfo('Collisions'+year+' OR Cosmics'+year+' OR Commissioning'+year+'', last_run, 300)
@@ -176,7 +176,8 @@ class RunlistManager(Thread):
                 print e.message, ' RR check failed at ', datetime.datetime.now().replace(microsecond=0)
                 # try to set semaphore that calls the env handler to reestablish the channel to RR
             if new_runs : current_sleep_time = init_sleep_time # reset when new runs arrived
-            current_sleep_time += init_sleep_time # increments every time with one minute if RR does not return new runs
+            #if current_sleep_time < 1800:
+            current_sleep_time += init_sleep_time # increments every time with one minute (up to 15) if RR does not return new runs
             # if new runs are available, put them on the runlist
             self.addruns(new_runs)
             # get runs to process
@@ -196,9 +197,9 @@ class RunlistManager(Thread):
 
             #if new_runs : print ordered_list_to_process.keys()
             #print self.runlist
-
-            print 'go to sleep for', current_sleep_time , 'seconds'
-            print 'RR checked last run ', last_run
+            
+            #print 'go to sleep for', current_sleep_time , 'seconds'
+            #print 'RR checked last run ', last_run
             time.sleep(current_sleep_time)
 
             if self.stop_event.is_set() and self.processedRunsQueue.empty():
@@ -283,11 +284,17 @@ if __name__ == "__main__":
     mq = Thread(target=moveQueueEntries, args=(runsToProcessQueue, processedRunsQueue))
     rq = Thread(target=getReportQueueEntries, args=(reportsQueue,))
 
-    socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 1080)
+    #socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 1080)
 
-    rr_obj = RRService(use_proxy=True)
+    rr_obj = RRService('http://localhost:22223/runregistry/')
     rlistFile = 'resources/runlist.json'
     rlistMngr = RunlistManager(rlistFile)
+    result = rr_obj.getRunRangeWithLumiInfo('Cosmics16 OR Commissioning16 OR Collisions16', '268456 and < 269556', 300);
+    rlistMngr.addruns(result)
+    rlistMngr.updateRunlistFile()
+    
+    
+    '''
     rlistMngr.toProcessQueue = runsToProcessQueue
     rlistMngr.processedRunsQueue = processedRunsQueue
     rlistMngr.reportQueue = reportsQueue
@@ -313,7 +320,7 @@ if __name__ == "__main__":
 
     rlistMngr.check_completed_runs.start()
     rq.start()
-
+    '''
 
 
 

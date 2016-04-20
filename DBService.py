@@ -38,12 +38,12 @@ class DBService(object):
             else:
                 self.__alchemyDBString = dbType + dbName
         #self.__alchemyDBString = 'mysql+mysqldb://rodozov:BAKsh0321__@localhost/RPC?charset=utf8'
-        self.__alchemyDBString = 'oracle+cx_oracle://rodozov:'+password+'@localhost:1521/XE'
+        #self.__alchemyDBString = 'oracle+cx_oracle://rodozov:'+password+'@localhost:1521/XE'
         #self.__alchemyDBString = 'oracle+cx_oracle://CMS_COND_RPC_NOISE:j6XFEznqH9f92WUf@cms_orcoff_prep' # pass is wrong
         #self.__alchemyDBString = 'oracle+cx_oracle://CMS_RPC_R:rpcr34d3r@cms_omds_lb'
-        #self.__alchemyDBString = 'oracle+cx_oracle://CMS_RPC_COND_W:8B1M410RM1N0RC3SS4T@cms_omds_lb'
-        #self.__engine = sqlalchemy.create_engine(self.__alchemyDBString)
-        print self.__alchemyDBString
+        self.__alchemyDBString = 'oracle+cx_oracle://CMS_RPC_COND_W:8B1M410RM1N0RC3SS4T@cms_omds_lb'
+        self.__engine = sqlalchemy.create_engine(self.__alchemyDBString)
+        #print self.__alchemyDBString
 
     def createDBStrips(self):
         metadata = sqlalchemy.MetaData()
@@ -118,11 +118,11 @@ class DBService(object):
         connection.close()
         eng.dispose()
         endtime = datetime.datetime.now().replace(microsecond=0)
-        print 'time it took: ', endtime-start_time
+        #print 'time it took: ', endtime-start_time
         #retval = queryResult
         rval = retval
         return retval
-
+    
     def deleteRunFromDB(self, runNumber=None, tableName=None):
         metadata = sqlalchemy.MetaData()
         table = sqlalchemy.Table(tableName, metadata, schema=self.__schema, autoload=True, autoload_with=self.__engine)
@@ -181,8 +181,8 @@ if __name__ == "__main__":
     #db_obj.deleteDataFromTable('RPC_NOISE_STRIPS') #blocks for unknown reason
     
     dbup = DBDataUpload(args=optionsObject['dbdataupload'])
-    dbup.options['filescheck'] = ['/rpctdata/CAF/run269615/database_new.txt', '/rpctdata/CAF/run269615/database_full.txt']
-    dbup.options['run'] = '269615'
+    dbup.options['filescheck'] = ['/rpctdata/CAF/run269565/database_new.txt', '/rpctdata/CAF/run269565/database_full.txt']
+    dbup.options['run'] = '269565'
     dbup.processTask()
     
     '''

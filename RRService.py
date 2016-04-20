@@ -105,6 +105,9 @@ if __name__ == "__main__":
 
     #socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 1080)
     rr_obj = RRService('http://localhost:22223/runregistry/',False,False)
-    #rr_obj.getRangeWithStartAndDuration('Cosmics11 OR Cosmics12 or Cosmics13 or Cosmics4 or Cosmics15', 160077, 600, 'http://runregistry.web.cern.ch/runregistry/')
-    result = rr_obj.getRunRangeWithLumiInfo('Cosmics15 OR Collisions15', 263680, 1);
-    print result
+    #rr_obj.getRangeWithStartAndDuration('Cosmics11 OR Cosmics12 or Cosmics13 or Cosmics14 or Cosmics15', 160077, 600, 'http://runregistry.web.cern.ch/runregistry/')
+    result = rr_obj.getRunRangeWithLumiInfo('Cosmics16 OR Commissioning16 OR Collisions16', '268456 and < 269556', 300);
+    rlist = result.keys()
+    rlist.sort()
+    print rlist
+    print len(rlist)

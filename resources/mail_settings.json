@@ -1,7 +1,7 @@
 {
   "sender":"mrodozov@gmail.com",
   "username":"mrodozov",
-  "url":"smtp.gmail.com",
-  "port":"587",
+  "url":"localhost",
+  "port":"22226",
   "mail_list":["mrodozov@gmail.com"]
 }

@@ -36,7 +36,7 @@ class RunProcessPool(Thread):
             #run_status = None
             for k in r_copy:
                 run_status = r_copy[k]['status']
-            print k, run_status
+            #print k, run_status
             sequence = self.sequence_handler.getSequenceForName(run_status)
             #print 'sequence ', sequence
             runChainArgs = {'rundetails':r_copy, 'commands': sequence, 'result_folder': results_folder}
@@ -71,7 +71,7 @@ def processSingleRunChain(args=None):
     for k in args['rundetails'].keys():
         run_num = k
 
-    print 'process is ', mp.current_process().name , ' for run ', run_num
+    #print 'process is ', mp.current_process().name , ' for run ', run_num
 
     runchain.commands = args['commands']
     #print 'commands', runchain.commands
@@ -98,37 +98,36 @@ if __name__ == "__main__":
     connections_dict.update({'lxplus':optionsObject['lxplus_archive_remote']})
     connections_dict['webserver']['ssh_credentials']['password'] = p
     connections_dict['lxplus']['ssh_credentials']['password'] = p
-
+    
     print connections_dict
-
+    
     sshTransport = SSHTransportService(connections_dict)
     db_obj = DBService(dbType='oracle+cx_oracle://',host= 'localhost',port= '1521',user= 'CMS_COND_RPC_NOISE',password= 'j6XFEznqH9f92WUf',schema= 'CMS_RPC_COND',dbName= 'cms_orcoff_prep')
     
-
+    
     #print alist
     ssh_one = sshTransport.connections_dict['webserver']
     ssh_two = sshTransport.connections_dict['lxplus']
-    print ssh_one
-    print ssh_two
-
+    #print ssh_one
+    #print ssh_two
+    
     runsToProcessQueue = Queue.Queue()
     processedRunsQueue = Queue.Queue()
-    sequence_handler = CommandSequenceHandler('resources/SequenceDictionaries.json', 'resources/options_object_mrodozov.txt')
-    rpmngr = RunProcessPool(runsToProcessQueue, processedRunsQueue, sequence_handler, {'result_folder':'results/'})
-
+    sequence_handler = CommandSequenceHandler('resources/SequenceDictionaries.json', 'resources/options_object.txt')
+    rpmngr = RunProcessPool(runsToProcessQueue, processedRunsQueue, sequence_handler, {'result_folder':'/rpctdata/CAF/'})
+    
     rlistMngr = RunlistManager('resources/runlist.json')
     rlistMngr.toProcessQueue = runsToProcessQueue
+    
 
     stop = mp.Event()
     #stop.set()
     rpmngr.stop_process_event = stop
     rpmngr.runChainProcessFunction = processSingleRunChain
-
-
-    runsToProcessQueue.put({'269615':rlistMngr.runlist['269615']})
+    runsToProcessQueue.put({'268457':rlistMngr.runlist['268457']})
     
-
+    
     rpmngr.start()
-
+    
 
 
