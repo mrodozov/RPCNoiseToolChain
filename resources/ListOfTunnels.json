@@ -1,3 +1,7 @@
 {"name":"lxplus","options":"-l -N -L","lhost":"cmsusr","lport":"20222","rhost":"lxplus.cern.ch","rport":"22"}
 {"name":"RRtunnel","options":"-l -N -L","lhost":"cmsusr","lport":"22223","rhost":"runregistry.web.cern.ch","rport":"80"}
+<<<<<<< HEAD
 {"name":"SMTPtunnel","options":"-l -N -L","lhost":"cmsusr","lport":"22226","rhost":"smtp.gmail.com","rport":"587"}
+=======
+{"name":"SMTPtunnel","options":"-l -N -L","lhost":"cmsusr","lport":"22224","rhost":"cernmx.cern.ch","rport":"25"}
+>>>>>>> 9e05d9dfb78873664fa74df3a29aa6a69b75c65d

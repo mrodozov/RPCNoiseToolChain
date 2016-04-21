@@ -232,8 +232,12 @@ class NoiseToolMainExe(Command):
         arguments = self.args[1] + ' ' + self.args[2] + ' ' + res_folder
         
         for f in filesToProcess:
+<<<<<<< HEAD
             #print executable, f, arguments
 
+=======
+            print executable, f, arguments
+>>>>>>> 9e05d9dfb78873664fa74df3a29aa6a69b75c65d
             childp = subprocess.Popen(executable + ' ' + f + ' ' + arguments, shell=True, stdout=subprocess.PIPE,
                                       stderr=subprocess.STDOUT, close_fds=True)
             current_stdout, current_stderr = childp.communicate()
@@ -244,6 +248,7 @@ class NoiseToolMainExe(Command):
             #if at least one file has finished
             if current_excode == 0 and current_stderr is None:
                 complete = True
+<<<<<<< HEAD
 
             if complete is True:
                 self.log[f] = {'complete': complete}
@@ -252,6 +257,12 @@ class NoiseToolMainExe(Command):
                 # so far, and thanks for all the fish
         
         #complete = True
+=======
+            self.log[f] = {'complete': complete,'err': current_stderr,'out':current_stdout,'exitcode':current_excode}
+                # so far, and thanks for all the fish
+        
+        complete = True
+>>>>>>> 9e05d9dfb78873664fa74df3a29aa6a69b75c65d
         if not complete:
             results = 'Failed'
             self.warnings.append('no properly processed files')
@@ -464,7 +475,11 @@ class DBDataUpload(Command):
         #print self.options['run'], 'db up ...'
         for rec in self.args['connectionDetails']:
             dataFile = ''.join([f for f in self.options['filescheck'] if f.find(rec['file']) is not -1])
+<<<<<<< HEAD
             # print dataFile
+=======
+            print dataFile
+>>>>>>> 9e05d9dfb78873664fa74df3a29aa6a69b75c65d
             data = self.getDBDataFromFile(dataFile)
             with dbService.lock: # TODO - remove this using Session or Pool, multithread queries takes forever so for now are in queue
                 #complete = dbService.insertToDB(data, rec['name'], rec['schm'], rec['argsList'], None)
@@ -472,7 +487,11 @@ class DBDataUpload(Command):
             data = None
             #catch the error, push it to the log
             
+<<<<<<< HEAD
             if complete is not True:
+=======
+            if completed is not True:
+>>>>>>> 9e05d9dfb78873664fa74df3a29aa6a69b75c65d
                 self.results = 'Failed'
                 self.warnings.append('file failed to be inserted')
             self.results[dataFile] = complete
@@ -704,7 +723,11 @@ class CopyFilesOnRemoteLocation(Command):
         succ = False
         rnum = self.options['run']
         list_of_files = self.options['json_products']
+<<<<<<< HEAD
         if self.name is 'lxplus':
+=======
+        if 'lxplus' in self.name:
+>>>>>>> 9e05d9dfb78873664fa74df3a29aa6a69b75c65d
             list_of_files.append('total.root')
         results_folder = self.options['result_folder'] + 'run' + rnum + '/'
         runfolder = 'run'+rnum

@@ -38,12 +38,20 @@ class DBService(object):
             else:
                 self.__alchemyDBString = dbType + dbName
         #self.__alchemyDBString = 'mysql+mysqldb://rodozov:BAKsh0321__@localhost/RPC?charset=utf8'
+<<<<<<< HEAD
         #self.__alchemyDBString = 'oracle+cx_oracle://rodozov:'+password+'@localhost:1521/XE'
+=======
+        #self.__alchemyDBString = 'oracle+cx_oracle://rodozov:BAKsh0321__@localhost:1521/XE'
+>>>>>>> 9e05d9dfb78873664fa74df3a29aa6a69b75c65d
         #self.__alchemyDBString = 'oracle+cx_oracle://CMS_COND_RPC_NOISE:j6XFEznqH9f92WUf@cms_orcoff_prep' # pass is wrong
         #self.__alchemyDBString = 'oracle+cx_oracle://CMS_RPC_R:rpcr34d3r@cms_omds_lb'
         self.__alchemyDBString = 'oracle+cx_oracle://CMS_RPC_COND_W:8B1M410RM1N0RC3SS4T@cms_omds_lb'
         self.__engine = sqlalchemy.create_engine(self.__alchemyDBString)
+<<<<<<< HEAD
         #print self.__alchemyDBString
+=======
+        print self.__alchemyDBString
+>>>>>>> 9e05d9dfb78873664fa74df3a29aa6a69b75c65d
 
     def createDBStrips(self):
         metadata = sqlalchemy.MetaData()
@@ -181,8 +189,13 @@ if __name__ == "__main__":
     #db_obj.deleteDataFromTable('RPC_NOISE_STRIPS') #blocks for unknown reason
     
     dbup = DBDataUpload(args=optionsObject['dbdataupload'])
+<<<<<<< HEAD
     dbup.options['filescheck'] = ['/rpctdata/CAF/run269565/database_new.txt', '/rpctdata/CAF/run269565/database_full.txt']
     dbup.options['run'] = '269565'
+=======
+    dbup.options['filescheck'] = ['/rpctdata/CAF/run269615/database_new.txt', '/rpctdata/CAF/run269615/database_full.txt']
+    dbup.options['run'] = '269615'
+>>>>>>> 9e05d9dfb78873664fa74df3a29aa6a69b75c65d
     dbup.processTask()
     
     '''

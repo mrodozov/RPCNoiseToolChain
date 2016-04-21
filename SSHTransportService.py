@@ -131,7 +131,14 @@ if __name__ == "__main__":
     with open('resources/options_object_rodozov.txt', 'r') as optobj:
         optionsObject = json.loads(optobj.read())
 
+<<<<<<< HEAD
     p = getpass.getpass('lxplus pass: ')
+=======
+    p = ''
+
+    #with open('resources/passwd') as pfile:
+    #    p = pfile.readline()
+>>>>>>> 9e05d9dfb78873664fa74df3a29aa6a69b75c65d
 
     connections_dict = {}
     connections_dict.update({'webserver':optionsObject['webserver_remote']})

@@ -83,7 +83,11 @@ class MailService(object):
         if paswd:
             self.server.ehlo()
             self.server.starttls()
+<<<<<<< HEAD
             #print self.description['username'], paswd
+=======
+            print self.description['username'], paswd
+>>>>>>> 9e05d9dfb78873664fa74df3a29aa6a69b75c65d
             self.server.login(self.description['username'], paswd)
 
 
@@ -126,9 +130,16 @@ if __name__ == "__main__":
     # make a check on server connection (ReportService run loop)
     # save unsaved reports to local file
     
+<<<<<<< HEAD
     mpass = getpass.getpass('mail pass: ')
     passwd = getpass.getpass('lxplus pass: ')
 
+=======
+    mpass = None
+    passwd = ''
+    #with open('resources/mailpaswd') as mapssf: mpass = mapssf.readline()
+    #with open('resources/passwd') as pfile: passwd = pfile.readline()
+>>>>>>> 9e05d9dfb78873664fa74df3a29aa6a69b75c65d
     with open('resources/options_object.txt', 'r') as optobj: optionsObject = json.loads(optobj.read())
     with open('resources/mail_settings.json') as mail_settings_file: mail_settings = json.loads(mail_settings_file.read())
 
@@ -139,6 +150,7 @@ if __name__ == "__main__":
     remote_destinations = {'webserver': optionsObject['webserver_remote']}
     remote_webserver = optionsObject['webserver_remote']['destination_root']
     
+<<<<<<< HEAD
     #transportService = SSHTransportService(remote_destinations)
     reportsQueue = Queue.Queue()
     #stop = Event()
@@ -150,3 +162,18 @@ if __name__ == "__main__":
     m_service = MailService('resources/mail_settings.json', mpass)
     m_service.sendMail('test the service','test service')
     
+=======
+    transportService = SSHTransportService(remote_destinations)
+    reportsQueue = Queue.Queue()
+    stop = Event()
+    
+    reportsMngr = ReportHandler(reportsQueue, 'resources/mail_settings.json', mailpass, 'resources/ErrorLog.log')
+    
+    
+    '''
+    
+    with open('resources/mail_settings.json') as mail_settings_file: mail_settings = json.loads(mail_settings_file.read())
+    m_service = MailService('resources/mail_settings.json', None)
+    m_service.sendMail('test the service','test service')
+    '''
+>>>>>>> 9e05d9dfb78873664fa74df3a29aa6a69b75c65d
