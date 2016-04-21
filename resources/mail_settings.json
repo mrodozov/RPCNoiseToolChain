@@ -1,12 +1,7 @@
 {
-  "sender":"mrodozov@cern.ch",
+  "sender":"mrodozov@gmail.com",
   "username":"mrodozov",
   "url":"localhost",
-<<<<<<< HEAD
   "port":"22226",
   "mail_list":["mrodozov@gmail.com"]
-=======
-  "port":"22224",
-  "mail_list":["mrodozov@cern.ch"]
->>>>>>> 9e05d9dfb78873664fa74df3a29aa6a69b75c65d
 }

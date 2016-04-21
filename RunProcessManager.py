@@ -87,21 +87,11 @@ if __name__ == "__main__":
 
     print os.getpid()
 
-<<<<<<< HEAD
-=======
-    #os.environ['LD_LIBRARY_PATH'] = '/opt/offline/slc6_amd64_gcc491/cms/cmssw/CMSSW_7_3_6/external/slc6_amd64_gcc491/bin/root'  # important
-
->>>>>>> 9e05d9dfb78873664fa74df3a29aa6a69b75c65d
     optionsObject = None
     with open('resources/options_object.txt', 'r') as optobj: optionsObject = json.loads(optobj.read())
     os.environ['LD_LIBRARY_PATH'] = optionsObject['paths']['cms_online_nt_machine']['root_path']
     print os.environ['LD_LIBRARY_PATH']
-<<<<<<< HEAD
     p = getpass.getpass('lxplus passwd: ')
-=======
-    #with open('resources/passwd') as pfile: passwd = pfile.readline()
-    p = ''
->>>>>>> 9e05d9dfb78873664fa74df3a29aa6a69b75c65d
 
     connections_dict = {}
     connections_dict.update({'webserver':optionsObject['webserver_remote']})
@@ -114,11 +104,7 @@ if __name__ == "__main__":
     sshTransport = SSHTransportService(connections_dict)
     db_obj = DBService(dbType='oracle+cx_oracle://',host= 'localhost',port= '1521',user= 'CMS_COND_RPC_NOISE',password= 'j6XFEznqH9f92WUf',schema= 'CMS_RPC_COND',dbName= 'cms_orcoff_prep')
     
-<<<<<<< HEAD
     
-=======
-
->>>>>>> 9e05d9dfb78873664fa74df3a29aa6a69b75c65d
     #print alist
     ssh_one = sshTransport.connections_dict['webserver']
     ssh_two = sshTransport.connections_dict['lxplus']
@@ -129,11 +115,7 @@ if __name__ == "__main__":
     processedRunsQueue = Queue.Queue()
     sequence_handler = CommandSequenceHandler('resources/SequenceDictionaries.json', 'resources/options_object.txt')
     rpmngr = RunProcessPool(runsToProcessQueue, processedRunsQueue, sequence_handler, {'result_folder':'/rpctdata/CAF/'})
-<<<<<<< HEAD
     
-=======
-
->>>>>>> 9e05d9dfb78873664fa74df3a29aa6a69b75c65d
     rlistMngr = RunlistManager('resources/runlist.json')
     rlistMngr.toProcessQueue = runsToProcessQueue
     
@@ -142,17 +124,9 @@ if __name__ == "__main__":
     #stop.set()
     rpmngr.stop_process_event = stop
     rpmngr.runChainProcessFunction = processSingleRunChain
-<<<<<<< HEAD
     runsToProcessQueue.put({'268457':rlistMngr.runlist['268457']})
     
     
-=======
-
-
-    runsToProcessQueue.put({'269615':rlistMngr.runlist['269615']})
-    
-
->>>>>>> 9e05d9dfb78873664fa74df3a29aa6a69b75c65d
     rpmngr.start()
     
 
