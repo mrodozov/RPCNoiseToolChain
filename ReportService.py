@@ -41,23 +41,36 @@ class ReportHandler(Thread):
 
             #print 'short log', shortLog
             #print 'full log ', fullLog
+
+            ssh_cl = paramiko.SSHClient()
+            ssh_cl.load_host_keys(os.path.expanduser(os.path.join("~", ".ssh", "known_hosts")))
+            descr = self.ssh_client.connections_dict[self.ssh_conn_name]
+            
+            if fullLog:
+                self.log_service.updateLogFile(self.logFile, fullLog)
+
+                ssh_cl.connect(descr['rhost'],descr['port'],descr['user'],descr['pass'])
+                sftp_cl = ssh_cl.open_sftp()
+
+                try:
+                    sftp_cl.chdir(self.remote_dir)
+                    sftp_cl.put(self.logFile, self.remote_dir + '/' + 'ErrorLog.log')
+                except IOError, exc:
+                    print 'report handler - ssh ',exc.message
+                #sftp_client.close()
+                finally:
+                    if ssh_cl.get_transport().is_active():
+                        ssh_cl.close()
             
             rnum = [r for r in shortLog.keys()][0]
             if shortLog:
                 try:
+                    
                     self.mail_service.sendMail(json.dumps(shortLog), 'Run number ' + rnum + ' failed')
+                    
                 except Exception as e:
                     print e.message
-            
-            if fullLog:
-                self.log_service.updateLogFile(self.logFile, fullLog)
-                sftp_client = paramiko.SFTPClient.from_transport(self.ssh_client.get_transport_for_connection(self.ssh_conn_name))
-                try:
-                    sftp_client.chdir(self.remote_dir)
-                    sftp_client.put(self.logFile, self.remote_dir + '/' + 'ErrorLog.log')
-                except IOError, exc:
-                    print exc.message
-                sftp_client.get_channel().close()
+                
 
             # have to put some delay it's not receiving tasks in the queue fast enough (for the test, not in general)
             time.sleep(5)
@@ -97,9 +110,12 @@ class MailService(object):
         string_message = MIMEText(msg.as_string())
 
         try:
+            self.server.connect()
             self.server.sendmail(self.description['sender'], self.description['mail_list'], string_message.as_string())
         except smtplib.SMTPException, ex:
             print 'failed to send email, because ', str(ex)
+        finally:
+            self.server.quit()
 
 class LogHandler(object):
 

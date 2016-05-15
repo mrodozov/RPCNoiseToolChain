@@ -8,6 +8,8 @@ import json
 import Queue
 import getpass
 
+#TODO - try kerberos auth
+
 class SSHTransportService(object):
 
     __metaclass__ = Singleton
@@ -31,7 +33,7 @@ class SSHTransportService(object):
             destination = description['destination_root']
             ssh_client.connect(remote_host, transfer_port, username=transfer_username, password=transfer_password)
             sftp_client = ssh_client.open_sftp()
-            ssh_client.get_transport().set_keepalive(60) # keep it alive
+            #ssh_client.get_transport().set_keepalive(60) # keep it alive
 
             self.connections_dict[name] = {'ssh_client': ssh_client,'sftp_client': sftp_client,
                                            'destination_root': destination, 'user': transfer_username,
@@ -70,6 +72,22 @@ class SSHTransportService(object):
             print e.message
 
         return transport
+    
+    def get_new_sftp_client_for_conn_name(self, name):
+        client = None
+        conn_params = self.connections_dict[name]        
+        ssh_client = paramiko.SSHClient()
+        ssh_client.load_host_keys(os.path.expanduser(os.path.join("~", ".ssh", "known_hosts")))
+        
+        try:
+            ssh_client.connect(conn_params['rhost'], conn_params['port'], conn_params['user'], conn_params['pass'])
+            client = ssh_client.open_sftp()
+            
+        except Exception, e:
+            print e.message
+            
+        return client
+
 
     def create_dir_on_remotehost(self, base_dir, dirname):
         try:

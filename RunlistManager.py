@@ -175,9 +175,9 @@ class RunlistManager(Thread):
             except Exception, e:
                 print e.message, ' RR check failed at ', datetime.datetime.now().replace(microsecond=0)
                 # try to set semaphore that calls the env handler to reestablish the channel to RR
-            if new_runs : current_sleep_time = init_sleep_time # reset when new runs arrived
-            #if current_sleep_time < 1800:
-            current_sleep_time += init_sleep_time # increments every time with one minute (up to 15) if RR does not return new runs
+            if new_runs : current_sleep_time = init_sleep_time # reset when new runs arrive
+            if current_sleep_time < 1800:
+                current_sleep_time += init_sleep_time # increments every time with one minute (up to 15) if RR does not return new runs
             # if new runs are available, put them on the runlist
             self.addruns(new_runs)
             # get runs to process
@@ -209,6 +209,11 @@ class RunlistManager(Thread):
     def synchronizeRemoteRunlistFile(self):
 
         with self.runlistLock:
+            
+            ssh_cl = paramiko.SSHClient()
+            ssh_cl.load_host_keys(os.path.expanduser(os.path.join("~", ".ssh", "known_hosts")))
+            descr = self.ssh_service.connections_dict[self.ssh_conn_name]
+            
             try:
 
                 # if the connection to transport has been closed, there is no way to be reestablished
@@ -217,25 +222,32 @@ class RunlistManager(Thread):
                 # (some service, any service that is already established for the manager)
 
                 self.updateRunlistFile()
-                runlist_sftp_client = paramiko.SFTPClient.from_transport(self.ssh_service.get_transport_for_connection(self.ssh_conn_name))
-                remote_runlist = json.loads(runlist_sftp_client.file(self.runlist_remote_dir+'runlist.json').read())
+                #runlist_sftp_client = paramiko.SFTPClient.from_transport(self.ssh_service.get_transport_for_connection(self.ssh_conn_name))
+                ssh_cl.connect(descr['rhost'],descr['port'],descr['user'],descr['pass'])
+                sftp_cl = ssh_cl.open_sftp()
+                remote_runlist = json.loads(sftp_cl.file(self.runlist_remote_dir+'runlist.json').read())
                 list_to_resub = [r for r in remote_runlist.keys() if remote_runlist[r]['status'] == 'toresub']
                 for r in list_to_resub:
                     self.updateRun(r, 'status', 'submitted')
                 self.updateRunlistFile()
                 #upload the local on remote like this now
-                runlist_sftp_client.put(self.runlist_file, self.runlist_remote_dir+'/runlist.json')
-                runlist_sftp_client.get_channel().close()
+                sftp_cl.put(self.runlist_file, self.runlist_remote_dir+'/runlist.json')
+
                 #now change the local run keys to 'toresub'. this way runs goes to be processed
                 for r in list_to_resub:
                     self.updateRun(r, 'status', 'toresub')
                 #self.updateRunlistFile()
                 # test this
-
-
-
+                
             except Exception, e:
-                print e.message # this exception is not printed
+                print 'synch runlist ',e.message # this exception is not printed
+                #TODO - if it trows this once - it hangs and doesn't synch. fix it. it may be because of the lock
+                
+            finally:
+                if ssh_cl.get_transport().is_active():
+                    ssh_cl.close()
+                # print 'rlist synch finished with: '
+
 
     def run(self):
         self.check_run_registry.start()

@@ -453,6 +453,7 @@ class DBFilesContentCheck(Command):
         #self.log = filecheck['errors']
         return True
 
+
 class DBDataUpload(Command):
 
 
@@ -467,8 +468,8 @@ class DBDataUpload(Command):
             # print dataFile
             data = self.getDBDataFromFile(dataFile)
             with dbService.lock: # TODO - remove this using Session or Pool, multithread queries takes forever so for now are in queue
-                #complete = dbService.insertToDB(data, rec['name'], rec['schm'], rec['argsList'], None)
-                complete = True
+                complete = dbService.insertToDB(data, rec['name'], rec['schm'], rec['argsList'], None)
+                #complete = True
             data = None
             #catch the error, push it to the log
             
@@ -631,7 +632,7 @@ class OutputFilesFormat(Command):
                     allDeadMap[roll_name]['strips'].append(strip_num)
 
         # merge into single object and write into a file
-        detailedFileOutput = {'tomask': allMaskedMap, 'dead': allDeadMap, 'tomask': allTMmap, 'tounmask': allTUmap,
+        detailedFileOutput = {'masked': allMaskedMap, 'dead': allDeadMap, 'tomask': allTMmap, 'tounmask': allTUmap,
                               'rates': ratesDict}
 
         with open(rolls_json_file, 'w') as rolls_out_file:

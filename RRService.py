@@ -7,6 +7,8 @@ import socks
 import time
 import datetime
 
+#TODO - adjust to the new RR API https://twiki.cern.ch/twiki/bin/viewauth/CMS/DqmRrApi
+
 class RRService:
 
     def __init__(self, RRURL = 'http://runregistry.web.cern.ch/runregistry/', debug = False, use_proxy = False):
