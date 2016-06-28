@@ -113,9 +113,10 @@ if __name__ == "__main__":
     
     runsToProcessQueue = Queue.Queue()
     processedRunsQueue = Queue.Queue()
+
     sequence_handler = CommandSequenceHandler('resources/SequenceDictionaries.json', 'resources/options_object.txt')
+
     rpmngr = RunProcessPool(runsToProcessQueue, processedRunsQueue, sequence_handler, {'result_folder':'/rpctdata/CAF/'})
-    
     rlistMngr = RunlistManager('resources/runlist.json')
     rlistMngr.toProcessQueue = runsToProcessQueue
     

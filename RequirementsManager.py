@@ -46,7 +46,7 @@ class EnvHandler(Thread):
         if self.debug:
             print 'dunno , print ?'
 
-    def __init__(self, fileWithTunnels=None, fileWithProcesses=None, debug=False):
+    def __init__(self, fileWithTunnels=None, debug=False):
         super(EnvHandler, self).__init__()
         self.listOfTunnels = []
         self.listOfProcesses = []
@@ -54,7 +54,6 @@ class EnvHandler(Thread):
         self.suspend = None
         self.stopSignal = None
         self.initConfigs(fileWithTunnels)
-        self.initProcesses(fileWithProcesses)
         #self.checkListOfTunnels()
 
 
@@ -220,7 +219,7 @@ if __name__ == "__main__":
     susp.set()
     checkSuspend = Thread(target=checkSuspendEventVariable, args=(susp, stop,))
     
-    e_handler = EnvHandler('resources/ListOfTunnels.json','resources/process.json', True)
+    e_handler = EnvHandler('resources/ListOfTunnels.json', True)
     e_handler.stopSignal = stop
     e_handler.suspend = susp
     e_handler.start()

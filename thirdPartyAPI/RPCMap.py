@@ -87,13 +87,13 @@ class RPCMap(object):
 
 if __name__ == "__main__":
 
-    rpcnotationsmap = 'resources/rpcMap'
-    rawfile = 'resources/resources/RawIDs.txt'
+    rpcnotationsmap = '../resources/rpcMap'
+    rawfile = '../resources/RawIDs.txt'
     rpcMap = RPCMap(rpcnotationsmap, rawfile)
 
 
     someRollID = rpcMap.rawToRollMap['637637709']
-    print someRollID
+    #print someRollID
     #print rpcMap.rollToChamberMap
     #chamberIDforRawID = rpcMap.rollToChamberMap[someRollID]
     #print chamberIDforRawID

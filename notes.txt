@@ -5,35 +5,52 @@
   and checking tunnels 
   
 - A run number manager (RunlistManager.py) 
-  takes care of runlists to be collected, and waits until the execution is done to take 
-  care file with the runs.
+  takes care of runlists to be collected, and waits until the execution is finished to update the runlist
   Also it may take care of new data availability, to subscribe to the runregistry
-  and wait for events such as new available runs. 
+  and wait for events such as new available runs. Needs refactoring and debug as the
+  the run check subroutine causes deadlock  (bad exception handling). Runlist synch also needs improvement
   
 - Execution manager (RunProcessManager)
-  Takes care of producing analysis. Executes C++, Python, ROOT macroses
-  Each execution is independent from the rest on idea, but instead they have 
-  requirements to be executed, for example if a given file taken as input by given
-  module exists or not. The execution manager is kind of controller that should be able
-  to spawn concurent threads taking into account the number of
-  cores. Should also collect logs for errors etc.
-  -- Write python class with methods to cary specific jobs, prepare HTML for example, or reformat something
-     The execution manager would use objects
 
+  Spawns a job per run and puts the job on multiprocess queue. Delegates run options
+  to the execution function that it uses to put on the queue. When the run is finished
+  removes it's number from the process queue and puts it on the processed queue.
+  The only job it handles is to manage the process pool and to stop it. Executes on it's
+  own thread, terminates and joins the main thread if condition var to stop is met.
 
-- An output manager (done in Chain and CommandClasses)
-  this should take care of all of the outputs, validation, DB upload, data formats.
-  Every secondary product, like preformatting existing output is done here, instead
-  by the executable or scripts as before.
-  Another thing would be methods that provides backward compatibility with the old
-  formats, or to produce the old format from the new one if any format got changed,
-  without keeping the old output. Collect logs for errors and completion
+- Chain and CommandClasses
+
+  CommandClasses or Commands represent each independent subroutine that can
+  be part of the analysis. One Command object is a specific task that is executed for
+  given run if the requirements for the task (dependencies) are fulfilled.
+  The Chain governs tasks execution order and requirements checks
+  using dependency dictionaries (configs). The Chain uses a queue of tasks and a messenger
+  system (Event & EventHandler) to start new tasks, each of which on separate thread.
+  Events and EventHandler need refactoring, Chain needs extension to allow
+  single task to start when list of tasks are finished (now multiple task may start on
+  single task finish but every task depends on only one to start )
+
+- DBService
+  Singleton object to handle all db requests. SQLAlchemy is used underneath
+  to provide MySQL Oracle and sqlite support (all of those can be used) and
+  to handle concurrent queries as handy db interface
+
+- RRService
+  Handles run registry queries using the latest run and current options as input
+
+- SSHService
+  Singleton object to serve as interface for network transactions. When transaction
+  is needed by a subroutine, it handles the request and returns finish status.
+  Paramiko is used underneath and it may use key or pass auth. Currently not properly
+  used and only serves credentials as the RunProcess mngr is based on multiprocess pool
+  and separate process cannot use shared ssh connection from another process. Works
+  fine when ThreadPool is used but the ThreadPool causes memory leak with unknown origin (so far)
+  Even deleting the resources allocated by the thread did not solved that, which may
+  show the leak originates in the ThreadPool implementation (ThreadPool is not official module)
   
 - Report manager (ReportService)
   Takes care of collecting error or success outputs, update the logs and send email
   notifications. Maybe method to create short reports from the log files
-
-- 
 
 
 - Get the runregistry API to work from outside CERN

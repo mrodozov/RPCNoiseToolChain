@@ -14,9 +14,7 @@ from RRService import RRService
 import getpass
 
 if __name__ == "__main__":
-    
 
-    
     pid = os.getpid()
     print pid
     #socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 1080)
@@ -53,7 +51,7 @@ if __name__ == "__main__":
     stop = Event()
 
     # single object, used by the Run process manager so that it's not created for each run chain
-    sequence_handler = CommandSequenceHandler('resources/SequenceDictionaries.json', 'resources/options_object.txt')
+    sequence_handler = CommandSequenceHandler('resources/SequenceDictionaries.json', 'resources/options_object_rodozov.txt')
 
     rlistMngr = RunlistManager('resources/runlist.json')
     
@@ -104,4 +102,3 @@ if __name__ == "__main__":
     ForestGump.runForestRun()
     Sonic.runSonicRun()
     
-# TODO - to fix 1. Runlist manager runlist synch deadlock 2. Singleton objects usage 3. Env handler condition vars

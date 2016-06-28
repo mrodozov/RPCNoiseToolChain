@@ -208,6 +208,13 @@ class RunlistManager(Thread):
 
     def synchronizeRemoteRunlistFile(self):
 
+        '''
+        TODO - fix this method, it's wrong on so many levels. But mostly because it causes deadlock
+        if the transport crash. this is probably due to the try: except block - the lock is acquired
+        and then the try starts, but if it fails it exits before finishing the with stmnt thus not
+        executing the with internal finally stmnt
+        '''
+
         with self.runlistLock:
             
             ssh_cl = paramiko.SSHClient()
@@ -223,7 +230,8 @@ class RunlistManager(Thread):
 
                 self.updateRunlistFile()
                 #runlist_sftp_client = paramiko.SFTPClient.from_transport(self.ssh_service.get_transport_for_connection(self.ssh_conn_name))
-                ssh_cl.connect(descr['rhost'],descr['port'],descr['user'],descr['pass'])
+                ssh_cl.connect(descr['rhost'], descr['port'], descr['user'], descr['pass']) # that was not the initial idea, as the run list mngr should not know much about SSHClients, only using them
+                #could think to put such
                 sftp_cl = ssh_cl.open_sftp()
                 remote_runlist = json.loads(sftp_cl.file(self.runlist_remote_dir+'runlist.json').read())
                 list_to_resub = [r for r in remote_runlist.keys() if remote_runlist[r]['status'] == 'toresub']
@@ -241,11 +249,11 @@ class RunlistManager(Thread):
                 
             except Exception, e:
                 print 'synch runlist ',e.message # this exception is not printed
-                #TODO - if it trows this once - it hangs and doesn't synch. fix it. it may be because of the lock
                 
             finally:
                 if ssh_cl.get_transport().is_active():
                     ssh_cl.close()
+                self.runlistLock.release()
                 # print 'rlist synch finished with: '
 
 
